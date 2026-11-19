@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "collections": [
+    {
+      "id": "pokemon",
+      "title": "Pokémon",
+      "emoji": "⚡",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      }
+    }
+  ]
+}

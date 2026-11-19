@@ -1,0 +1,52 @@
+/*
+ * Tokens: aparato rojo de bolsillo con pantalla LCD verde (paleta de 4 tonos de
+ * las consolas portátiles clásicas), contornos negros gruesos y sombras duras.
+ * Mismo aspecto con tema claro u oscuro: es un "objeto", no una página.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Cuerpo del aparato */
+  --body: #dc2f2f;
+  --body-dark: #a81d22;
+  --body-light: #f05a4f;
+  --outline: #1b1b1f;
+  --panel: #fff6e0;
+  --panel-2: #f3e3bd;
+  --ink: #1b1b1f;
+  --muted: #6d5a45;
+
+  /* Pantalla LCD */
+  --lcd-0: #e3f2b0; /* fondo */
+  --lcd-1: #9bbc0f;
+  --lcd-2: #306230;
+  --lcd-3: #0f380f; /* tinta */
+
+  /* Botones y acentos */
+  --blue: #2b8ff0;
+  --yellow: #ffcb05;
+  --a-btn: #a3215e;
+  --b-btn: #2c2c35;
+
+  /* Estados de intento */
+  --correct: #3fae49;
+  --wrong: #e2453c;
+  --skip: #8c8577;
+
+  /* Colores que lee render/epicycles.js: todo en la paleta LCD */
+  --epi-circle: rgba(48, 98, 48, 0.35);
+  --epi-arm: rgba(15, 56, 15, 0.55);
+  --epi-trace: #0f380f;
+  --epi-fill: #0f380f;
+  --epi-pen: #e2453c;
+
+  /* Tipografía: redondeada y gruesa */
+  --font: ui-rounded, "SF Pro Rounded", "Nunito", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --font-digits: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+
+  --hard-shadow: 0 4px 0 var(--outline);
+  --radius: 16px;
+  --content: 440px;
+  --ease: cubic-bezier(0.3, 1.4, 0.5, 1); /* con rebote */
+}

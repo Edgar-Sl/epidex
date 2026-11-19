@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="¿Quién es ese Pokémon? Su silueta se dibuja sola con círculos que giran. Cada fallo, más círculos.">
+  <meta name="theme-color" content="#dc2f2f">
+  <title>PokéFourier</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true">
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.2a2.8 2.8 0 0 1 5.4 1c0 1.9-2.7 2.4-2.7 4.1"/><circle cx="12" cy="17.6" r=".6" fill="currentColor"/></symbol>
+    <symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  </svg>
+
+  <div class="device">
+    <header class="device-top">
+      <a class="lens" href="./" aria-label="Inicio"><span class="lens-glass"></span></a>
+      <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
+      <h1 class="logo" data-site-name>PokéFourier</h1>
+      <div class="top-actions">
+        <button id="open-help" type="button" class="round-btn" aria-label="Cómo se juega" title="Cómo se juega">
+          <svg aria-hidden="true"><use href="#i-help"/></svg>
+        </button>
+        <button id="open-stats" type="button" class="round-btn" aria-label="Estadísticas" title="Estadísticas" hidden>
+          <svg aria-hidden="true"><use href="#i-stats"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <nav id="modes" class="modes" aria-label="Modo de juego" hidden></nav>
+
+    <p id="loading" class="panel-msg">Encendiendo la Pokédex…</p>
+    <p id="notice" class="panel-msg" role="alert" hidden></p>
+
+    <main id="game" class="game" hidden>
+      <section class="screen-bezel" aria-label="Pokémon del día">
+        <div class="screen-label">
+          <span id="puzzle-label"></span>
+          <span id="circles-label" aria-live="polite"></span>
+        </div>
+        <div id="canvas-frame" class="screen">
+          <canvas id="canvas" role="img" aria-label="Silueta dibujada con epiciclos"></canvas>
+          <img id="reveal" class="reveal" alt="" hidden>
+          <div id="palette" class="palette" hidden></div>
+        </div>
+        <ol id="ladder" class="ladder" aria-label="Intentos: círculos de cada uno"></ol>
+      </section>
+
+      <section id="play" class="controls" aria-label="Tu respuesta">
+        <form id="guess-form" class="guess" autocomplete="off">
+          <label for="guess" class="visually-hidden">Tu respuesta</label>
+          <div class="combo">
+            <ul id="suggestions" class="suggestions"></ul>
+            <input id="guess" class="guess-input" type="text" enterkeyhint="go" autocapitalize="off">
+          </div>
+          <div class="pad">
+            <button id="skip" type="button" class="key key--b" title="Pasar y ver más círculos">
+              <span class="key-face">B</span><span class="key-label">Saltar</span>
+            </button>
+            <button id="submit" type="submit" class="key key--a" disabled>
+              <span class="key-face">A</span><span class="key-label">¡Es este!</span>
+            </button>
+          </div>
+        </form>
+        <ul id="history" class="history" aria-label="Respuestas falladas"></ul>
+      </section>
+
+      <section id="result" class="result" aria-live="polite" hidden>
+        <p class="result-kicker">¡Es…</p>
+        <h2 id="result-answer" class="result-answer"></h2>
+        <p id="result-title" class="result-title"></p>
+        <div id="result-grid" class="result-grid" aria-hidden="true"></div>
+        <button id="share" type="button" class="big-btn">
+          <svg aria-hidden="true"><use href="#i-share"/></svg> Retar a un amigo
+        </button>
+        <div class="result-footer">
+          <p>Otro Pokémon en <strong id="countdown" class="digits">--:--:--</strong></p>
+          <button id="result-stats" type="button" class="text-btn">Estadísticas</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="device-foot">
+      <span class="speaker" aria-hidden="true"></span>
+      <p>Siluetas dibujadas con series de Fourier · Proyecto de fans, sin relación con Nintendo ni The Pokémon Company</p>
+    </footer>
+  </div>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+  <dialog id="help-dialog" class="card" aria-labelledby="help-title">
+    <form method="dialog" class="card-header">
+      <h2 id="help-title">¿Quién es ese Pokémon?</h2>
+      <button class="round-btn round-btn--plain" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <ol class="steps">
+      <li>Cada día, un Pokémon de la <strong>1.ª generación</strong>.</li>
+      <li>Su silueta se dibuja con <strong>círculos que giran</strong>. Empieza con 2: un churro.</li>
+      <li>Cada fallo o salto añade círculos: <strong>2 → 4 → 8 → 16 → 32 → 64</strong>.</li>
+      <li>Aciértalo en el menor número de intentos y <strong>reta a tus amigos</strong>.</li>
+    </ol>
+    <form method="dialog"><button class="big-btn">¡Te elijo a ti!</button></form>
+  </dialog>
+
+  <dialog id="stats-dialog" class="card" aria-labelledby="stats-title">
+    <form method="dialog" class="card-header">
+      <h2 id="stats-title">Tu Pokédex</h2>
+      <button class="round-btn round-btn--plain" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <div id="stats-body" class="stats"></div>
+  </dialog>
+</body>
+</html>

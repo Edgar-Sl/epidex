@@ -1,0 +1,39 @@
+# Configuración del pipeline de PokéFourier (nombre provisional).
+# Todas las rutas son relativas a la carpeta de este archivo.
+
+[paths]
+raw_dir = "data/raw"                  # descargas (no se suben a git)
+collections_dir = "data/collections"  # una colección = un modo de juego
+web_data_dir = "web/data"             # salida de build.py, la que lee el navegador
+preview_dir = "data/preview"          # vistas previas de depuración (no se suben a git)
+
+[contour]
+# Puntos equidistantes en los que se remuestrea cada contorno antes de la DFT.
+# Debe ser al menos 2·(máximo de levels)+1 para poder representar esas frecuencias.
+n_points = 1024
+
+[puzzle]
+# Círculos visibles en cada intento (sin contar el término de frecuencia 0,
+# que tras centrar la figura vale 0 y no se ve).
+levels = [2, 4, 8, 16, 32, 64]
+# Decimales con que se guardan los coeficientes (5 ≈ error de 1e-5 en una figura de radio 1).
+decimals = 5
+# Los archivos de puzzle se llaman con un hash para que su nombre no revele la
+# respuesta. Cambiar la sal cambia todos los nombres.
+id_salt = "pokefourier-1"
+# Aviso en build.py si con el máximo de círculos el error relativo supera esto.
+max_final_error = 0.05
+
+[schedule]
+start_date = 2026-11-19   # día del puzzle #1
+days = 365                # días que se generan en schedule.json
+seed = 20261201           # semilla del barajado (cambiarla cambia el orden)
+timezone = "Europe/Madrid"
+
+# Imágenes de origen: arte oficial de la 1.ª generación (repositorio de PokeAPI).
+# Ojo: tienen copyright. Sirve para probar la idea, no para publicarla tal cual.
+[images]
+url_template = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{n}.png"
+first = 1
+last = 151
+dir = "data/raw/pokemon"

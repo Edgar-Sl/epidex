@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo de epiciclos</title>
+  <style>
+    /* Página de desarrollo: muestra las respuestas. No enlazar desde el juego. */
+    :root {
+      --bg: #f6f7f9; --panel: #fff; --text: #1d2330; --muted: #6b7280; --accent: #3b6fd8;
+      --epi-circle: rgba(29, 35, 48, 0.18); --epi-arm: rgba(29, 35, 48, 0.55);
+      --epi-trace: #3b6fd8; --epi-fill: rgba(59, 111, 216, 0.35);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12151c; --panel: #1b2029; --text: #e7eaf0; --muted: #9aa3b2; --accent: #7aa2ff;
+        --epi-circle: rgba(231, 234, 240, 0.18); --epi-arm: rgba(231, 234, 240, 0.55);
+        --epi-trace: #7aa2ff; --epi-fill: rgba(122, 162, 255, 0.35);
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 16px; font-family: system-ui, sans-serif;
+           background: var(--bg); color: var(--text); }
+    main { max-width: 560px; margin: 0 auto; display: grid; gap: 12px; }
+    h1 { font-size: 1.1rem; margin: 0; }
+    .warn { color: var(--muted); font-size: 0.85rem; margin: 0; }
+    canvas { width: 100%; aspect-ratio: 1; display: block; background: var(--panel);
+             border-radius: 12px; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    button, select { font: inherit; padding: 6px 10px; border-radius: 8px;
+                     border: 1px solid var(--muted); background: var(--panel); color: var(--text); }
+    button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+    #info { color: var(--muted); font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Demo de epiciclos</h1>
+  <p class="warn">Herramienta de desarrollo: muestra las respuestas.</p>
+  <div class="row">
+    <label>Puzzle <select id="puzzle"></select></label>
+    <button id="play" type="button">⏸ Pausa</button>
+  </div>
+  <div class="row" id="levels" role="group" aria-label="Círculos"></div>
+  <canvas id="canvas" aria-label="Dibujo con epiciclos"></canvas>
+  <div class="row">
+    <label><input type="checkbox" id="circles" checked> Círculos</label>
+    <label><input type="checkbox" id="fill" checked> Relleno al completar</label>
+    <label><input type="checkbox" id="loop"> Repetir</label>
+    <label>Velocidad <input type="range" id="period" min="1" max="20" value="4"> <span id="periodValue">4 s</span></label>
+  </div>
+  <p id="info"></p>
+</main>
+
+<script type="module">
+  import { EpicycleRenderer } from "../js/render/epicycles.js";
+
+  const $ = (id) => document.getElementById(id);
+  const renderer = new EpicycleRenderer($("canvas"));
+  let puzzle = null;
+  let level = 0;
+
+  async function getJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`${url}: ${response.status}`);
+    return response.json();
+  }
+
+  async function loadPuzzles() {
+    const { collections } = await getJSON("../data/collections.json");
+    const collection = collections[0].id;
+    const base = `../data/${collection}`;
+    const [schedule, answers] = await Promise.all([
+      getJSON(`${base}/schedule.json`),
+      getJSON(`${base}/answers.json`),
+    ]);
+    const names = Object.fromEntries(answers.answers.map((a) => [a.id, a.name]));
+    const ids = [...new Set(schedule.days.map((d) => d.puzzle))];
+    const puzzles = await Promise.all(ids.map((id) => getJSON(`${base}/puzzles/${id}.json`)));
+    puzzles.sort((a, b) => names[a.answer].localeCompare(names[b.answer], "es"));
+    for (const p of puzzles) {
+      $("puzzle").append(new Option(`${names[p.answer]} (${p.answer})`, p.id));
+    }
+    return Object.fromEntries(puzzles.map((p) => [p.id, p]));
+  }
+
+  function showLevel(index) {
+    level = index;
+    renderer.setCircles(puzzle.levels[index]);
+    for (const [i, button] of [...$("levels").children].entries()) {
+      button.setAttribute("aria-pressed", String(i === index));
+    }
+    $("info").textContent =
+      `${puzzle.levels[index]} círculos · error ${(100 * puzzle.errors[index]).toFixed(1)} %`;
+  }
+
+  function selectPuzzle(p) {
+    puzzle = p;
+    $("levels").replaceChildren(...p.levels.map((k, i) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = String(k);
+      button.addEventListener("click", () => showLevel(i));
+      return button;
+    }));
+    renderer.setTerms(p.terms, p.levels[0]);
+    showLevel(Math.min(level, p.levels.length - 1));
+  }
+
+  const puzzles = await loadPuzzles();
+  selectPuzzle(puzzles[$("puzzle").value]);
+  renderer.play();
+
+  $("puzzle").addEventListener("change", (e) => selectPuzzle(puzzles[e.target.value]));
+  $("play").addEventListener("click", () => {
+    if (renderer.playing) renderer.pause(); else renderer.play();
+    $("play").textContent = renderer.playing ? "⏸ Pausa" : "▶ Seguir";
+  });
+  $("circles").addEventListener("change", (e) => renderer.setOptions({ showCircles: e.target.checked }));
+  $("fill").addEventListener("change", (e) => renderer.setOptions({ fillWhenComplete: e.target.checked }));
+  $("loop").addEventListener("change", (e) => renderer.setOptions({ loop: e.target.checked }));
+  $("period").addEventListener("input", (e) => {
+    renderer.setOptions({ period: Number(e.target.value) });
+    $("periodValue").textContent = `${e.target.value} s`;
+  });
+
+  // Acceso desde la consola para depurar.
+  window.renderer = renderer;
+</script>
+</body>
+</html>

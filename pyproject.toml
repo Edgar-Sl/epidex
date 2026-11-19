@@ -1,0 +1,31 @@
+[project]
+name = "fourier-game"
+version = "0.1.0"
+description = "Juego diario de adivinar siluetas dibujadas con epiciclos de Fourier."
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E", "W",  # pycodestyle
+    "F",       # pyflakes
+    "I",       # orden de imports
+    "UP",      # sintaxis moderna
+    "B",       # bugbear: errores típicos
+    "SIM",     # simplificaciones
+    "N",       # nombres PEP 8
+    "D",       # docstrings
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]  # los nombres de los tests ya documentan lo que prueban
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
