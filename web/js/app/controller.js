@@ -25,6 +25,7 @@ import { emptyStats, recordResult } from "../core/stats.js";
 import { EpicycleRenderer } from "../render/epicycles.js";
 import { Autocomplete } from "../ui/autocomplete.js";
 import { byId, h, replayAnimation } from "../ui/dom.js";
+import { enableTypeAnywhere, hasFinePointer } from "../ui/keyboard.js";
 import { renderStats } from "../ui/stats-view.js";
 import { SITE } from "./config.js";
 import { shareResult } from "./share-action.js";
@@ -109,8 +110,13 @@ export class GameController {
     });
     this.ui.skip.addEventListener("click", () => this.apply(skip(this.state)));
     this.ui.share.addEventListener("click", () => this.share());
+    enableTypeAnywhere(this.ui.input);
 
     this.render();
+    // En escritorio, listo para escribir (en móvil no: abriría el teclado de golpe).
+    if (hasFinePointer() && !isOver(this.state) && !document.querySelector("dialog[open]")) {
+      this.ui.input.focus();
+    }
   }
 
   /** Abre el diálogo de estadísticas. */

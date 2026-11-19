@@ -75,7 +75,8 @@ async function start() {
       toast,
       ...data,
     });
-    byId("game").hidden = false;
+    // La partida puede estar repartida en varias zonas (p. ej. dos mitades en escritorio).
+    for (const el of document.querySelectorAll("[data-game]")) el.hidden = false;
     byId("open-stats").hidden = false;
     window.game = game; // accesible desde la consola para depurar
   } catch (error) {

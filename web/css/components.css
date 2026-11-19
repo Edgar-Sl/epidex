@@ -18,6 +18,19 @@
   box-shadow: 0 8px 0 var(--outline), 0 24px 40px -16px rgba(0, 0, 0, 0.5);
 }
 
+/* Las dos mitades de la Pokédex (en móvil, una debajo de otra sin separación). */
+.half {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hinge,
+.flap-top,
+.dpad {
+  display: none; /* solo en escritorio (desktop.css) */
+}
+
 .device-top {
   display: flex;
   align-items: center;
@@ -328,6 +341,12 @@
   padding-right: 6px;
 }
 
+.key-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+}
+
 .key {
   display: flex;
   flex-direction: column;
@@ -385,6 +404,47 @@
 
 .key:disabled .key-face {
   filter: grayscale(0.7) brightness(0.8);
+}
+
+/* Registro de fallos: mini pantalla oscura. Se oculta mientras está vacío. */
+.log {
+  padding: 10px 12px;
+  border: 3px solid var(--outline);
+  border-radius: 12px;
+  background: var(--lcd-3);
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.log:has(.history:empty) {
+  display: none;
+}
+
+.log-title {
+  margin-bottom: 6px;
+  font-family: var(--font-digits);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lcd-1);
+}
+
+.kbd-hint {
+  display: none; /* solo con teclado y ratón, ver desktop.css */
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+kbd {
+  padding: 1px 6px;
+  border: 2px solid var(--outline);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-digits);
+  font-size: 0.72rem;
+  box-shadow: 0 2px 0 var(--outline);
 }
 
 .history {

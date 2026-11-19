@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/desktop.css">
   <script type="module" src="js/main.js"></script>
 </head>
 <body>
@@ -20,28 +21,28 @@
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   </svg>
 
+  <!-- Una Pokédex: en móvil, las dos mitades apiladas; en escritorio, abierta como un libro. -->
   <div class="device">
-    <header class="device-top">
-      <a class="lens" href="./" aria-label="Inicio"><span class="lens-glass"></span></a>
-      <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
-      <h1 class="logo" data-site-name>PokéFourier</h1>
-      <div class="top-actions">
-        <button id="open-help" type="button" class="round-btn" aria-label="Cómo se juega" title="Cómo se juega">
-          <svg aria-hidden="true"><use href="#i-help"/></svg>
-        </button>
-        <button id="open-stats" type="button" class="round-btn" aria-label="Estadísticas" title="Estadísticas" hidden>
-          <svg aria-hidden="true"><use href="#i-stats"/></svg>
-        </button>
-      </div>
-    </header>
+    <section class="half half--left">
+      <header class="device-top">
+        <a class="lens" href="./" aria-label="Inicio"><span class="lens-glass"></span></a>
+        <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h1 class="logo" data-site-name>PokéFourier</h1>
+        <div class="top-actions">
+          <button id="open-help" type="button" class="round-btn" aria-label="Cómo se juega" title="Cómo se juega">
+            <svg aria-hidden="true"><use href="#i-help"/></svg>
+          </button>
+          <button id="open-stats" type="button" class="round-btn" aria-label="Estadísticas" title="Estadísticas" hidden>
+            <svg aria-hidden="true"><use href="#i-stats"/></svg>
+          </button>
+        </div>
+      </header>
 
-    <nav id="modes" class="modes" aria-label="Modo de juego" hidden></nav>
+      <nav id="modes" class="modes" aria-label="Modo de juego" hidden></nav>
+      <p id="loading" class="panel-msg">Encendiendo la Pokédex…</p>
+      <p id="notice" class="panel-msg" role="alert" hidden></p>
 
-    <p id="loading" class="panel-msg">Encendiendo la Pokédex…</p>
-    <p id="notice" class="panel-msg" role="alert" hidden></p>
-
-    <main id="game" class="game" hidden>
-      <section class="screen-bezel" aria-label="Pokémon del día">
+      <section class="screen-bezel" aria-label="Pokémon del día" data-game hidden>
         <div class="screen-label">
           <span id="puzzle-label"></span>
           <span id="circles-label" aria-live="polite"></span>
@@ -53,6 +54,12 @@
         </div>
         <ol id="ladder" class="ladder" aria-label="Intentos: círculos de cada uno"></ol>
       </section>
+    </section>
+
+    <div class="hinge" aria-hidden="true"></div>
+
+    <section class="half half--right" data-game hidden>
+      <div class="flap-top" aria-hidden="true"></div>
 
       <section id="play" class="controls" aria-label="Tu respuesta">
         <form id="guess-form" class="guess" autocomplete="off">
@@ -61,16 +68,23 @@
             <ul id="suggestions" class="suggestions"></ul>
             <input id="guess" class="guess-input" type="text" enterkeyhint="go" autocapitalize="off">
           </div>
+          <p class="kbd-hint">Escribe cuando quieras · <kbd>Enter</kbd> responder · <kbd>Esc</kbd> borrar</p>
           <div class="pad">
-            <button id="skip" type="button" class="key key--b" title="Pasar y ver más círculos">
-              <span class="key-face">B</span><span class="key-label">Saltar</span>
-            </button>
-            <button id="submit" type="submit" class="key key--a" disabled>
-              <span class="key-face">A</span><span class="key-label">¡Es este!</span>
-            </button>
+            <div class="dpad" aria-hidden="true"><i></i><i></i></div>
+            <div class="key-group">
+              <button id="skip" type="button" class="key key--b" title="Pasar y ver más círculos">
+                <span class="key-face">B</span><span class="key-label">Saltar</span>
+              </button>
+              <button id="submit" type="submit" class="key key--a" disabled>
+                <span class="key-face">A</span><span class="key-label">¡Es este!</span>
+              </button>
+            </div>
           </div>
         </form>
-        <ul id="history" class="history" aria-label="Respuestas falladas"></ul>
+        <div class="log">
+          <p class="log-title">Registro</p>
+          <ul id="history" class="history" aria-label="Respuestas falladas"></ul>
+        </div>
       </section>
 
       <section id="result" class="result" aria-live="polite" hidden>
@@ -86,12 +100,12 @@
           <button id="result-stats" type="button" class="text-btn">Estadísticas</button>
         </div>
       </section>
-    </main>
 
-    <footer class="device-foot">
-      <span class="speaker" aria-hidden="true"></span>
-      <p>Siluetas dibujadas con series de Fourier · Proyecto de fans, sin relación con Nintendo ni The Pokémon Company</p>
-    </footer>
+      <footer class="device-foot">
+        <span class="speaker" aria-hidden="true"></span>
+        <p>Siluetas dibujadas con series de Fourier · Proyecto de fans, sin relación con Nintendo ni The Pokémon Company</p>
+      </footer>
+    </section>
   </div>
 
   <div id="toasts" class="toasts" role="status" aria-live="polite"></div>

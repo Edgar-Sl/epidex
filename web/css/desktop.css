@@ -1,0 +1,152 @@
+/*
+ * Escritorio: la Pokédex se abre como un libro.
+ *
+ *   ┌───────────────┐ ┌───────────────┐
+ *   │ lente · logo  │ │ teclas azules │
+ *   │  ┌─────────┐  │█│ buscador      │
+ *   │  │ pantalla│  │█│ B   A         │
+ *   │  └─────────┘  │█│ registro      │
+ *   │  2 4 8 …      │ │ altavoz       │
+ *   └───────────────┘ └───────────────┘
+ *
+ * Por qué así y no "la versión móvil más grande": en horizontal sobra ancho y
+ * falta alto, así que el dibujo (lo importante) ocupa toda la altura a la
+ * izquierda y los controles quedan a la vista a la derecha, sin hacer scroll.
+ * En ordenador se juega con el teclado: se puede escribir sin hacer clic.
+ */
+
+/* Pistas de teclado solo con ratón y teclado (no en táctiles). */
+@media (hover: hover) and (pointer: fine) {
+  .kbd-hint {
+    display: block;
+  }
+}
+
+@media (min-width: 900px) and (min-height: 540px) {
+  body {
+    display: grid;
+    place-items: center;
+    padding: 32px 24px 40px;
+  }
+
+  .device {
+    --flap-drop: 72px; /* la tapa derecha empieza más abajo, como en la Pokédex */
+    width: min(100%, 1040px);
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .half {
+    padding: 18px 22px 22px;
+    background: linear-gradient(180deg, var(--body-light), var(--body) 25%, var(--body-dark));
+    border: 4px solid var(--outline);
+    box-shadow: 0 8px 0 var(--outline), 0 30px 50px -20px rgba(0, 0, 0, 0.55);
+  }
+
+  .half--left {
+    border-radius: 30px 6px 6px 70px;
+  }
+
+  .half--right {
+    margin-top: var(--flap-drop);
+    border-radius: 6px 30px 70px 6px;
+    gap: 16px;
+  }
+
+  .hinge {
+    display: block;
+    margin: calc(var(--flap-drop) + 40px) -4px 70px;
+    border: 4px solid var(--outline);
+    border-radius: 8px;
+    background:
+      repeating-linear-gradient(180deg, transparent 0 46px, var(--outline) 46px 50px),
+      linear-gradient(90deg, var(--body-dark), var(--body-light) 45%, var(--body-dark));
+    box-shadow: 0 8px 0 var(--outline);
+  }
+
+  /* Pantalla: lo más grande posible sin que haga falta scroll. */
+  .screen {
+    width: min(100%, max(280px, 100dvh - 290px));
+  }
+
+  /* Tapa derecha: 2 filas de 5 teclas azules, dibujadas con degradados (sin elementos extra). */
+  .flap-top {
+    display: block;
+    height: 78px;
+    padding: 10px;
+    border: 3px solid var(--outline);
+    border-radius: 12px;
+    background:
+      repeating-linear-gradient(90deg, var(--blue) 0 calc(20% - 6px), transparent calc(20% - 6px) 20%)
+        content-box,
+      var(--body-dark);
+    box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .flap-top::after {
+    content: "";
+    display: block;
+    height: 6px;
+    margin-top: 23px;
+    background: var(--body-dark);
+  }
+
+  .controls,
+  .result {
+    flex: 1;
+  }
+
+  .result {
+    justify-content: center;
+  }
+
+  .pad {
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 4px 0;
+  }
+
+  /* Cruceta decorativa a la izquierda de los botones A/B. */
+  .dpad {
+    display: block;
+    position: relative;
+    width: 78px;
+    height: 78px;
+  }
+
+  .dpad i {
+    position: absolute;
+    inset: 26px 0;
+    border: 4px solid var(--outline);
+    border-radius: 8px;
+    background: var(--b-btn);
+    box-shadow: 0 4px 0 var(--outline);
+  }
+
+  .dpad i:last-child {
+    inset: 0 26px;
+  }
+
+  .device-foot {
+    margin-top: auto;
+  }
+
+  .toasts {
+    top: 20px;
+  }
+}
+
+/* Pantallas muy anchas: un poco más de aire. */
+@media (min-width: 1400px) and (min-height: 800px) {
+  .device {
+    width: 1120px;
+  }
+}
