@@ -13,10 +13,28 @@ body {
   font-size: 16px;
   line-height: 1.4;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.35), transparent 40%),
-    repeating-linear-gradient(-45deg, #ffd84d 0 18px, #ffcb05 18px 36px);
+  background-color: var(--yellow);
+  /* Rayas suaves: el fondo acompaña, el aparato manda */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.4), transparent 60%),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.16) 0 26px, transparent 26px 52px);
+  background-attachment: fixed;
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+input {
+  caret-color: var(--a-btn);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
 }
 
 h1,

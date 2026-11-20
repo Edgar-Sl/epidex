@@ -83,12 +83,15 @@ export class GameController {
       statsDialog: /** @type {HTMLDialogElement} */ (byId("stats-dialog")),
       // Opcional: arte que se revela al acabar (colecciones con `ui.art`).
       reveal: /** @type {HTMLImageElement | null} */ (document.getElementById("reveal")),
+      // Opcional: la lente de la Pokédex parpadea mientras analiza un dibujo nuevo.
+      lens: document.querySelector(".lens-glass"),
     };
 
     this.renderer = new EpicycleRenderer(byId("canvas"));
     this.renderer.setTerms(puzzle.terms, circlesToShow(this.state));
     if (isOver(this.state)) this.renderer.complete();
     this.renderer.play();
+    this.scan();
 
     this.autocomplete = new Autocomplete({
       input: this.ui.input,
@@ -100,7 +103,7 @@ export class GameController {
     });
 
     this.ui.input.placeholder = collection.ui.placeholder;
-    this.ui.puzzleLabel.textContent = `${collection.emoji} ${collection.title} · #${entry.number}`;
+    this.ui.puzzleLabel.textContent = `${collection.title} · #${entry.number}`;
     this.renderPalette();
 
     this.ui.form.addEventListener("submit", (e) => {
@@ -146,6 +149,7 @@ export class GameController {
       this.finish();
     } else {
       this.renderer.setCircles(circlesToShow(state));
+      this.scan();
       if (outcome === "wrong") {
         replayAnimation(this.ui.frame, "is-shaking");
         this.toast(`No es ${name}`, { tone: "error" });
@@ -155,6 +159,11 @@ export class GameController {
       this.ui.input.focus();
     }
     this.render();
+  }
+
+  /** La lente "analiza" (parpadea) cada vez que la pantalla dibuja algo nuevo. */
+  scan() {
+    if (this.ui.lens) replayAnimation(this.ui.lens, "is-scanning");
   }
 
   /** Fin de partida: estadísticas, dibujo completo y celebración. */
@@ -169,6 +178,7 @@ export class GameController {
     this.renderer.setCircles(circlesToShow(this.state));
     this.renderer.complete();
     if (won) replayAnimation(this.ui.frame, "is-celebrating");
+    this.scan();
     // Que el resultado y el botón de compartir queden a la vista en móvil.
     requestAnimationFrame(() => this.ui.result.scrollIntoView({ behavior: "smooth", block: "nearest" }));
   }
@@ -232,11 +242,23 @@ export class GameController {
       ),
     );
 
+    // Registro: una línea por intento (los pendientes solo se ven en escritorio).
     ui.history.replaceChildren(
-      ...state.attempts
-        .filter((a) => a.type !== "skip" && a.id !== state.answer)
-        .map((a) => h("li", { class: "chip chip--wrong", text: this.names.get(a.id) ?? a.id }))
-        .reverse(),
+      ...state.levels.map((level, i) => {
+        const attempt = state.attempts[i];
+        let kind = "pending";
+        let text = "· · ·";
+        if (attempt?.type === "skip") [kind, text] = ["skip", "saltado"];
+        else if (attempt && attempt.id === state.answer) [kind, text] = ["correct", this.names.get(attempt.id) ?? attempt.id];
+        else if (attempt) [kind, text] = ["wrong", this.names.get(attempt.id) ?? attempt.id];
+        else if (!over && i === levelIndex(state)) [kind, text] = ["current", "ahora"];
+        return h(
+          "li",
+          { class: `log-row log-row--${kind}${attempt ? " log-row--done" : ""}` },
+          h("span", { class: "log-n", text: String(level) }),
+          h("span", { class: "log-text", text }),
+        );
+      }),
     );
 
     this.autocomplete.setExclude(guessedIds(state));

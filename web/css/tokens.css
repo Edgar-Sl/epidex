@@ -25,6 +25,7 @@
 
   /* Botones y acentos */
   --blue: #2b8ff0;
+  --blue-deep: #1b6fcc; /* botón con texto blanco: >= 4.5:1 */
   --yellow: #ffcb05;
   --a-btn: #a3215e;
   --b-btn: #2c2c35;
@@ -41,12 +42,14 @@
   --epi-fill: #0f380f;
   --epi-pen: #e2453c;
 
-  /* Tipografía: redondeada y gruesa */
-  --font: ui-rounded, "SF Pro Rounded", "Nunito", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
-  --font-digits: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  /* Tipografía: redondeada japonesa para el aparato, de puntos para lo que sale en pantalla */
+  --font: "M PLUS Rounded 1c", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-lcd: "DotGothic16", ui-monospace, monospace;
+  --font-digits: var(--font-lcd);
 
   --hard-shadow: 0 4px 0 var(--outline);
   --radius: 16px;
   --content: 440px;
+  --content-wide: 560px; /* tabletas en vertical */
   --ease: cubic-bezier(0.3, 1.4, 0.5, 1); /* con rebote */
 }

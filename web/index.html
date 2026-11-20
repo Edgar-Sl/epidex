@@ -7,6 +7,9 @@
   <meta name="theme-color" content="#dc2f2f">
   <title>PokéFourier</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/m-plus-rounded-1c-900-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/dotgothic16-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -19,6 +22,7 @@
     <symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></symbol>
     <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h6.4M15.1 12h6.4"/><circle cx="12" cy="12" r="3.1"/></symbol>
   </svg>
 
   <!-- Una Pokédex: en móvil, las dos mitades apiladas; en escritorio, abierta como un libro. -->
@@ -44,7 +48,7 @@
 
       <section class="screen-bezel" aria-label="Pokémon del día" data-game hidden>
         <div class="screen-label">
-          <span id="puzzle-label"></span>
+          <span class="screen-id"><svg aria-hidden="true"><use href="#i-ball"/></svg><span id="puzzle-label"></span></span>
           <span id="circles-label" aria-live="polite"></span>
         </div>
         <div id="canvas-frame" class="screen">
