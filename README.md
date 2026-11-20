@@ -7,7 +7,7 @@
 Empieza con 2 círculos y cada fallo o salto añade más: 2 → 4 → 8 → 16 → 32 → 64.
 Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 
-<img src="docs/img/escritorio.png" alt="PokéFourier en escritorio: una Pokédex abierta con la silueta a la izquierda y los mandos a la derecha" width="820">
+<img src="docs/img/escritorio.png" alt="PokéFourier en escritorio: una Pokédex abierta con la silueta a la izquierda y, a la derecha, el buscador, los botones A y B y la pantalla verde del registro" width="820">
 
 </div>
 
@@ -22,6 +22,21 @@ Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 > usa el mismo motor (contorno → Fourier → epiciclos) con otra personalidad: una Pokédex roja con
 > pantalla LCD verde.
 
+### El estilo: la Pokédex
+
+Una Pokédex roja de dibujos animados, con contornos negros gruesos:
+
+- **Pantalla principal** verde claro con rejilla de píxeles, como un LCD de consola portátil; ahí
+  se dibuja la silueta.
+- **Segunda pantalla** verde oscura para el registro de intentos. En escritorio lista los 6; en el
+  móvil, solo los que ya has hecho.
+- **La lente azul** parpadea cada vez que la pantalla dibuja algo nuevo.
+- **La escalera de círculos** (2 → 64): lo que falta va en trazo discontinuo y el intento actual,
+  en amarillo y algo levantado.
+- **Botones A y B**: el A se enciende cuando hay un Pokémon válido escrito.
+- Letra M PLUS Rounded 1c para el aparato y DotGothic16 (de píxeles) para lo que sale en las
+  pantallas, ambas incluidas en `web/fonts/`.
+
 ---
 
 ## Cómo se juega
@@ -29,7 +44,7 @@ Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 <table>
   <tr>
     <td align="center" width="33%"><img src="docs/img/movil-inicio.png" alt="Primer intento: un borrón de 2 círculos en la pantalla de la Pokédex" width="240"></td>
-    <td align="center" width="33%"><img src="docs/img/movil-pistas.png" alt="Dos fallos: la silueta con 8 círculos" width="240"></td>
+    <td align="center" width="33%"><img src="docs/img/movil-pistas.png" alt="Dos fallos: la silueta con 8 círculos y los fallos en la pantalla del registro" width="240"></td>
     <td align="center" width="33%"><img src="docs/img/movil-resultado.png" alt="Resultado: se revela el Pokémon sobre su silueta" width="240"></td>
   </tr>
   <tr>
@@ -53,7 +68,8 @@ Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 ### En escritorio: la Pokédex abierta
 
 A la izquierda la pantalla; a la derecha el buscador, la cruceta, los botones **A** (¡es este!) y
-**B** (saltar) y el registro de fallos. Se juega con el teclado: escribe en cualquier momento,
+**B** (saltar) y la segunda pantalla, verde oscura, con el registro de los 6 intentos (los hechos,
+el de ahora y los que quedan). Se juega con el teclado: escribe en cualquier momento,
 <kbd>Enter</kbd> para responder y <kbd>Esc</kbd> para borrar.
 
 <img src="docs/img/escritorio-resultado.png" alt="Resultado en escritorio con el Pokémon revelado" width="820">
@@ -111,7 +127,7 @@ generaciones basta con cambiar `last` en `[images]`.
 
 ### Diferencias con el juego de países
 
-- Estilos propios en `web/css/` (Pokédex en móvil, libro abierto en escritorio).
+- Estilos propios en `web/css/` (Pokédex en móvil, libro abierto en escritorio) y fuentes en `web/fonts/`.
 - Revelación del arte al acabar (`ui.art` en la colección).
 - Nombre y prefijo de guardado propios (`web/js/app/config.js`, `storage.js`).
 
