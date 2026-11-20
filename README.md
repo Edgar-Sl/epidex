@@ -1,51 +1,122 @@
-# PokéFourier (nombre provisional)
+<div align="center">
 
-**¿Quién es ese Pokémon?** La silueta del Pokémon del día se dibuja sola con
-epiciclos (círculos que giran, una serie de Fourier). Empieza con 2 círculos y
-cada fallo o salto añade más: 2 → 4 → 8 → 16 → 32 → 64. Al acabar se revela el
-Pokémon y puedes retar a un amigo con tu resultado.
+# PokéFourier
 
-Es una variante de [fourier-game](../fourier-game) (países y banderas) con otra
-personalidad: una Pokédex roja con pantalla LCD verde.
+**¿Quién es ese Pokémon? La silueta del día se dibuja sola con círculos que giran.**
 
-> ⚠️ **Prototipo para probar la idea.** El arte y los nombres de Pokémon tienen
-> copyright de Nintendo / Game Freak / The Pokémon Company. Antes de publicarlo
-> habría que sustituirlos (p. ej. criaturas propias o imágenes con licencia libre).
+Empieza con 2 círculos y cada fallo o salto añade más: 2 → 4 → 8 → 16 → 32 → 64.
+Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 
-## Puesta en marcha
+<img src="docs/img/escritorio.png" alt="PokéFourier en escritorio: una Pokédex abierta con la silueta a la izquierda y los mandos a la derecha" width="820">
 
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python -m pipeline.download   # 151 imágenes (≈22 MB) a data/raw/pokemon/
-python -m pipeline.build      # contornos -> Fourier -> web/data/
-python -m pipeline.art        # arte de la revelación (web/data/pokemon/art/)
-python -m http.server 8005 --directory web
-```
+</div>
 
-- Juego: <http://localhost:8005/> (el calendario empieza el 19/11/2026; otro día: `?fecha=2026-11-25`)
-- Vista previa de todas las siluetas por nivel: `python -m pipeline.preview --collection pokemon --levels`
-- Tests: `pytest` (Python) y <http://localhost:8005/dev/tests.html> (JavaScript)
+> [!WARNING]
+> **Prototipo privado para probar la idea. No publicar así.** El arte y los nombres de Pokémon
+> tienen copyright de Nintendo / Game Freak / The Pokémon Company. Antes de publicar habría que
+> sustituirlos (criaturas propias o imágenes con licencia libre); el motor no depende de ellos.
 
-## De imagen a contorno
+> [!NOTE]
+> **Esta rama es un proyecto aparte.** Tiene su propio historial y no se fusiona con `main`. El
+> juego de países y banderas está en [`main`](../../tree/main) y sus ramas de estilo. PokéFourier
+> usa el mismo motor (contorno → Fourier → epiciclos) con otra personalidad: una Pokédex roja con
+> pantalla LCD verde.
 
-[`pipeline/sources/image.py`](pipeline/sources/image.py) convierte cada PNG en un
-contorno ordenado, que es lo que necesita la DFT:
+---
+
+## Cómo se juega
+
+<table>
+  <tr>
+    <td align="center" width="33%"><img src="docs/img/movil-inicio.png" alt="Primer intento: un borrón de 2 círculos en la pantalla de la Pokédex" width="240"></td>
+    <td align="center" width="33%"><img src="docs/img/movil-pistas.png" alt="Dos fallos: la silueta con 8 círculos" width="240"></td>
+    <td align="center" width="33%"><img src="docs/img/movil-resultado.png" alt="Resultado: se revela el Pokémon sobre su silueta" width="240"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>1. Una sombra</b><br>La silueta se dibuja con 2 círculos. Escribe un Pokémon o salta.</td>
+    <td align="center"><b>2. Más círculos</b><br>Cada fallo afina la silueta. Tienes 6 intentos.</td>
+    <td align="center"><b>3. ¡Es…!</b><br>Se revela el Pokémon y retas a un amigo sin destripárselo.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="docs/img/movil-ayuda.png" alt="Ayuda: cómo se juega" width="240"></td>
+    <td align="center" width="50%"><img src="docs/img/movil-estadisticas.png" alt="Estadísticas: partidas, aciertos, racha y distribución" width="240"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Ayuda</b><br>Se abre sola la primera vez.</td>
+    <td align="center"><b>Estadísticas</b><br>Racha y en qué intento sueles acertar. Se guardan en el navegador.</td>
+  </tr>
+</table>
+
+### En escritorio: la Pokédex abierta
+
+A la izquierda la pantalla; a la derecha el buscador, la cruceta, los botones **A** (¡es este!) y
+**B** (saltar) y el registro de fallos. Se juega con el teclado: escribe en cualquier momento,
+<kbd>Enter</kbd> para responder y <kbd>Esc</kbd> para borrar.
+
+<img src="docs/img/escritorio-resultado.png" alt="Resultado en escritorio con el Pokémon revelado" width="820">
+
+---
+
+## Cómo funciona
+
+Cualquier contorno cerrado se puede escribir como una suma de giros (una **serie de Fourier**).
+Ordenando los círculos de mayor a menor, los primeros K dan la mejor aproximación con K círculos:
+
+<img src="docs/img/fourier-niveles.png" alt="Bulbasaur con 2, 4, 8, 16, 32 y 64 círculos y el contorno original" width="820">
+
+Lo nuevo respecto al juego de países es sacar el contorno **de una imagen**
+([`pipeline/sources/image.py`](pipeline/sources/image.py)):
 
 1. Máscara figura/fondo con la transparencia (o umbral de Otsu si no hay).
 2. Cierre morfológico para unir grietas pequeñas.
 3. Componente conexa más grande y relleno de agujeros.
 4. Trazado del borde exterior con el algoritmo de vecinos de Moore.
 
-Una convolución (Sobel, etc.) no basta: da píxeles de borde *sin orden*.
+Una convolución (Sobel, etc.) no basta: da píxeles de borde *sin orden*, y la DFT necesita
+recorrer el contorno en orden. El resto (remuestreo, DFT, niveles, calendario, frontend) es el
+mismo motor.
 
-El resto (remuestreo, DFT, niveles, calendario, frontend) es el mismo motor que
-fourier-game. Diferencias del frontend: estilos propios (`web/css/`), revelación
-del arte al acabar (`ui.art` en la colección) y nombre en `web/js/app/config.js`.
+---
+
+## Desarrollo
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1           # Linux/macOS: source .venv/bin/activate
+pip install -r requirements.txt
+python -m pipeline.download          # 151 imágenes (≈22 MB) a data/raw/pokemon/ (no se suben)
+python -m pipeline.build             # contornos -> Fourier -> web/data/
+python -m pipeline.art               # arte de la revelación (web/data/pokemon/art/)
+python -m http.server 8005 --directory web
+```
+
+| Qué | Dónde |
+|---|---|
+| Juego | <http://localhost:8005/> (empieza el 19/11/2026) |
+| Otro día | <http://localhost:8005/?fecha=2026-11-25> |
+| Tests de JavaScript | <http://localhost:8005/dev/tests.html> |
+| Cualquier estado, para capturas | `dev/capture.html?fecha=…&jugadas=fallo,salto&ancho=390` |
+
+```powershell
+pytest                                                     # tests del pipeline
+python -m pipeline.preview --collection pokemon --levels   # cada silueta en cada nivel
+python -m pipeline.screenshots                             # capturas de este README (docs/img/)
+```
+
+Parámetros (rango de Pokémon, niveles, calendario…) en [`config.toml`](config.toml). Para más
+generaciones basta con cambiar `last` en `[images]`.
+
+### Diferencias con el juego de países
+
+- Estilos propios en `web/css/` (Pokédex en móvil, libro abierto en escritorio).
+- Revelación del arte al acabar (`ui.art` en la colección).
+- Nombre y prefijo de guardado propios (`web/js/app/config.js`, `storage.js`).
 
 ## Ideas
 
 - Pistas por intento (tipo, generación) como en otros juegos del nicho.
-- Más generaciones (cambiar `last` en `[images]` de `config.toml`).
-- Modo "sombra clásica": rellenar la silueta en negro con un fondo de rayos.
+- Modo "sombra clásica": silueta rellena en negro sobre un fondo de rayos.
+- Para publicarlo: criaturas propias con el mismo motor.
