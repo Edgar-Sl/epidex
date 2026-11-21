@@ -10,7 +10,7 @@
  * solo que el progreso no sobrevive a una recarga.
  */
 
-const PREFIX = "pokefourier";
+const PREFIX = "epidex";
 const SCHEMA = "v1";
 
 /** Almacén mínimo con la misma interfaz que usamos de localStorage. */

@@ -8,6 +8,7 @@
     "art": true
   },
   "_comment": "Primera generación. Las siluetas salen del arte oficial (data/raw/pokemon, ver pipeline.download).",
+  "bonus": {"type": "pokemon", "facts": "data/pokemon_facts.json"},
   "provider": {
     "type": "image",
     "image_dir": "data/raw/pokemon",

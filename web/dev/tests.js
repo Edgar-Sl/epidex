@@ -15,6 +15,7 @@ import {
   levelIndex,
   skip,
 } from "../js/core/game.js";
+import { answerBonus, bonusQuestions, bonusResults } from "../js/core/bonus.js";
 import { buildShareText } from "../js/core/share.js";
 import { displayedStreak, emptyStats, previousDate, recordResult, winRate } from "../js/core/stats.js";
 import { GameStorage } from "../js/app/storage.js";
@@ -200,6 +201,37 @@ test("texto para compartir: resultado, círculos y enlace, sin la respuesta", ()
       results: ["skip", "wrong", "wrong", "wrong", "wrong", "wrong"] }),
     "[NOMBRE] 🌍 #12 · X/6\n⬛🟥🟥🟥🟥🟥",
   );
+});
+
+test("texto para compartir con las preguntas extra", () => {
+  const text = buildShareText({ gameName: "Epidex", number: 1, emoji: "🌍", maxAttempts: 6,
+    won: true, attemptsUsed: 1, circles: 2, bonus: ["correct", "wrong"],
+    results: ["correct", "unused", "unused", "unused", "unused", "unused"] });
+  assertEqual(text.split("\n").at(-1), "Extra: ✅❌");
+});
+
+// ---- bonus.js ------------------------------------------------------------
+const BONUS = [
+  { question: "¿Vecino?", options: ["A", "B", "C", "D"], answer: 2 },
+  { question: "¿Habitantes?", options: ["1", "3", "9", "27"], answer: 0 },
+  { question: "mal", options: ["A"], answer: 3 },
+];
+
+test("preguntas extra: solo las válidas y solo con la partida acabada", () => {
+  const questions = bonusQuestions({ bonus: BONUS });
+  assertEqual(questions.length, 2);
+  assertEqual(bonusQuestions({}), []);
+  const playing = createGame(PUZZLE, ENTRY);
+  assertEqual(answerBonus(playing, questions, 2), null);
+  const over = guess(playing, "ITA").state;
+  const first = answerBonus(over, questions, 2);
+  assertEqual(first.correct, true);
+  const second = answerBonus(first.state, questions, 3);
+  assertEqual(second.correct, false);
+  assertEqual(bonusResults(second.state, questions), ["correct", "wrong"]);
+  assertEqual(answerBonus(second.state, questions, 0), null, "no quedan preguntas");
+  assertEqual(answerBonus(over, questions, 9), null, "opción fuera de rango");
+  assertEqual(over.bonus, undefined, "inmutable");
 });
 
 test("cuenta atrás hasta la medianoche de Madrid", () => {

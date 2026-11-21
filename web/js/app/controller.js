@@ -7,6 +7,7 @@
  */
 
 import { AnswerIndex } from "../core/answer-index.js";
+import { answerBonus, bonusChoices, bonusQuestions, bonusResults } from "../core/bonus.js";
 import { formatDuration, msUntilNextDay } from "../core/dates.js";
 import {
   STATE_VERSION,
@@ -21,9 +22,10 @@ import {
   skip,
 } from "../core/game.js";
 import { buildShareText } from "../core/share.js";
-import { emptyStats, recordResult } from "../core/stats.js";
+import { displayedStreak, emptyStats, recordResult } from "../core/stats.js";
 import { EpicycleRenderer } from "../render/epicycles.js";
 import { Autocomplete } from "../ui/autocomplete.js";
+import { burstConfetti } from "../ui/confetti.js";
 import { byId, h, replayAnimation } from "../ui/dom.js";
 import { enableTypeAnywhere, hasFinePointer } from "../ui/keyboard.js";
 import { renderStats } from "../ui/stats-view.js";
@@ -60,6 +62,11 @@ export class GameController {
     this.state = this.storage.loadGame(puzzle.id, STATE_VERSION) ?? createGame(puzzle, entry);
     this.stats = this.storage.loadStats(emptyStats(maxAttempts(this.state)));
     this.countdownTimer = null;
+    this.bonus = bonusQuestions(puzzle);
+    /** Pregunta extra recién respondida: se queda a la vista hasta pulsar "Siguiente". */
+    this.bonusShown = null;
+    /** La partida acaba de terminar en esta visita (para celebrar la racha). */
+    this.justFinished = false;
 
     this.ui = {
       frame: byId("canvas-frame"),
@@ -79,6 +86,14 @@ export class GameController {
       resultGrid: byId("result-grid"),
       share: byId("share"),
       countdown: byId("countdown"),
+      streak: byId("result-streak"),
+      bonus: byId("bonus"),
+      bonusStep: byId("bonus-step"),
+      bonusMarks: byId("bonus-marks"),
+      bonusQuestion: byId("bonus-question"),
+      bonusOptions: byId("bonus-options"),
+      bonusNext: /** @type {HTMLButtonElement} */ (byId("bonus-next")),
+      bonusSummary: byId("bonus-summary"),
       statsBody: byId("stats-body"),
       statsDialog: /** @type {HTMLDialogElement} */ (byId("stats-dialog")),
       // Opcional: arte que se revela al acabar (colecciones con `ui.art`).
@@ -113,6 +128,12 @@ export class GameController {
     });
     this.ui.skip.addEventListener("click", () => this.apply(skip(this.state)));
     this.ui.share.addEventListener("click", () => this.share());
+    this.ui.bonusNext.addEventListener("click", () => this.nextBonus());
+    this.ui.bonusOptions.addEventListener("click", (e) => {
+      const button = /** @type {HTMLElement} */ (e.target).closest("button[data-choice]");
+      if (button) this.chooseBonus(Number(button.getAttribute("data-choice")));
+    });
+    document.addEventListener("keydown", (e) => this.onBonusKey(e));
     enableTypeAnywhere(this.ui.input);
 
     this.render();
@@ -177,7 +198,11 @@ export class GameController {
     this.storage.saveStats(this.stats);
     this.renderer.setCircles(circlesToShow(this.state));
     this.renderer.complete();
-    if (won) replayAnimation(this.ui.frame, "is-celebrating");
+    this.justFinished = true;
+    if (won) {
+      replayAnimation(this.ui.frame, "is-celebrating");
+      burstConfetti(this.ui.frame);
+    }
     this.scan();
     // Que el resultado y el botón de compartir queden a la vista en móvil.
     requestAnimationFrame(() => this.ui.result.scrollIntoView({ behavior: "smooth", block: "nearest" }));
@@ -196,11 +221,107 @@ export class GameController {
       results: attemptResults(state),
       // Al acabar se muestra el dibujo completo; lo que cuenta es el nivel del acierto.
       circles: won ? state.levels[state.attempts.length - 1] : undefined,
+      bonus: bonusResults(state, this.bonus),
       url: this.shareLink,
     });
     const outcome = await shareResult(text);
     if (outcome === "copied") this.toast("Resultado copiado. ¡Pégalo en el chat!", { tone: "success" });
     if (outcome === "failed") this.toast("No se pudo copiar el resultado", { tone: "error" });
+  }
+
+  // ---- preguntas extra -----------------------------------------------------
+
+  /** @param {number} choice Índice de la opción elegida. */
+  chooseBonus(choice) {
+    if (this.bonusShown !== null) return; // primero "Siguiente"
+    const step = answerBonus(this.state, this.bonus, choice);
+    if (!step) return;
+    const index = bonusChoices(this.state).length;
+    this.state = step.state;
+    this.storage.saveGame(step.state);
+    this.bonusShown = index;
+    this.renderBonus();
+    const done = bonusChoices(this.state).length >= this.bonus.length;
+    if (done && bonusResults(this.state, this.bonus).every((r) => r === "correct")) {
+      burstConfetti(this.ui.bonus, { count: 50 });
+    }
+    this.ui.bonusNext.focus({ preventScroll: true });
+  }
+
+  nextBonus() {
+    if (this.bonusShown === null) return;
+    this.bonusShown = null;
+    this.renderBonus();
+    const first = this.ui.bonusOptions.querySelector("button");
+    if (first && hasFinePointer()) first.focus({ preventScroll: true });
+    else if (this.ui.bonus.hidden) this.ui.share.focus({ preventScroll: true });
+  }
+
+  /** Teclas 1-4 responden y Enter pasa a la siguiente (en escritorio). */
+  onBonusKey(e) {
+    if (this.ui.bonus.hidden || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (document.querySelector("dialog[open]")) return;
+    const n = Number(e.key);
+    if (Number.isInteger(n) && n >= 1 && n <= 9) {
+      e.preventDefault();
+      this.chooseBonus(n - 1);
+    } else if (e.key === "Enter" && this.bonusShown !== null && e.target !== this.ui.bonusNext) {
+      e.preventDefault();
+      this.nextBonus();
+    }
+  }
+
+  renderBonus() {
+    const { ui, bonus } = this;
+    const chosen = bonusChoices(this.state);
+    const results = bonusResults(this.state, bonus);
+    const index = this.bonusShown ?? chosen.length;
+    const question = bonus[index];
+    const over = isOver(this.state);
+
+    ui.bonus.hidden = !over || !question;
+    ui.bonusSummary.hidden = !over || bonus.length === 0 || Boolean(question);
+    if (!over) return;
+
+    if (!question) {
+      const right = results.filter((r) => r === "correct").length;
+      ui.bonusSummary.textContent = `Preguntas extra: ${right}/${bonus.length} ${results
+        .map((r) => (r === "correct" ? "✅" : "❌"))
+        .join("")}`;
+      ui.bonusSummary.classList.toggle("bonus-summary--perfect", right === bonus.length);
+      return;
+    }
+
+    const answered = this.bonusShown !== null;
+    const choice = chosen[index];
+    ui.bonusStep.textContent = `Pregunta extra ${index + 1}/${bonus.length}`;
+    ui.bonusMarks.textContent = results.map((r) => (r === "correct" ? "✅" : "❌")).join("");
+    ui.bonusQuestion.textContent = question.question;
+    ui.bonusOptions.replaceChildren(
+      ...question.options.map((label, i) => {
+        let state = "";
+        if (answered && i === question.answer) state = "is-right";
+        else if (answered && i === choice) state = "is-wrong";
+        return h(
+          "li",
+          {},
+          h(
+            "button",
+            {
+              type: "button",
+              class: `bonus-option ${state}`.trim(),
+              disabled: answered ? "" : null,
+              "aria-pressed": answered && i === choice ? "true" : null,
+              "data-choice": i,
+            },
+            h("kbd", { text: String(i + 1), "aria-hidden": "true" }),
+            h("span", { text: label }),
+          ),
+        );
+      }),
+    );
+    ui.bonusNext.hidden = !answered;
+    ui.bonusNext.textContent = index + 1 < bonus.length ? "Siguiente" : "Ver resultado";
   }
 
   // ---- pintado -------------------------------------------------------------
@@ -273,6 +394,11 @@ export class GameController {
       : "¡Otra vez será!";
     ui.resultAnswer.textContent = this.names.get(state.answer) ?? state.answer;
     this.revealArt();
+    const streak = displayedStreak(this.stats, state.date);
+    ui.streak.hidden = !won || streak < 1;
+    ui.streak.textContent = streak === 1 ? "🔥 Empiezas racha: 1 día" : `🔥 Racha: ${streak} días seguidos`;
+    ui.streak.classList.toggle("is-new", this.justFinished);
+    this.renderBonus();
     ui.resultGrid.replaceChildren(
       ...results.map((r) => h("span", { class: `cell cell--${r}`, title: RESULT_LABEL[r] })),
     );

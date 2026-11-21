@@ -882,3 +882,195 @@ kbd {
 .stat-bar--highlight {
   background: var(--yellow);
 }
+
+/* ---- Celebración: racha, confeti y preguntas extra ------------------------- */
+
+.stage.is-celebrating {
+  animation: celebrate 0.6s var(--ease);
+}
+
+@keyframes celebrate {
+  40% { transform: scale(1.03); }
+}
+
+.result-streak {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--panel);
+  font-weight: 800;
+}
+
+.result-streak.is-new {
+  animation: pop 0.5s var(--ease) 0.3s backwards;
+}
+
+.bonus {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border: 3px solid var(--outline);
+  border-radius: 12px;
+  background: var(--panel);
+  text-align: left;
+  animation: row-in 0.35s var(--ease);
+}
+
+.bonus > * {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.bonus-head {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bonus-question {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.bonus-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bonus-option {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 12px;
+  border: 3px solid var(--outline);
+  border-radius: 12px;
+  background: #fffdf5;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.12s, transform 0.08s;
+}
+
+.bonus-option kbd {
+  flex: none;
+  color: var(--muted);
+}
+
+.bonus-option span {
+  min-width: 0;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* Los números de tecla solo sirven con teclado */
+@media not ((hover: hover) and (pointer: fine)) {
+  .bonus-option kbd,
+  .bonus .kbd-hint {
+    display: none;
+  }
+}
+
+@media (hover: hover) {
+  .bonus-option:hover:not(:disabled) { border-color: var(--outline); }
+}
+
+.bonus-option:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.bonus-option:disabled {
+  cursor: default;
+}
+
+.bonus-option.is-right {
+  border-color: var(--correct);
+  background: var(--correct);
+  color: #ffffff;
+  animation: pop 0.4s var(--ease);
+}
+
+.bonus-option.is-wrong {
+  border-color: var(--wrong);
+  background: var(--wrong);
+  color: #ffffff;
+  animation: shake 0.42s;
+}
+
+.bonus-option:is(.is-right, .is-wrong) kbd {
+  border-color: currentColor;
+  background: transparent;
+  color: inherit;
+}
+
+.bonus .kbd-hint {
+  margin: 0;
+  color: var(--muted);
+}
+
+.bonus-summary {
+  font-weight: 800;
+}
+
+.bonus-summary--perfect {
+  animation: pop 0.5s var(--ease);
+}
+
+/* Confeti (ui/confetti.js): papelitos que salen del centro y caen */
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti i {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--color);
+  opacity: 0;
+  animation: confetti-fall 1.8s cubic-bezier(0.15, 0.6, 0.4, 1) var(--delay) forwards;
+}
+
+.confetti i.round {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+@keyframes confetti-fall {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  45% { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(calc(var(--spin) / 2)); }
+  100% { opacity: 0; transform: translate(calc(var(--dx) * 1.2), calc(var(--dy) + 420px)) rotate(var(--spin)); }
+}
+
+.big-btn--quiet {
+  background: var(--panel-2);
+  color: var(--ink);
+}
+
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(-6px); }
+}

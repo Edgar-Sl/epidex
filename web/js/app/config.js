@@ -4,7 +4,7 @@
 
 export const SITE = {
   /** Nombre del juego (aparece en la cabecera y en el texto para compartir). */
-  name: "PokéFourier", // nombre provisional
+  name: "Epidex",
   /** Carpeta de datos generada por `python -m pipeline.build`, relativa a index.html. */
   dataDir: "data",
 };

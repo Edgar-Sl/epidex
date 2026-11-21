@@ -5,9 +5,10 @@
  * respuesta, así que se puede publicar en un grupo sin hacer spoiler, y lleva
  * el enlace para que quien lo vea pueda jugar el mismo puzzle.
  *
- *   [NOMBRE] 🌍 #12 · 3/6
+ *   Epidex ⚡ #12 · 3/6
  *   🟥⬛🟩⬜⬜⬜
  *   Lo saqué con 8 círculos
+ *   Extra: ✅❌
  *   https://…
  *
  *   🟩 acierto · 🟥 fallo · ⬛ saltado · ⬜ sin usar
@@ -20,6 +21,8 @@ const SQUARES = {
   unused: "⬜",
 };
 
+const BONUS_MARKS = { correct: "✅", wrong: "❌" };
+
 /**
  * @param {Object} options
  * @param {string} options.gameName
@@ -30,6 +33,7 @@ const SQUARES = {
  * @param {number} options.maxAttempts
  * @param {("correct"|"wrong"|"skip"|"unused")[]} options.results
  * @param {number} [options.circles] Círculos con los que se acertó.
+ * @param {("correct"|"wrong")[]} [options.bonus] Preguntas extra respondidas.
  * @param {string} [options.url] Enlace al juego.
  * @returns {string}
  */
@@ -42,11 +46,13 @@ export function buildShareText({
   maxAttempts,
   results,
   circles,
+  bonus = [],
   url,
 }) {
   const score = won ? `${attemptsUsed}/${maxAttempts}` : `X/${maxAttempts}`;
   const lines = [`${gameName} ${emoji} #${number} · ${score}`, results.map((r) => SQUARES[r]).join("")];
   if (won && circles) lines.push(`Lo saqué con ${circles} círculos`);
+  if (bonus.length) lines.push(`Extra: ${bonus.map((r) => BONUS_MARKS[r]).join("")}`);
   if (url) lines.push(url);
   return lines.join("\n");
 }

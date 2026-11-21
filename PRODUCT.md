@@ -10,7 +10,7 @@ web
 Fans de Pokémon (sobre todo de la 1.ª generación) que juegan una partida diaria corta, de uno o dos minutos, en el móvil o en el ordenador por igual, y comparten el resultado en un grupo de chat para retar a sus amigos.
 
 ## Product Purpose
-PokéFourier es un juego diario de "¿Quién es ese Pokémon?": la silueta del Pokémon del día se dibuja sola con círculos que giran (epiciclos de una serie de Fourier). Empieza con 2 círculos y cada fallo o salto añade más (2 → 4 → 8 → 16 → 32 → 64), hasta 6 intentos. Al acabar se revela el arte del Pokémon y el jugador comparte su resultado sin destripar la respuesta. Éxito: reconocerlo con los menos círculos posibles y volver mañana.
+Epidex es un juego diario de "¿Quién es ese Pokémon?": la silueta del Pokémon del día se dibuja sola con círculos que giran (epiciclos de una serie de Fourier). Empieza con 2 círculos y cada fallo o salto añade más (2 → 4 → 8 → 16 → 32 → 64), hasta 6 intentos. Al acabar se revela el arte del Pokémon y el jugador comparte su resultado sin destripar la respuesta. Éxito: reconocerlo con los menos círculos posibles y volver mañana.
 
 ## Positioning
 La pista no es una imagen pixelada ni recortada: es la propia forma reconstruida por matemáticas, de borrón a silueta nítida, dibujada en directo por una cadena de círculos. Ningún otro juego del nicho enseña el mecanismo de Fourier como la pista misma.
@@ -28,7 +28,7 @@ La pista no es una imagen pixelada ni recortada: es la propia forma reconstruida
 - Esta rama es un proyecto aparte y no se fusiona con `main`.
 
 ## Brand Commitments
-- Nombre: PokéFourier (provisional).
+- Nombre: Epidex (epiciclo + Pokédex). Evita «Poké», que es marca registrada.
 - Prototipo privado: el arte y los nombres de Pokémon tienen copyright de Nintendo / Game Freak / The Pokémon Company. Aviso de proyecto de fans visible. No publicar tal cual.
 
 ## Evidence on Hand

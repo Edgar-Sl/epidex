@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any
 
 from pipeline.answers import answers_to_dict, build_answers
+from pipeline.bonus import bonus_builder
 from pipeline.cli import build_parser, setup_logging
 from pipeline.config import Collection, Settings, load_collection, load_settings
 from pipeline.puzzle import Puzzle, build_puzzle, puzzle_to_dict
@@ -69,6 +70,19 @@ def check_distinct_drawings(puzzles: list[Puzzle]) -> None:
     if repeated:
         detail = "; ".join(", ".join(group) for group in sorted(repeated))
         raise ValueError(f"Puzzles con el mismo dibujo y colores (indistinguibles): {detail}")
+
+
+def collection_bonus(collection: Collection, settings: Settings, names: dict[str, str]):
+    """Generador de preguntas extra de la colección (bloque ``bonus``), o ``None``.
+
+    El bloque es ``{"type": "pokemon", "facts": "data/pokemon_facts.json"}``: el
+    tipo de preguntas y el archivo de datos del que salen (ver bonus.py).
+    """
+    spec = collection.extra.get("bonus")
+    if not isinstance(spec, dict):
+        return None
+    facts = spec.get("facts")
+    return bonus_builder(spec.get("type"), names, settings.root / facts if facts else None)
 
 
 def build_collection(
@@ -119,8 +133,12 @@ def build_collection(
     if puzzles_dir.exists():
         for old in puzzles_dir.glob("*.json"):
             old.unlink()
+    bonus = collection_bonus(collection, settings, {a.id: a.name for a in answers})
     for puzzle in puzzles:
-        write_json(puzzles_dir / f"{puzzle.id}.json", puzzle_to_dict(puzzle), compact=True)
+        data = puzzle_to_dict(puzzle)
+        if bonus is not None:
+            data["bonus"] = bonus(puzzle.answer, f"{settings.id_salt}:{puzzle.id}")
+        write_json(puzzles_dir / f"{puzzle.id}.json", data, compact=True)
 
     write_json(out_dir / "answers.json", answers_to_dict(collection.id, answers))
 

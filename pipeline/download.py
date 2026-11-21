@@ -22,7 +22,7 @@ from pipeline.cli import build_parser, setup_logging
 logger = logging.getLogger(__name__)
 
 TIMEOUT_S = 60
-USER_AGENT = "pokefourier-pipeline/0.1"
+USER_AGENT = "epidex-pipeline/0.1"
 PAUSE_S = 0.05  # entre descargas, por cortesía con el servidor
 
 

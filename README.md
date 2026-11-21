@@ -1,13 +1,13 @@
 <div align="center">
 
-# PokéFourier
+# Epidex
 
 **¿Quién es ese Pokémon? La silueta del día se dibuja sola con círculos que giran.**
 
 Empieza con 2 círculos y cada fallo o salto añade más: 2 → 4 → 8 → 16 → 32 → 64.
 Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 
-<img src="docs/img/escritorio.png" alt="PokéFourier en escritorio: una Pokédex abierta con la silueta a la izquierda y, a la derecha, el buscador, los botones A y B y la pantalla verde del registro" width="820">
+<img src="docs/img/escritorio.png" alt="Epidex en escritorio: una Pokédex abierta con la silueta a la izquierda y, a la derecha, el buscador, los botones A y B y la pantalla verde del registro" width="820">
 
 </div>
 
@@ -18,7 +18,7 @@ Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 
 > [!NOTE]
 > **Esta rama es un proyecto aparte.** Tiene su propio historial y no se fusiona con `main`. El
-> juego de países y banderas está en [`main`](../../tree/main) y sus ramas de estilo. PokéFourier
+> juego de países y banderas está en [`main`](../../tree/main) y sus ramas de estilo. Epidex
 > usa el mismo motor (contorno → Fourier → epiciclos) con otra personalidad: una Pokédex roja con
 > pantalla LCD verde.
 
@@ -36,6 +36,23 @@ Una Pokédex roja de dibujos animados, con contornos negros gruesos:
 - **Botones A y B**: el A se enciende cuando hay un Pokémon válido escrito.
 - Letra M PLUS Rounded 1c para el aparato y DotGothic16 (de píxeles) para lo que sale en las
   pantallas, ambas incluidas en `web/fonts/`.
+
+### Preguntas extra
+
+Al acabar (aciertes o no) hay dos preguntas tipo test, con cuatro opciones (en escritorio,
+teclas <kbd>1</kbd>–<kbd>4</kbd>):
+
+1. **¿De qué tipo es?** Si tiene dos tipos, cuál de las opciones es uno de ellos.
+2. **¿Cuál es de su familia evolutiva?** Las opciones falsas comparten tipo con él, para que haya
+   que pensar. Si no tiene familia en la 1.ª generación (Tauros, Lapras…), qué número tiene en la
+   Pokédex.
+
+Las genera [`pipeline/bonus.py`](pipeline/bonus.py) con `data/pokemon_facts.json` (tipos y
+familias de [PokeAPI](https://pokeapi.co/), BSD-3; se regenera con
+`python -m pipeline.pokemon_facts`) y van dentro de cada puzzle. Salen en el texto para compartir
+(`Extra: ✅❌`). Al acertar hay confeti y se ve la racha.
+
+**El nombre**: *Epidex* = epiciclo + Pokédex, sin «Poké», que es marca registrada.
 
 ---
 

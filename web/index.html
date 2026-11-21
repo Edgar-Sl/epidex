@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="¿Quién es ese Pokémon? Su silueta se dibuja sola con círculos que giran. Cada fallo, más círculos.">
   <meta name="theme-color" content="#dc2f2f">
-  <title>PokéFourier</title>
+  <title>Epidex</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/m-plus-rounded-1c-900-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/dotgothic16-400-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,7 +31,7 @@
       <header class="device-top">
         <a class="lens" href="./" aria-label="Inicio"><span class="lens-glass"></span></a>
         <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
-        <h1 class="logo" data-site-name>PokéFourier</h1>
+        <h1 class="logo" data-site-name>Epidex</h1>
         <div class="top-actions">
           <button id="open-help" type="button" class="round-btn" aria-label="Cómo se juega" title="Cómo se juega">
             <svg aria-hidden="true"><use href="#i-help"/></svg>
@@ -95,7 +95,19 @@
         <p class="result-kicker">¡Es…</p>
         <h2 id="result-answer" class="result-answer"></h2>
         <p id="result-title" class="result-title"></p>
+        <p id="result-streak" class="result-streak" hidden></p>
         <div id="result-grid" class="result-grid" aria-hidden="true"></div>
+        <section id="bonus" class="bonus" aria-labelledby="bonus-question" hidden>
+          <p class="bonus-head">
+            <span id="bonus-step">Pregunta extra</span>
+            <span id="bonus-marks" class="bonus-marks" aria-hidden="true"></span>
+          </p>
+          <h3 id="bonus-question" class="bonus-question"></h3>
+          <ol id="bonus-options" class="bonus-options"></ol>
+          <button id="bonus-next" type="button" class="big-btn big-btn--quiet" hidden>Siguiente</button>
+          <p class="kbd-hint"><kbd>1</kbd>–<kbd>4</kbd> responder · <kbd>Enter</kbd> seguir</p>
+        </section>
+        <p id="bonus-summary" class="bonus-summary" hidden></p>
         <button id="share" type="button" class="big-btn">
           <svg aria-hidden="true"><use href="#i-share"/></svg> Retar a un amigo
         </button>
@@ -123,6 +135,7 @@
       <li>Cada día, un Pokémon de la <strong>1.ª generación</strong>.</li>
       <li>Su silueta se dibuja con <strong>círculos que giran</strong>. Empieza con 2: un churro.</li>
       <li>Cada fallo o salto añade círculos: <strong>2 → 4 → 8 → 16 → 32 → 64</strong>.</li>
+      <li>Al acabar, <strong>dos preguntas extra</strong>: su tipo y su familia evolutiva.</li>
       <li>Aciértalo en el menor número de intentos y <strong>reta a tus amigos</strong>.</li>
     </ol>
     <form method="dialog"><button class="big-btn">¡Te elijo a ti!</button></form>
