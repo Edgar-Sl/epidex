@@ -17,10 +17,9 @@ Al acabar se revela el Pokémon y puedes retar a un amigo con tu resultado.
 > sustituirlos (criaturas propias o imágenes con licencia libre); el motor no depende de ellos.
 
 > [!NOTE]
-> **Esta rama es un proyecto aparte.** Tiene su propio historial y no se fusiona con `main`. El
-> juego de países y banderas está en [`main`](../../tree/main) y sus ramas de estilo. Epidex
-> usa el mismo motor (contorno → Fourier → epiciclos) con otra personalidad: una Pokédex roja con
-> pantalla LCD verde.
+> Epidex usa el mismo motor (contorno → Fourier → epiciclos) que
+> [Epicle](https://github.com/Edgar-Sl/Shape-generator-with-fft), el juego de países y banderas,
+> con otra personalidad: una Pokédex roja con pantalla LCD verde.
 
 ### El estilo: la Pokédex
 
@@ -142,6 +141,31 @@ python -m pipeline.screenshots                             # capturas de este RE
 Parámetros (rango de Pokémon, niveles, calendario…) en [`config.toml`](config.toml). Para más
 generaciones basta con cambiar `last` en `[images]`.
 
+### Idiomas y SEO
+
+El juego está en **inglés** (en la raíz, `/`) y en **español** (`/es/`). Las dos páginas las genera
+`python -m pipeline.build` a partir de [`site/page.html`](site/page.html) y
+[`site/strings.json`](site/strings.json); no edites `web/index.html` a mano.
+
+- Cada página lleva su título, descripción, imagen para compartir (`web/og/`), datos estructurados
+  y un texto con cómo se juega y preguntas frecuentes, que es lo que leen los buscadores.
+- Botón `ES`/`EN` en la cabecera. La primera vez, quien llega a la raíz con el navegador en
+  español pasa solo a `/es/`; si elige idioma con el botón, se respeta.
+- Las preguntas extra se generan en los dos idiomas (`pipeline/bonus.py`: `TEXTS` y `TYPES_EN`).
+- Los textos que pinta el JavaScript están en [`web/js/app/i18n.js`](web/js/app/i18n.js).
+- Con dominio en `[site] url` de `config.toml` se añaden URL canónica, `hreflang` y `sitemap.xml`.
+
+### Publicar
+
+Es una web estática: se publica la carpeta `web/` **sin `web/dev/`** (demos que enseñan las
+respuestas). La idea es Cloudflare Pages conectado al repo (gratis, también con repo privado):
+
+- Comando de build: ninguno (`web/data/` se genera en local con `python -m pipeline.build` y se
+  sube al repo).
+- Carpeta de salida: `web`, borrando antes `web/dev/` (por ejemplo, con el comando de build
+  `rm -rf web/dev`).
+- Antes de cada push: `pytest`, `ruff check .` y `ruff format --check .`.
+
 ### Diferencias con el juego de países
 
 - Estilos propios en `web/css/` (Pokédex en móvil, libro abierto en escritorio) y fuentes en `web/fonts/`.
@@ -153,3 +177,11 @@ generaciones basta con cambiar `last` en `[images]`.
 - Pistas por intento (tipo, generación) como en otros juegos del nicho.
 - Modo "sombra clásica": silueta rellena en negro sobre un fondo de rayos.
 - Para publicarlo: criaturas propias con el mismo motor.
+
+## Licencia
+
+**Todos los derechos reservados.** El código y el diseño del juego son del autor y no se pueden
+usar, copiar, modificar ni publicar sin su permiso por escrito; ver [`LICENSE`](LICENSE).
+Pokémon y todo su material son de Nintendo / Creatures / GAME FREAK / The Pokémon Company; los
+datos de tipos y evoluciones, de [PokeAPI](https://github.com/PokeAPI/pokeapi) (BSD-3), y las
+fuentes, con licencia SIL OFL.

@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from pipeline.bonus import bonus_builder, pokemon_questions
+from pipeline.bonus import TYPES_EN, bonus_builder, pokemon_questions
 from pipeline.pokemon_facts import build_facts
 
 FACTS = {
@@ -83,3 +83,14 @@ def test_build_facts_from_pokeapi_tables():
     ]
     facts = build_facts(type_names, pokemon_types, species, last_id=2)
     assert facts["001"] == {"types": ["Planta", "Veneno"], "family": ["002"]}
+
+
+def test_questions_in_english_translate_types():
+    es = pokemon_questions("001", NAMES, FACTS, "seed")
+    en = pokemon_questions("001", NAMES, FACTS, "seed", "en")
+    assert en[0]["question"].startswith("Which of these is one of the types of")
+    assert {"Grass", "Poison"} & set(en[0]["options"])
+    assert all(o in TYPES_EN.values() for o in en[0]["options"])
+    # Mismas opciones y misma respuesta en los dos idiomas (misma semilla).
+    assert [TYPES_EN[o] for o in es[0]["options"]] == en[0]["options"]
+    assert es[0]["answer"] == en[0]["answer"]

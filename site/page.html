@@ -1,0 +1,184 @@
+<!doctype html>
+<!-- GENERADO por `python -m pipeline.build` a partir de site/page.html y site/strings.json: edita la plantilla, no este archivo. -->
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{base}}
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <meta name="theme-color" content="#dc2f2f">
+  <meta name="application-name" content="{{name}}">
+  {{canonical}}
+  {{alternates}}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{name}}">
+  <meta property="og:locale" content="{{t.locale}}">
+  {{og_locale_alternates}}
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:image" content="{{og_image}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{t.og_alt}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{title}}">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="{{og_image}}">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/m-plus-rounded-1c-900-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/dotgothic16-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/desktop.css">
+  <script type="module" src="js/main.js"></script>
+  <script type="application/ld+json">{{json_ld}}</script>
+  {{analytics}}
+</head>
+<body>
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true">
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.2a2.8 2.8 0 0 1 5.4 1c0 1.9-2.7 2.4-2.7 4.1"/><circle cx="12" cy="17.6" r=".6" fill="currentColor"/></symbol>
+    <symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h6.4M15.1 12h6.4"/><circle cx="12" cy="12" r="3.1"/></symbol>
+  </svg>
+
+  <!-- Una Pokédex: en móvil, las dos mitades apiladas; en escritorio, abierta como un libro. -->
+  <div class="device">
+    <section class="half half--left">
+      <header class="device-top">
+        <a class="lens" href="./" aria-label="{{name}}: {{t.home}}"><span class="lens-glass"></span></a>
+        <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
+        <p class="logo">{{name}}</p>
+        <div class="top-actions">
+          {{lang_switch}}
+          <button id="open-help" type="button" class="round-btn" aria-label="{{t.how_to_play}}" title="{{t.how_to_play}}">
+            <svg aria-hidden="true"><use href="#i-help"/></svg>
+          </button>
+          <button id="open-stats" type="button" class="round-btn" aria-label="{{t.stats}}" title="{{t.stats}}" hidden>
+            <svg aria-hidden="true"><use href="#i-stats"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <nav id="modes" class="modes" aria-label="{{t.game_mode}}" hidden></nav>
+      <p id="loading" class="panel-msg">{{t.loading}}</p>
+      <p id="notice" class="panel-msg" role="alert" hidden></p>
+
+      <section class="screen-bezel" aria-label="{{t.board}}" data-game hidden>
+        <div class="screen-label">
+          <span class="screen-id"><svg aria-hidden="true"><use href="#i-ball"/></svg><span id="puzzle-label"></span></span>
+          <span id="circles-label" aria-live="polite"></span>
+        </div>
+        <div id="canvas-frame" class="screen">
+          <canvas id="canvas" role="img" aria-label="{{t.canvas}}"></canvas>
+          <img id="reveal" class="reveal" alt="" hidden>
+          <div id="palette" class="palette" hidden></div>
+        </div>
+        <ol id="ladder" class="ladder" aria-label="{{t.ladder}}"></ol>
+      </section>
+    </section>
+
+    <div class="hinge" aria-hidden="true"></div>
+
+    <section class="half half--right" data-game hidden>
+      <div class="flap-top" aria-hidden="true"></div>
+
+      <section id="play" class="controls" aria-label="{{t.your_answer}}">
+        <form id="guess-form" class="guess" autocomplete="off">
+          <label for="guess" class="visually-hidden">{{t.your_answer}}</label>
+          <div class="combo">
+            <ul id="suggestions" class="suggestions"></ul>
+            <input id="guess" class="guess-input" type="text" enterkeyhint="go" autocapitalize="off">
+          </div>
+          <p class="kbd-hint">{{t.kbd_hint}}</p>
+          <div class="pad">
+            <div class="dpad" aria-hidden="true"><i></i><i></i></div>
+            <div class="key-group">
+              <button id="skip" type="button" class="key key--b" title="{{t.skip_title}}">
+                <span class="key-face">B</span><span class="key-label">{{t.skip}}</span>
+              </button>
+              <button id="submit" type="submit" class="key key--a" disabled>
+                <span class="key-face">A</span><span class="key-label">{{t.guess}}</span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="log">
+          <p class="log-title">{{t.log}}</p>
+          <ul id="history" class="history" aria-label="{{t.wrong_list}}" data-empty="{{t.log_empty}}"></ul>
+        </div>
+      </section>
+
+      <section id="result" class="result" aria-live="polite" hidden>
+        <p class="result-kicker">{{t.its}}</p>
+        <h2 id="result-answer" class="result-answer"></h2>
+        <p id="result-title" class="result-title"></p>
+        <p id="result-streak" class="result-streak" hidden></p>
+        <div id="result-grid" class="result-grid" aria-hidden="true"></div>
+        <section id="bonus" class="bonus" aria-labelledby="bonus-question" hidden>
+          <p class="bonus-head">
+            <span id="bonus-step">{{t.bonus}}</span>
+            <span id="bonus-marks" class="bonus-marks" aria-hidden="true"></span>
+          </p>
+          <h3 id="bonus-question" class="bonus-question"></h3>
+          <ol id="bonus-options" class="bonus-options"></ol>
+          <button id="bonus-next" type="button" class="big-btn big-btn--quiet" hidden>{{t.next}}</button>
+          <p class="kbd-hint">{{t.bonus_hint}}</p>
+        </section>
+        <p id="bonus-summary" class="bonus-summary" hidden></p>
+        <button id="share" type="button" class="big-btn">
+          <svg aria-hidden="true"><use href="#i-share"/></svg> {{t.share}}
+        </button>
+        <div class="result-footer">
+          <p>{{t.next_puzzle}} <strong id="countdown" class="digits">--:--:--</strong></p>
+          <button id="result-stats" type="button" class="text-btn">{{t.stats}}</button>
+        </div>
+      </section>
+
+      <footer class="device-foot">
+        <span class="speaker" aria-hidden="true"></span>
+        <p>{{t.footer}}</p>
+      </footer>
+    </section>
+  </div>
+
+  <!-- Contenido para leer (y para los buscadores): qué es, cómo se juega y preguntas frecuentes. -->
+  <main class="about">
+    <h1>{{t.h1}}</h1>
+    <p class="about-intro">{{t.intro}}</p>
+    <div class="about-cols">
+      <section>
+        <h2>{{t.how_to_play}}</h2>
+        <ol>{{t.about_steps}}</ol>
+      </section>
+      <section>
+        <h2>{{t.faq}}</h2>
+        {{t.faq_items}}
+      </section>
+    </div>
+  </main>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+  <dialog id="help-dialog" class="card" aria-labelledby="help-title">
+    <form method="dialog" class="card-header">
+      <h2 id="help-title">{{t.help_title}}</h2>
+      <button class="round-btn round-btn--plain" aria-label="{{t.close}}"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <ol class="steps">{{t.help_steps}}</ol>
+    <form method="dialog"><button class="big-btn">{{t.play}}</button></form>
+  </dialog>
+
+  <dialog id="stats-dialog" class="card" aria-labelledby="stats-title">
+    <form method="dialog" class="card-header">
+      <h2 id="stats-title">{{t.stats_title}}</h2>
+      <button class="round-btn round-btn--plain" aria-label="{{t.close}}"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <div id="stats-body" class="stats"></div>
+  </dialog>
+</body>
+</html>

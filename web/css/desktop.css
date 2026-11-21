@@ -183,6 +183,24 @@
   .toasts {
     top: 20px;
   }
+
+  /* La Pokédex ocupa la primera pantalla; el texto queda debajo, al hacer scroll. */
+  body {
+    grid-template-rows: minmax(calc(100dvh - 72px), auto) auto;
+    row-gap: 40px;
+  }
+
+  .about {
+    width: min(100%, 1040px);
+    margin: 0;
+    padding: 24px 28px 26px;
+  }
+
+  .about-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
 }
 
 /* Pantallas muy anchas: un poco más de aire. */

@@ -30,14 +30,15 @@ import { byId, h, replayAnimation } from "../ui/dom.js";
 import { enableTypeAnywhere, hasFinePointer } from "../ui/keyboard.js";
 import { renderStats } from "../ui/stats-view.js";
 import { SITE } from "./config.js";
+import { LANG, t } from "./i18n.js";
 import { shareResult } from "./share-action.js";
 import { GameStorage } from "./storage.js";
 
 const RESULT_LABEL = {
-  correct: "acierto",
-  wrong: "fallo",
-  skip: "saltado",
-  unused: "sin usar",
+  correct: t("resultCorrect"),
+  wrong: t("resultWrong"),
+  skip: t("resultSkip"),
+  unused: t("resultUnused"),
 };
 
 export class GameController {
@@ -62,7 +63,7 @@ export class GameController {
     this.state = this.storage.loadGame(puzzle.id, STATE_VERSION) ?? createGame(puzzle, entry);
     this.stats = this.storage.loadStats(emptyStats(maxAttempts(this.state)));
     this.countdownTimer = null;
-    this.bonus = bonusQuestions(puzzle);
+    this.bonus = bonusQuestions(puzzle, LANG);
     /** Pregunta extra recién respondida: se queda a la vista hasta pulsar "Siguiente". */
     this.bonusShown = null;
     /** La partida acaba de terminar en esta visita (para celebrar la racha). */
@@ -159,7 +160,7 @@ export class GameController {
   apply({ state, outcome }, name = "") {
     if (outcome === "over") return;
     if (outcome === "duplicate") {
-      this.toast(`Ya has probado ${name}`);
+      this.toast(t("alreadyTried", { name }));
       return;
     }
     this.state = state;
@@ -173,9 +174,9 @@ export class GameController {
       this.scan();
       if (outcome === "wrong") {
         replayAnimation(this.ui.frame, "is-shaking");
-        this.toast(`No es ${name}`, { tone: "error" });
+        this.toast(t("notIt", { name }), { tone: "error" });
       } else {
-        this.toast(`Ahora con ${circlesToShow(state)} círculos`);
+        this.toast(t("nowCircles", { n: circlesToShow(state) }));
       }
       this.ui.input.focus();
     }
@@ -223,10 +224,11 @@ export class GameController {
       circles: won ? state.levels[state.attempts.length - 1] : undefined,
       bonus: bonusResults(state, this.bonus),
       url: this.shareLink,
+      lang: LANG,
     });
     const outcome = await shareResult(text);
-    if (outcome === "copied") this.toast("Resultado copiado. ¡Pégalo en el chat!", { tone: "success" });
-    if (outcome === "failed") this.toast("No se pudo copiar el resultado", { tone: "error" });
+    if (outcome === "copied") this.toast(t("copied"), { tone: "success" });
+    if (outcome === "failed") this.toast(t("copyFailed"), { tone: "error" });
   }
 
   // ---- preguntas extra -----------------------------------------------------
@@ -285,7 +287,7 @@ export class GameController {
 
     if (!question) {
       const right = results.filter((r) => r === "correct").length;
-      ui.bonusSummary.textContent = `Preguntas extra: ${right}/${bonus.length} ${results
+      ui.bonusSummary.textContent = `${t("bonusSummary", { right, total: bonus.length })} ${results
         .map((r) => (r === "correct" ? "✅" : "❌"))
         .join("")}`;
       ui.bonusSummary.classList.toggle("bonus-summary--perfect", right === bonus.length);
@@ -294,7 +296,7 @@ export class GameController {
 
     const answered = this.bonusShown !== null;
     const choice = chosen[index];
-    ui.bonusStep.textContent = `Pregunta extra ${index + 1}/${bonus.length}`;
+    ui.bonusStep.textContent = t("bonusStep", { n: index + 1, total: bonus.length });
     ui.bonusMarks.textContent = results.map((r) => (r === "correct" ? "✅" : "❌")).join("");
     ui.bonusQuestion.textContent = question.question;
     ui.bonusOptions.replaceChildren(
@@ -321,7 +323,7 @@ export class GameController {
       }),
     );
     ui.bonusNext.hidden = !answered;
-    ui.bonusNext.textContent = index + 1 < bonus.length ? "Siguiente" : "Ver resultado";
+    ui.bonusNext.textContent = index + 1 < bonus.length ? t("next") : t("seeResult");
   }
 
   // ---- pintado -------------------------------------------------------------
@@ -347,7 +349,7 @@ export class GameController {
     const circles = circlesToShow(state);
     const results = attemptResults(state);
 
-    ui.circlesLabel.textContent = over ? "dibujo completo" : `${circles} círculos`;
+    ui.circlesLabel.textContent = over ? t("fullDrawing") : t("circles", { n: circles });
 
     ui.ladder.replaceChildren(
       ...results.map((result, i) =>
@@ -358,7 +360,7 @@ export class GameController {
             !over && i === levelIndex(state) ? "rung--current" : "",
           ].join(" "),
           text: state.levels[i],
-          title: `${state.levels[i]} círculos · ${RESULT_LABEL[result]}`,
+          title: t("tileTitle", { n: state.levels[i], result: RESULT_LABEL[result] }),
         }),
       ),
     );
@@ -369,10 +371,10 @@ export class GameController {
         const attempt = state.attempts[i];
         let kind = "pending";
         let text = "· · ·";
-        if (attempt?.type === "skip") [kind, text] = ["skip", "saltado"];
+        if (attempt?.type === "skip") [kind, text] = ["skip", t("resultSkip")];
         else if (attempt && attempt.id === state.answer) [kind, text] = ["correct", this.names.get(attempt.id) ?? attempt.id];
         else if (attempt) [kind, text] = ["wrong", this.names.get(attempt.id) ?? attempt.id];
-        else if (!over && i === levelIndex(state)) [kind, text] = ["current", "ahora"];
+        else if (!over && i === levelIndex(state)) [kind, text] = ["current", t("now")];
         return h(
           "li",
           { class: `log-row log-row--${kind}${attempt ? " log-row--done" : ""}` },
@@ -390,13 +392,13 @@ export class GameController {
     const won = state.status === "won";
     ui.result.classList.toggle("result--won", won);
     ui.resultTitle.textContent = won
-      ? `¡Correcto! ${state.attempts.length}/${maxAttempts(state)}`
-      : "¡Otra vez será!";
+      ? t("correct", { score: `${state.attempts.length}/${maxAttempts(state)}` })
+      : t("lost");
     ui.resultAnswer.textContent = this.names.get(state.answer) ?? state.answer;
     this.revealArt();
     const streak = displayedStreak(this.stats, state.date);
     ui.streak.hidden = !won || streak < 1;
-    ui.streak.textContent = streak === 1 ? "🔥 Empiezas racha: 1 día" : `🔥 Racha: ${streak} días seguidos`;
+    ui.streak.textContent = streak === 1 ? t("streakStart") : t("streak", { n: streak });
     ui.streak.classList.toggle("is-new", this.justFinished);
     this.renderBonus();
     ui.resultGrid.replaceChildren(
@@ -423,7 +425,7 @@ export class GameController {
       if (ms < 1000) {
         clearInterval(this.countdownTimer);
         this.ui.countdown.replaceChildren(
-          h("a", { href: window.location.href, text: "¡Ya está! Recarga" }),
+          h("a", { href: window.location.href, text: t("reload") }),
         );
       }
     };

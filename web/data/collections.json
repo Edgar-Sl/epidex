@@ -9,6 +9,15 @@
         "placeholder": "¿Quién es ese Pokémon?",
         "subject": "Pokémon",
         "art": true
+      },
+      "i18n": {
+        "en": {
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          }
+        }
       }
     }
   ]

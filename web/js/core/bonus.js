@@ -17,12 +17,23 @@
 
 /**
  * Preguntas válidas del puzzle (las mal formadas se ignoran).
+ *
+ * El pipeline las genera en cada idioma, `{"en": [...], "es": [...]}`; los
+ * puzzles antiguos traen una sola lista.
+ *
  * @param {{bonus?: unknown}} puzzle
+ * @param {string} [lang] Idioma de la página.
  * @returns {BonusQuestion[]}
  */
-export function bonusQuestions(puzzle) {
-  if (!Array.isArray(puzzle.bonus)) return [];
-  return puzzle.bonus.filter(
+export function bonusQuestions(puzzle, lang = "es") {
+  const raw = puzzle.bonus;
+  const list = Array.isArray(raw)
+    ? raw
+    : raw && typeof raw === "object"
+      ? (raw[lang] ?? Object.values(raw)[0])
+      : null;
+  if (!Array.isArray(list)) return [];
+  return list.filter(
     (q) =>
       q &&
       typeof q.question === "string" &&

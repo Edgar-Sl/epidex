@@ -51,9 +51,9 @@ export function dateOverride(search = window.location.search) {
  * @param {string} date
  * @returns {string}
  */
-export function formatDate(date) {
+export function formatDate(date, locale = "es-ES") {
   const [y, m, d] = date.split("-").map(Number);
-  return new Intl.DateTimeFormat("es-ES", { dateStyle: "long", timeZone: "UTC" }).format(
+  return new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "UTC" }).format(
     new Date(Date.UTC(y, m - 1, d)),
   );
 }

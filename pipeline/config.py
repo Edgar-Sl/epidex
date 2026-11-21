@@ -56,6 +56,7 @@ class Settings:
     id_salt: str = ""  # sal para los identificadores opacos de los puzzles
     max_final_error: float = 0.05  # aviso si con todos los círculos el error supera esto
     schedule: ScheduleSettings = field(default_factory=ScheduleSettings)
+    site: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         """Valida los parámetros numéricos."""
@@ -139,6 +140,7 @@ def load_settings(path: Path) -> Settings:
         id_salt=str(puzzle.get("id_salt", "")),
         max_final_error=float(puzzle.get("max_final_error", 0.05)),
         schedule=ScheduleSettings(**sched),
+        site=dict(raw.get("site", {})),
     )
 
 

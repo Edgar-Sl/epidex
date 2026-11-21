@@ -1,0 +1,49 @@
+Copyright (c) 2026 Edgar-Sl (https://github.com/Edgar-Sl). All rights reserved.
+
+This repository is publicly visible for reference only. It is NOT open source.
+
+No permission is granted to use, copy, modify, merge, publish, host, distribute,
+sublicense, sell, or create derivative works of the code, game design, texts,
+images or any other content of this repository, in whole or in part, for any
+purpose (commercial or not), without the prior written permission of the
+copyright holder. To request permission, contact the author through GitHub.
+
+The only exception is what the GitHub Terms of Service require for public
+repositories: viewing the repository and forking it within GitHub. A fork does
+not grant any of the rights above.
+
+THE CONTENT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. IN NO EVENT SHALL
+THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE
+USE OF THIS CONTENT.
+
+Third-party content
+-------------------
+The following belongs to its respective owners, is NOT covered by this notice
+and keeps its own license:
+
+- Pokémon, the Pokémon names, characters and artwork (including the images in
+  web/data/pokemon/art/ and the silhouettes derived from them) and the related
+  trademarks are © and ™ Nintendo, Creatures Inc., GAME FREAK inc. and The
+  Pokémon Company. This is an unofficial fan project, not affiliated with or
+  endorsed by them. No rights over that material are claimed or granted.
+- Pokémon types and evolution data (data/pokemon_facts.json) come from PokeAPI
+  (https://github.com/PokeAPI/pokeapi), BSD 3-Clause License,
+  Copyright (c) Paul Hallett and PokéAPI contributors.
+- Fonts M PLUS Rounded 1c and DotGothic16 (web/fonts/): SIL Open Font License 1.1.
+
+---------------------------------------------------------------------------------
+
+Copyright (c) 2026 Edgar-Sl. Todos los derechos reservados.
+
+Este repositorio es visible públicamente solo como consulta. NO es software libre.
+No se concede ningún permiso para usar, copiar, modificar, publicar, alojar,
+distribuir, sublicenciar, vender ni crear obras derivadas del código, el diseño
+del juego, los textos, las imágenes o cualquier otro contenido propio de este
+repositorio, total o parcialmente y con cualquier fin (comercial o no), sin
+permiso previo y por escrito del autor. Para pedirlo, contacta a través de GitHub.
+La única excepción es lo que exigen los Términos de Servicio de GitHub para los
+repositorios públicos: verlo y hacer un fork dentro de GitHub, que no da ninguno
+de los derechos anteriores. Pokémon y todo su material pertenecen a sus dueños
+(ver arriba) y no están cubiertos por este aviso; tampoco los datos de PokeAPI ni
+las fuentes, que conservan su licencia. En caso de duda, prevalece la versión en
+inglés.

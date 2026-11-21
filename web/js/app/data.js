@@ -4,6 +4,7 @@
 
 import { dateInTimeZone, dateOverride, findScheduleEntry, formatDate } from "../core/dates.js";
 import { DEFAULT_UI, SITE } from "./config.js";
+import { LANG, LOCALE, t } from "./i18n.js";
 
 /** Error esperado (hoy no hay puzzle): se muestra sin ensuciar la consola. */
 export class NoPuzzleError extends Error {}
@@ -18,7 +19,7 @@ export class NoPuzzleError extends Error {}
 
 async function getJSON(path) {
   const response = await fetch(`${SITE.dataDir}/${path}`);
-  if (!response.ok) throw new Error(`No se pudo cargar ${path} (${response.status})`);
+  if (!response.ok) throw new Error(t("loadFailed", { path, status: response.status }));
   return response.json();
 }
 
@@ -58,10 +59,16 @@ export function shareUrl(collections, id) {
   return id === collections[0].id ? base : `${base}?modo=${encodeURIComponent(id)}`;
 }
 
-/** Índice de colecciones con los textos de interfaz completados. */
+/**
+ * Índice de colecciones con los textos de interfaz completados, en el idioma de
+ * la página (bloque `i18n.<idioma>` de cada colección, si lo tiene).
+ */
 export async function loadCollections() {
   const { collections } = await getJSON("collections.json");
-  return collections.map((c) => ({ ...c, ui: { ...DEFAULT_UI, ...c.ui } }));
+  return collections.map((c) => {
+    const local = c.i18n?.[LANG] ?? {};
+    return { ...c, ...local, ui: { ...DEFAULT_UI, ...c.ui, ...local.ui } };
+  });
 }
 
 /**
@@ -78,10 +85,8 @@ export async function loadToday(collection) {
   if (!entry) {
     const first = schedule.days[0]?.date;
     const reason =
-      first && date < first
-        ? `El primer puzzle llega el ${formatDate(first)}.`
-        : "Hoy no hay puzzle.";
-    throw new NoPuzzleError(`${reason} Mientras tanto puedes probar otro día con ?fecha=${first}`);
+      first && date < first ? t("firstPuzzle", { date: formatDate(first, LOCALE) }) : t("noPuzzle");
+    throw new NoPuzzleError(`${reason} ${t("tryOtherDay", { date: first })}`);
   }
   const puzzle = await getJSON(`${collection.id}/puzzles/${entry.puzzle}.json`);
   return { answers: answers.answers, entry, puzzle, timezone: schedule.timezone };

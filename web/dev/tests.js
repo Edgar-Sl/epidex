@@ -17,6 +17,7 @@ import {
 } from "../js/core/game.js";
 import { answerBonus, bonusQuestions, bonusResults } from "../js/core/bonus.js";
 import { buildShareText } from "../js/core/share.js";
+import { browserLang, t } from "../js/app/i18n.js";
 import { displayedStreak, emptyStats, previousDate, recordResult, winRate } from "../js/core/stats.js";
 import { GameStorage } from "../js/app/storage.js";
 import { normalize } from "../js/core/text.js";
@@ -221,6 +222,10 @@ test("preguntas extra: solo las válidas y solo con la partida acabada", () => {
   const questions = bonusQuestions({ bonus: BONUS });
   assertEqual(questions.length, 2);
   assertEqual(bonusQuestions({}), []);
+  // Formato por idioma: {"en": [...], "es": [...]}.
+  const en = [{ question: "Type?", options: ["A", "B"], answer: 1 }];
+  assertEqual(bonusQuestions({ bonus: { en, es: BONUS } }, "en"), en);
+  assertEqual(bonusQuestions({ bonus: { en, es: BONUS } }, "es").length, 2);
   const playing = createGame(PUZZLE, ENTRY);
   assertEqual(answerBonus(playing, questions, 2), null);
   const over = guess(playing, "ITA").state;
@@ -272,6 +277,14 @@ test("JSON corrupto o localStorage roto no rompen el juego", () => {
   const store2 = new GameStorage("countries", broken);
   assertEqual(store2.saveGame({}), false);
   assertEqual(store2.loadStats(emptyStats()).played, 0);
+});
+
+// ---- i18n.js -------------------------------------------------------------
+test("textos traducidos e idioma del navegador", () => {
+  assertEqual(t("notIt", { name: "Pikachu" }, "en"), "It's not Pikachu");
+  assertEqual(t("notIt", { name: "Pikachu" }, "es"), "No es Pikachu");
+  assertEqual(browserLang(["es-MX", "en"]), "es");
+  assertEqual(browserLang(["fr-FR"]), null);
 });
 
 // ---- Ejecutar ------------------------------------------------------------

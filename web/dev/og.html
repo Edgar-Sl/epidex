@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1200">
+  <meta name="color-scheme" content="light">
+  <title>Imagen para compartir</title>
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <style>
+    /*
+     * Plantilla de la imagen para compartir (og:image, 1200x630): la tapa roja
+     * de la Pokédex, el título y una silueta con muy pocos círculos (no desvela
+     * nada). Se convierte en PNG con un navegador sin interfaz:
+     * web/og/epidex.png (inglés) y web/og/es/epidex.png.   ?lang=en|es
+     */
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      box-sizing: border-box;
+      display: grid; grid-template-columns: 1fr 430px; gap: 56px; align-items: center;
+      padding: 0 72px;
+      font-family: var(--font); color: #fff;
+      background: var(--body);
+      background-image: radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, 0.18), transparent 60%);
+      border: 14px solid var(--outline);
+    }
+    .brand { display: flex; align-items: center; gap: 18px; }
+    .lens {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 6px solid var(--outline); background: radial-gradient(circle at 35% 35%, #9fd6ff, var(--blue) 55%, #11468a);
+      box-shadow: 0 0 0 6px #fff inset;
+    }
+    .name { font-size: 46px; font-weight: 900; color: var(--yellow); -webkit-text-stroke: 2px var(--outline); }
+    h1 { margin: 34px 0 16px; font-size: 76px; font-weight: 900; line-height: 1; text-shadow: 0 5px 0 var(--outline); }
+    p { margin: 0; font-size: 29px; line-height: 1.35; color: #ffe9e6; }
+    .tiles { display: flex; gap: 10px; margin-top: 36px; }
+    .tiles span {
+      display: grid; place-items: center; width: 70px; height: 52px; border-radius: 26px;
+      border: 3px dashed rgba(255, 255, 255, 0.55); font-size: 24px; font-weight: 900; color: #ffe9e6;
+    }
+    .tiles span.on { border: 3px solid var(--outline); background: var(--yellow); color: var(--outline); }
+    .screen {
+      width: 430px; height: 430px; border-radius: 22px; border: 8px solid var(--outline);
+      background: var(--lcd-0); box-shadow: 0 10px 0 var(--outline);
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="brand"><span class="lens"></span><span class="name">Epidex</span></div>
+    <h1 id="headline"></h1>
+    <p id="sub"></p>
+    <div class="tiles" id="tiles"></div>
+  </div>
+  <div class="screen"><canvas id="canvas"></canvas></div>
+  <script type="module">
+    import { EpicycleRenderer } from "../js/render/epicycles.js";
+
+    const COPY = {
+      en: ["Who's that Pokémon?", "A daily silhouette drawn by spinning circles. Every miss adds detail."],
+      es: ["¿Quién es ese Pokémon?", "Una silueta al día dibujada con círculos que giran. Cada fallo, más detalle."],
+    };
+    const lang = new URLSearchParams(location.search).get("lang") === "es" ? "es" : "en";
+    document.documentElement.lang = lang;
+    [document.getElementById("headline").textContent, document.getElementById("sub").textContent] = COPY[lang];
+
+    // Un puzzle lejano del calendario y solo su segundo nivel: no desvela nada.
+    const schedule = await (await fetch("../data/pokemon/schedule.json")).json();
+    const puzzle = await (await fetch(`../data/pokemon/puzzles/${schedule.days[300].puzzle}.json`)).json();
+    document.getElementById("tiles").replaceChildren(
+      ...puzzle.levels.map((k, i) => {
+        const span = document.createElement("span");
+        span.textContent = k;
+        if (i <= 1) span.className = "on";
+        return span;
+      }),
+    );
+    await document.fonts.ready;
+    const renderer = new EpicycleRenderer(document.getElementById("canvas"), { padding: 0.14 });
+    renderer.setTerms(puzzle.terms, puzzle.levels[1]);
+    renderer.complete();
+  </script>
+</body>
+</html>

@@ -37,3 +37,11 @@ url_template = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
 first = 1
 last = 151
 dir = "data/raw/pokemon"
+
+# Páginas web (pipeline/site.py): una por idioma a partir de site/page.html.
+[site]
+name = "Epidex"
+url = ""                  # dominio con "/" final, p. ej. "https://epidex.app/". Vacío = aún sin dominio
+languages = ["en", "es"]  # el primero va en la raíz; el resto en /<idioma>/
+template = "site/page.html"
+goatcounter = ""          # código de GoatCounter (analítica sin cookies). Vacío = sin analítica

@@ -13,7 +13,7 @@
 import { GameStorage } from "./app/storage.js";
 import { GameController } from "./app/controller.js";
 import { loadCollections, loadToday, modeUrl, NoPuzzleError, pickCollection, shareUrl } from "./app/data.js";
-import { SITE } from "./app/config.js";
+import { setupLanguage } from "./app/i18n.js";
 import { byId, h } from "./ui/dom.js";
 import { createToaster } from "./ui/toast.js";
 
@@ -59,9 +59,6 @@ function setupDialogs(getGame) {
 }
 
 async function start() {
-  document.title = SITE.name;
-  for (const el of document.querySelectorAll("[data-site-name]")) el.textContent = SITE.name;
-
   let game = null;
   setupDialogs(() => game);
   try {
@@ -89,4 +86,4 @@ async function start() {
   }
 }
 
-start();
+if (!setupLanguage()) start();

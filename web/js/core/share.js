@@ -23,6 +23,12 @@ const SQUARES = {
 
 const BONUS_MARKS = { correct: "✅", wrong: "❌" };
 
+/** Línea de "con cuántos círculos", por idioma. */
+const CIRCLES_LINE = {
+  es: (n) => `Lo saqué con ${n} círculos`,
+  en: (n) => `Got it with ${n} circles`,
+};
+
 /**
  * @param {Object} options
  * @param {string} options.gameName
@@ -48,10 +54,11 @@ export function buildShareText({
   circles,
   bonus = [],
   url,
+  lang = "es",
 }) {
   const score = won ? `${attemptsUsed}/${maxAttempts}` : `X/${maxAttempts}`;
   const lines = [`${gameName} ${emoji} #${number} · ${score}`, results.map((r) => SQUARES[r]).join("")];
-  if (won && circles) lines.push(`Lo saqué con ${circles} círculos`);
+  if (won && circles) lines.push((CIRCLES_LINE[lang] ?? CIRCLES_LINE.es)(circles));
   if (bonus.length) lines.push(`Extra: ${bonus.map((r) => BONUS_MARKS[r]).join("")}`);
   if (url) lines.push(url);
   return lines.join("\n");

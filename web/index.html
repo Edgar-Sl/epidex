@@ -1,11 +1,30 @@
 <!doctype html>
-<html lang="es">
+<!-- GENERADO por `python -m pipeline.build` a partir de site/page.html y site/strings.json: edita la plantilla, no este archivo. -->
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="¿Quién es ese Pokémon? Su silueta se dibuja sola con círculos que giran. Cada fallo, más círculos.">
+  
+  <title>Epidex · Who&#x27;s That Pokémon? Daily Silhouette Guessing Game</title>
+  <meta name="description" content="Free daily Pokémon guessing game: name the Gen 1 Pokémon from a silhouette drawn by spinning circles (Fourier series). 6 tries, bonus questions, share your score.">
   <meta name="theme-color" content="#dc2f2f">
-  <title>Epidex</title>
+  <meta name="application-name" content="Epidex">
+  
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Epidex">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:title" content="Epidex · Who&#x27;s That Pokémon? Daily Silhouette Guessing Game">
+  <meta property="og:description" content="Free daily Pokémon guessing game: name the Gen 1 Pokémon from a silhouette drawn by spinning circles (Fourier series). 6 tries, bonus questions, share your score.">
+  <meta property="og:image" content="og/epidex.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Pokémon silhouette drawn by spinning circles">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Epidex · Who&#x27;s That Pokémon? Daily Silhouette Guessing Game">
+  <meta name="twitter:description" content="Free daily Pokémon guessing game: name the Gen 1 Pokémon from a silhouette drawn by spinning circles (Fourier series). 6 tries, bonus questions, share your score.">
+  <meta name="twitter:image" content="og/epidex.png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/m-plus-rounded-1c-900-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/dotgothic16-400-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -15,6 +34,8 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/desktop.css">
   <script type="module" src="js/main.js"></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Epidex", "description": "Free daily Pokémon guessing game: name the Gen 1 Pokémon from a silhouette drawn by spinning circles (Fourier series). 6 tries, bonus questions, share your score.", "genre": ["Puzzle", "Daily game", "Trivia"], "inLanguage": "en", "isAccessibleForFree": true, "playMode": "SinglePlayer", "applicationCategory": "Game", "operatingSystem": "Web", "gamePlatform": "Web browser", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+  
 </head>
 <body>
   <svg width="0" height="0" class="visually-hidden" aria-hidden="true">
@@ -29,34 +50,35 @@
   <div class="device">
     <section class="half half--left">
       <header class="device-top">
-        <a class="lens" href="./" aria-label="Inicio"><span class="lens-glass"></span></a>
+        <a class="lens" href="./" aria-label="Epidex: home"><span class="lens-glass"></span></a>
         <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
-        <h1 class="logo" data-site-name>Epidex</h1>
+        <p class="logo">Epidex</p>
         <div class="top-actions">
-          <button id="open-help" type="button" class="round-btn" aria-label="Cómo se juega" title="Cómo se juega">
+          <a class="lang-switch" href="es/" hreflang="es" lang="es" data-lang="es" title="Español">ES</a>
+          <button id="open-help" type="button" class="round-btn" aria-label="How to play" title="How to play">
             <svg aria-hidden="true"><use href="#i-help"/></svg>
           </button>
-          <button id="open-stats" type="button" class="round-btn" aria-label="Estadísticas" title="Estadísticas" hidden>
+          <button id="open-stats" type="button" class="round-btn" aria-label="Statistics" title="Statistics" hidden>
             <svg aria-hidden="true"><use href="#i-stats"/></svg>
           </button>
         </div>
       </header>
 
-      <nav id="modes" class="modes" aria-label="Modo de juego" hidden></nav>
-      <p id="loading" class="panel-msg">Encendiendo la Pokédex…</p>
+      <nav id="modes" class="modes" aria-label="Game mode" hidden></nav>
+      <p id="loading" class="panel-msg">Booting up the Pokédex…</p>
       <p id="notice" class="panel-msg" role="alert" hidden></p>
 
-      <section class="screen-bezel" aria-label="Pokémon del día" data-game hidden>
+      <section class="screen-bezel" aria-label="Pokémon of the day" data-game hidden>
         <div class="screen-label">
           <span class="screen-id"><svg aria-hidden="true"><use href="#i-ball"/></svg><span id="puzzle-label"></span></span>
           <span id="circles-label" aria-live="polite"></span>
         </div>
         <div id="canvas-frame" class="screen">
-          <canvas id="canvas" role="img" aria-label="Silueta dibujada con epiciclos"></canvas>
+          <canvas id="canvas" role="img" aria-label="Silhouette drawn with epicycles"></canvas>
           <img id="reveal" class="reveal" alt="" hidden>
           <div id="palette" class="palette" hidden></div>
         </div>
-        <ol id="ladder" class="ladder" aria-label="Intentos: círculos de cada uno"></ol>
+        <ol id="ladder" class="ladder" aria-label="Tries: circles on each one"></ol>
       </section>
     </section>
 
@@ -65,86 +87,96 @@
     <section class="half half--right" data-game hidden>
       <div class="flap-top" aria-hidden="true"></div>
 
-      <section id="play" class="controls" aria-label="Tu respuesta">
+      <section id="play" class="controls" aria-label="Your answer">
         <form id="guess-form" class="guess" autocomplete="off">
-          <label for="guess" class="visually-hidden">Tu respuesta</label>
+          <label for="guess" class="visually-hidden">Your answer</label>
           <div class="combo">
             <ul id="suggestions" class="suggestions"></ul>
             <input id="guess" class="guess-input" type="text" enterkeyhint="go" autocapitalize="off">
           </div>
-          <p class="kbd-hint">Escribe cuando quieras · <kbd>Enter</kbd> responder · <kbd>Esc</kbd> borrar</p>
+          <p class="kbd-hint">Just start typing · <kbd>Enter</kbd> answer · <kbd>Esc</kbd> clear</p>
           <div class="pad">
             <div class="dpad" aria-hidden="true"><i></i><i></i></div>
             <div class="key-group">
-              <button id="skip" type="button" class="key key--b" title="Pasar y ver más círculos">
-                <span class="key-face">B</span><span class="key-label">Saltar</span>
+              <button id="skip" type="button" class="key key--b" title="Skip and see more circles">
+                <span class="key-face">B</span><span class="key-label">Skip</span>
               </button>
               <button id="submit" type="submit" class="key key--a" disabled>
-                <span class="key-face">A</span><span class="key-label">¡Es este!</span>
+                <span class="key-face">A</span><span class="key-label">That's it!</span>
               </button>
             </div>
           </div>
         </form>
         <div class="log">
-          <p class="log-title">Registro</p>
-          <ul id="history" class="history" aria-label="Respuestas falladas"></ul>
+          <p class="log-title">Log</p>
+          <ul id="history" class="history" aria-label="Wrong answers" data-empty="No misses yet. Got it already?"></ul>
         </div>
       </section>
 
       <section id="result" class="result" aria-live="polite" hidden>
-        <p class="result-kicker">¡Es…</p>
+        <p class="result-kicker">It's…</p>
         <h2 id="result-answer" class="result-answer"></h2>
         <p id="result-title" class="result-title"></p>
         <p id="result-streak" class="result-streak" hidden></p>
         <div id="result-grid" class="result-grid" aria-hidden="true"></div>
         <section id="bonus" class="bonus" aria-labelledby="bonus-question" hidden>
           <p class="bonus-head">
-            <span id="bonus-step">Pregunta extra</span>
+            <span id="bonus-step">Bonus question</span>
             <span id="bonus-marks" class="bonus-marks" aria-hidden="true"></span>
           </p>
           <h3 id="bonus-question" class="bonus-question"></h3>
           <ol id="bonus-options" class="bonus-options"></ol>
-          <button id="bonus-next" type="button" class="big-btn big-btn--quiet" hidden>Siguiente</button>
-          <p class="kbd-hint"><kbd>1</kbd>–<kbd>4</kbd> responder · <kbd>Enter</kbd> seguir</p>
+          <button id="bonus-next" type="button" class="big-btn big-btn--quiet" hidden>Next</button>
+          <p class="kbd-hint"><kbd>1</kbd>–<kbd>4</kbd> answer · <kbd>Enter</kbd> continue</p>
         </section>
         <p id="bonus-summary" class="bonus-summary" hidden></p>
         <button id="share" type="button" class="big-btn">
-          <svg aria-hidden="true"><use href="#i-share"/></svg> Retar a un amigo
+          <svg aria-hidden="true"><use href="#i-share"/></svg> Challenge a friend
         </button>
         <div class="result-footer">
-          <p>Otro Pokémon en <strong id="countdown" class="digits">--:--:--</strong></p>
-          <button id="result-stats" type="button" class="text-btn">Estadísticas</button>
+          <p>Next Pokémon in <strong id="countdown" class="digits">--:--:--</strong></p>
+          <button id="result-stats" type="button" class="text-btn">Statistics</button>
         </div>
       </section>
 
       <footer class="device-foot">
         <span class="speaker" aria-hidden="true"></span>
-        <p>Siluetas dibujadas con series de Fourier · Proyecto de fans, sin relación con Nintendo ni The Pokémon Company</p>
+        <p>Silhouettes drawn with Fourier series · Fan project, not affiliated with Nintendo or The Pokémon Company</p>
       </footer>
     </section>
   </div>
+
+  <!-- Contenido para leer (y para los buscadores): qué es, cómo se juega y preguntas frecuentes. -->
+  <main class="about">
+    <h1>Who's that Pokémon? Guess today's Pokémon from its silhouette</h1>
+    <p class="about-intro">Every day a Gen 1 Pokémon draws itself with spinning circles. It starts as a blob and gets sharper with every miss. Can you name it with just 2 circles?</p>
+    <div class="about-cols">
+      <section>
+        <h2>How to play</h2>
+        <ol><li>Every day there's a new Pokémon from the <strong>first generation</strong> (Kanto, #001–#151), the same for everyone.</li><li>Its silhouette draws itself with <strong>2 spinning circles</strong>: barely a sketch.</li><li>Type a name or skip. Every miss adds circles: 2 → 4 → 8 → 16 → 32 → 64.</li><li>You have 6 tries. Then answer two bonus questions: its type and its evolution family.</li><li>Share your result without spoilers and keep your daily streak going.</li></ol>
+      </section>
+      <section>
+        <h2>Frequently asked questions</h2>
+        <details><summary>What do circles have to do with the drawing?</summary><p>Any closed outline can be written as a sum of rotations: a Fourier series. Each circle spins at its own speed, mounted on the previous one, and the tip of the last one traces the silhouette. Few circles give the rough shape; many give the details. Those chained circles are called epicycles.</p></details><details><summary>When is the new Pokémon released?</summary><p>Every day at midnight, Madrid time (CET). Everyone gets the same Pokémon that day.</p></details><details><summary>Which Pokémon can appear?</summary><p>The 151 Pokémon of the first generation, from Bulbasaur to Mew.</p></details><details><summary>Is it free? Do I need an account?</summary><p>It's free and there's no sign-up. Your progress, streak and statistics are saved only in your browser.</p></details>
+      </section>
+    </div>
+  </main>
 
   <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
 
   <dialog id="help-dialog" class="card" aria-labelledby="help-title">
     <form method="dialog" class="card-header">
-      <h2 id="help-title">¿Quién es ese Pokémon?</h2>
-      <button class="round-btn round-btn--plain" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      <h2 id="help-title">Who's that Pokémon?</h2>
+      <button class="round-btn round-btn--plain" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
     </form>
-    <ol class="steps">
-      <li>Cada día, un Pokémon de la <strong>1.ª generación</strong>.</li>
-      <li>Su silueta se dibuja con <strong>círculos que giran</strong>. Empieza con 2: un churro.</li>
-      <li>Cada fallo o salto añade círculos: <strong>2 → 4 → 8 → 16 → 32 → 64</strong>.</li>
-      <li>Al acabar, <strong>dos preguntas extra</strong>: su tipo y su familia evolutiva.</li>
-      <li>Aciértalo en el menor número de intentos y <strong>reta a tus amigos</strong>.</li>
-    </ol>
-    <form method="dialog"><button class="big-btn">¡Te elijo a ti!</button></form>
+    <ol class="steps"><li>Every day, a <strong>Gen 1</strong> Pokémon.</li><li>Its silhouette is drawn by <strong>spinning circles</strong>. It starts with 2: a blob.</li><li>Every miss or skip adds circles: <strong>2 → 4 → 8 → 16 → 32 → 64</strong>.</li><li>When you finish, <strong>two bonus questions</strong>: its type and its evolution family.</li><li>Get it in as few tries as you can and <strong>challenge your friends</strong>.</li></ol>
+    <form method="dialog"><button class="big-btn">I choose you!</button></form>
   </dialog>
 
   <dialog id="stats-dialog" class="card" aria-labelledby="stats-title">
     <form method="dialog" class="card-header">
-      <h2 id="stats-title">Tu Pokédex</h2>
-      <button class="round-btn round-btn--plain" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      <h2 id="stats-title">Your Pokédex</h2>
+      <button class="round-btn round-btn--plain" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
     </form>
     <div id="stats-body" class="stats"></div>
   </dialog>

@@ -3,6 +3,7 @@
  */
 
 import { displayedStreak, winRate } from "../core/stats.js";
+import { t } from "../app/i18n.js";
 import { h } from "./dom.js";
 
 /**
@@ -15,10 +16,10 @@ import { h } from "./dom.js";
  */
 export function renderStats(container, stats, today, highlight) {
   const numbers = [
-    [stats.played, "Jugadas"],
-    [`${winRate(stats)}%`, "Victorias"],
-    [displayedStreak(stats, today), "Racha"],
-    [stats.maxStreak, "Mejor racha"],
+    [stats.played, t("played")],
+    [`${winRate(stats)}%`, t("wins")],
+    [displayedStreak(stats, today), t("currentStreak")],
+    [stats.maxStreak, t("maxStreak")],
   ];
   const summary = h(
     "dl",
@@ -37,7 +38,7 @@ export function renderStats(container, stats, today, highlight) {
   const max = Math.max(1, ...keys.map((k) => stats.distribution[k] ?? 0));
   const bars = h(
     "ol",
-    { class: "stat-bars", "aria-label": "Distribución de intentos" },
+    { class: "stat-bars", "aria-label": t("distribution") },
     ...keys.map((key) => {
       const count = stats.distribution[key] ?? 0;
       const bar = h("span", {
@@ -51,7 +52,7 @@ export function renderStats(container, stats, today, highlight) {
 
   container.replaceChildren(
     summary,
-    h("h3", { class: "stat-heading", text: "Distribución de intentos" }),
+    h("h3", { class: "stat-heading", text: t("distribution") }),
     bars,
   );
 }

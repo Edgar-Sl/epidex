@@ -7,6 +7,7 @@
     "subject": "Pokémon",
     "art": true
   },
+  "i18n": {"en": {"ui": {"placeholder": "Who's that Pokémon?", "subject": "Pokémon", "art": true}}},
   "_comment": "Primera generación. Las siluetas salen del arte oficial (data/raw/pokemon, ver pipeline.download).",
   "bonus": {"type": "pokemon", "facts": "data/pokemon_facts.json"},
   "provider": {

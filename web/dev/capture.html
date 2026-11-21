@@ -42,7 +42,8 @@
     document.body.style.setProperty("--w", `${params.get("ancho")}px`);
     document.body.style.setProperty("--h", `${params.get("alto") ?? 844}px`);
   }
-  frame.src = `../index.html?${target}`;
+  // Las capturas del README son de la versión en español.
+  frame.src = `../es/index.html?${target}`;
   frame.addEventListener("load", async () => {
     const win = frame.contentWindow;
     for (let i = 0; i < 100 && !win.game; i++) await new Promise((r) => setTimeout(r, 50));
