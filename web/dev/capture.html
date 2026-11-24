@@ -24,8 +24,10 @@
     chrome --headless=new --window-size=1280,800 --virtual-time-budget=9000 \
       --screenshot=captura.png "http://localhost:8005/dev/capture.html?fecha=2026-11-23&jugadas=fallo,salto"
 
-  Parámetros: fecha, modo, jugadas (lista de fallo | salto | acierto), stats (1 abre
-  estadísticas), ayuda (1 abre la ayuda), ancho y alto (marco de móvil, en px).
+  Sin "modo" se ve el menú principal. Parámetros: fecha, modo, jugadas (lista de fallo | salto | acierto | pista:<tipo>,
+  p. ej. pista:stage), stats (1 abre estadísticas), ayuda (1 abre la ayuda),
+  pokedex (N: anota N Pokémon de ejemplo y abre la Pokédex), ancho y alto (marco de
+  móvil, en px).
 -->
 <iframe id="game"></iframe>
 <script type="module">
@@ -37,6 +39,7 @@
   try { localStorage.clear(); } catch {}
 
   const frame = document.getElementById("game");
+  let filled = false;
   if (params.get("ancho")) {
     document.body.classList.add("phone");
     document.body.style.setProperty("--w", `${params.get("ancho")}px`);
@@ -46,13 +49,31 @@
   frame.src = `../es/index.html?${target}`;
   frame.addEventListener("load", async () => {
     const win = frame.contentWindow;
-    for (let i = 0; i < 100 && !win.game; i++) await new Promise((r) => setTimeout(r, 50));
+    // Sin interfaz el tiempo es virtual: las transiciones (la ilustración que aparece
+    // al acabar, por ejemplo) se quedarían a medias. Para las capturas, sin transiciones.
+    const still = frame.contentDocument.createElement("style");
+    still.textContent = "*, *::before, *::after { transition: none !important; animation-duration: 0s !important; }";
+    frame.contentDocument.head.append(still);
+    const menu = !params.get("modo");
+    for (let i = 0; i < 100 && !menu && !win.game; i++) await new Promise((r) => setTimeout(r, 50));
     const doc = frame.contentDocument;
+    if (menu) {
+      // Menú principal, sin partida. Con pokedex=N se anota la Pokédex de ejemplo y se
+      // recarga una vez para que el menú la enseñe.
+      doc.querySelectorAll("dialog[open]").forEach((d) => d.close());
+      if (params.get("pokedex") && !filled) {
+        filled = true;
+        await fillDex({ collection: { id: "gen1" }, names: await names() }, Number(params.get("pokedex")));
+        win.location.reload();
+      }
+      return;
+    }
     doc.querySelectorAll("dialog[open]").forEach((d) => d.close());
     const game = win.game;
     for (const move of (params.get("jugadas") ?? "").split(",").filter(Boolean)) {
       const answer = game.state.answer;
       if (move === "salto") game.apply(skip(game.state));
+      if (move.startsWith("pista:")) game.useHint(move.slice(6));
       if (move === "acierto") game.apply(guess(game.state, answer), game.names.get(answer));
       if (move === "fallo") {
         const wrong = [...game.names.keys()].find((id) => id !== answer && !game.state.attempts.some((a) => a.id === id));
@@ -68,6 +89,15 @@
       game.openStats();
       doc.activeElement?.blur();
     }
+    if (params.get("pokedex")) {
+      await fillDex(game, Number(params.get("pokedex")));
+      doc.getElementById("open-dex").click();
+      doc.activeElement?.blur();
+      // Sin interfaz las imágenes "lazy" no llegan a cargarse.
+      const imgs = [...doc.querySelectorAll(".dex-art[src]")];
+      imgs.forEach((img) => img.removeAttribute("loading"));
+      await Promise.all(imgs.map((img) => img.decode().catch(() => {})));
+    }
     if (params.get("ayuda") === "1") {
       doc.getElementById("help-dialog").showModal();
       doc.activeElement?.blur();
@@ -78,8 +108,36 @@
       style.textContent = ".kbd-hint { display: none !important; }";
       doc.head.append(style);
     }
+    // Al acabar, el juego hace scroll hasta el resultado si no cabe: la captura, desde arriba.
+    await new Promise((r) => setTimeout(r, 400));
     win.scrollTo(0, 0);
   });
+
+  /** Nombres de la Gen I (para la Pokédex de ejemplo del menú). */
+  async function names() {
+    const { answers } = await (await fetch("../data/gen1/answers.json")).json();
+    return new Map(answers.map((a) => [a.id, a.name]));
+  }
+
+  /** Anota en la Pokédex los N primeros Pokémon del calendario del modo (1 de cada 4, vistos). */
+  async function fillDex(game, n) {
+    const id = game.collection.id;
+    const schedule = await (await fetch(`../data/${id}/schedule.json`)).json();
+    const key = "epidex:v1:pokedex:dex";
+    const dex = JSON.parse(localStorage.getItem(key) ?? '{"version":1,"entries":{}}');
+    const days = schedule.days.slice(0, n);
+    for (const [i, day] of days.entries()) {
+      const puzzle = await (await fetch(`../data/${id}/puzzles/${day.puzzle}.json`)).json();
+      if (dex.entries[puzzle.answer]) continue;
+      dex.entries[puzzle.answer] = {
+        status: i % 4 === 3 ? "seen" : "caught",
+        date: day.date,
+        name: game.names.get(puzzle.answer),
+        art: `${id}/art/${puzzle.id}.webp`,
+      };
+    }
+    localStorage.setItem(key, JSON.stringify(dex));
+  }
 </script>
 </body>
 </html>

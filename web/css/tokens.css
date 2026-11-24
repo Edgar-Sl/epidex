@@ -50,6 +50,6 @@
   --hard-shadow: 0 4px 0 var(--outline);
   --radius: 16px;
   --content: 440px;
-  --content-wide: 560px; /* tabletas en vertical */
+  --content-wide: 640px; /* tabletas en vertical */
   --ease: cubic-bezier(0.3, 1.4, 0.5, 1); /* con rebote */
 }

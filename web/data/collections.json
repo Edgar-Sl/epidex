@@ -2,20 +2,321 @@
   "version": 1,
   "collections": [
     {
-      "id": "pokemon",
-      "title": "Pokémon",
-      "emoji": "⚡",
+      "id": "gen1",
+      "title": "Gen I · Kanto",
+      "emoji": "",
       "ui": {
         "placeholder": "¿Quién es ese Pokémon?",
         "subject": "Pokémon",
         "art": true
       },
+      "menu": {
+        "kicker": "Gen I",
+        "name": "Kanto",
+        "detail": "#001–#151",
+        "count": 151
+      },
       "i18n": {
         "en": {
+          "title": "Gen I · Kanto",
           "ui": {
             "placeholder": "Who's that Pokémon?",
             "subject": "Pokémon",
             "art": true
+          },
+          "menu": {
+            "kicker": "Gen I",
+            "name": "Kanto",
+            "detail": "#001–#151",
+            "count": 151
+          }
+        }
+      }
+    },
+    {
+      "id": "gen2",
+      "title": "Gen II · Johto",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen II",
+        "name": "Johto",
+        "detail": "#152–#251",
+        "count": 100
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen II · Johto",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen II",
+            "name": "Johto",
+            "detail": "#152–#251",
+            "count": 100
+          }
+        }
+      }
+    },
+    {
+      "id": "gen3",
+      "title": "Gen III · Hoenn",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen III",
+        "name": "Hoenn",
+        "detail": "#252–#386",
+        "count": 135
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen III · Hoenn",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen III",
+            "name": "Hoenn",
+            "detail": "#252–#386",
+            "count": 135
+          }
+        }
+      }
+    },
+    {
+      "id": "gen4",
+      "title": "Gen IV · Sinnoh",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen IV",
+        "name": "Sinnoh",
+        "detail": "#387–#493",
+        "count": 107
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen IV · Sinnoh",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen IV",
+            "name": "Sinnoh",
+            "detail": "#387–#493",
+            "count": 107
+          }
+        }
+      }
+    },
+    {
+      "id": "gen5",
+      "title": "Gen V · Teselia",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen V",
+        "name": "Teselia",
+        "detail": "#494–#649",
+        "count": 156
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen V · Unova",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen V",
+            "name": "Unova",
+            "detail": "#494–#649",
+            "count": 156
+          }
+        }
+      }
+    },
+    {
+      "id": "gen6",
+      "title": "Gen VI · Kalos",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen VI",
+        "name": "Kalos",
+        "detail": "#650–#721",
+        "count": 72
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen VI · Kalos",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen VI",
+            "name": "Kalos",
+            "detail": "#650–#721",
+            "count": 72
+          }
+        }
+      }
+    },
+    {
+      "id": "gen7",
+      "title": "Gen VII · Alola",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen VII",
+        "name": "Alola",
+        "detail": "#722–#809",
+        "count": 88
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen VII · Alola",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen VII",
+            "name": "Alola",
+            "detail": "#722–#809",
+            "count": 88
+          }
+        }
+      }
+    },
+    {
+      "id": "gen8",
+      "title": "Gen VIII · Galar",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen VIII",
+        "name": "Galar",
+        "detail": "#810–#905",
+        "count": 96
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen VIII · Galar",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen VIII",
+            "name": "Galar",
+            "detail": "#810–#905",
+            "count": 96
+          }
+        }
+      }
+    },
+    {
+      "id": "gen9",
+      "title": "Gen IX · Paldea",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Gen IX",
+        "name": "Paldea",
+        "detail": "#906–#1025",
+        "count": 120
+      },
+      "i18n": {
+        "en": {
+          "title": "Gen IX · Paldea",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "Gen IX",
+            "name": "Paldea",
+            "detail": "#906–#1025",
+            "count": 120
+          }
+        }
+      }
+    },
+    {
+      "id": "all",
+      "title": "Todas las generaciones",
+      "emoji": "",
+      "ui": {
+        "placeholder": "¿Quién es ese Pokémon?",
+        "subject": "Pokémon",
+        "art": true
+      },
+      "menu": {
+        "kicker": "Todas",
+        "name": "Pokédex nacional",
+        "detail": "Gen I–IX",
+        "count": 1025
+      },
+      "i18n": {
+        "en": {
+          "title": "All generations",
+          "ui": {
+            "placeholder": "Who's that Pokémon?",
+            "subject": "Pokémon",
+            "art": true
+          },
+          "menu": {
+            "kicker": "All",
+            "name": "National Dex",
+            "detail": "Gen I–IX",
+            "count": 1025
           }
         }
       }

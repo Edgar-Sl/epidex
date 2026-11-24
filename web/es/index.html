@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <base href="../">
   <title>Epidex · ¿Quién es ese Pokémon? Juego diario de adivinar la silueta</title>
-  <meta name="description" content="Juego diario gratis: adivina el Pokémon de la 1.ª generación por su silueta, dibujada con círculos que giran (series de Fourier). 6 intentos, preguntas extra y comparte tu resultado.">
+  <meta name="description" content="Juego diario gratis: adivina el Pokémon por su silueta, dibujada con círculos que giran (series de Fourier). Un reto diario por generación, de la I a la IX, o todas mezcladas. 6 intentos y comparte tu resultado.">
   <meta name="theme-color" content="#dc2f2f">
   <meta name="application-name" content="Epidex">
   
@@ -16,14 +16,14 @@
   <meta property="og:locale" content="es_ES">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:title" content="Epidex · ¿Quién es ese Pokémon? Juego diario de adivinar la silueta">
-  <meta property="og:description" content="Juego diario gratis: adivina el Pokémon de la 1.ª generación por su silueta, dibujada con círculos que giran (series de Fourier). 6 intentos, preguntas extra y comparte tu resultado.">
+  <meta property="og:description" content="Juego diario gratis: adivina el Pokémon por su silueta, dibujada con círculos que giran (series de Fourier). Un reto diario por generación, de la I a la IX, o todas mezcladas. 6 intentos y comparte tu resultado.">
   <meta property="og:image" content="og/es/epidex.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Silueta de un Pokémon dibujada con círculos que giran">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Epidex · ¿Quién es ese Pokémon? Juego diario de adivinar la silueta">
-  <meta name="twitter:description" content="Juego diario gratis: adivina el Pokémon de la 1.ª generación por su silueta, dibujada con círculos que giran (series de Fourier). 6 intentos, preguntas extra y comparte tu resultado.">
+  <meta name="twitter:description" content="Juego diario gratis: adivina el Pokémon por su silueta, dibujada con círculos que giran (series de Fourier). Un reto diario por generación, de la I a la IX, o todas mezcladas. 6 intentos y comparte tu resultado.">
   <meta name="twitter:image" content="og/es/epidex.png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/m-plus-rounded-1c-900-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/desktop.css">
   <script type="module" src="js/main.js"></script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Epidex", "description": "Juego diario gratis: adivina el Pokémon de la 1.ª generación por su silueta, dibujada con círculos que giran (series de Fourier). 6 intentos, preguntas extra y comparte tu resultado.", "genre": ["Puzzle", "Juego diario", "Trivial"], "inLanguage": "es", "isAccessibleForFree": true, "playMode": "SinglePlayer", "applicationCategory": "Game", "operatingSystem": "Web", "gamePlatform": "Navegador web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Epidex", "description": "Juego diario gratis: adivina el Pokémon por su silueta, dibujada con círculos que giran (series de Fourier). Un reto diario por generación, de la I a la IX, o todas mezcladas. 6 intentos y comparte tu resultado.", "genre": ["Puzzle", "Juego diario", "Trivial"], "inLanguage": "es", "isAccessibleForFree": true, "playMode": "SinglePlayer", "applicationCategory": "Game", "operatingSystem": "Web", "gamePlatform": "Navegador web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
   
 </head>
 <body>
@@ -43,11 +43,18 @@
     <symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></symbol>
     <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2.8a9.2 9.2 0 0 0-7.9 13.9L2.8 21.2l4.6-1.2A9.2 9.2 0 1 0 12 2.8z"/><path d="M8.6 7.6c.4-.4 1-.4 1.3.1l.9 1.6c.2.4.1.8-.2 1.1l-.5.5c.6 1.3 1.6 2.3 2.9 2.9l.5-.5c.3-.3.8-.4 1.1-.2l1.6.9c.5.3.5.9.1 1.3l-.6.6c-.6.6-1.6.8-2.4.4a10 10 0 0 1-5.2-5.2c-.4-.8-.2-1.8.4-2.4z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-tg" viewBox="0 0 24 24"><path d="M21 4 2.8 11.2l6.4 2.3L19 6.6l-7.6 8.6 7 5.4z" fill="currentColor" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M4 4l11.6 16H20L8.4 4z" fill="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M19.5 4l-6.3 7M4.5 20l6.3-7"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9.5 12 15.5 18 9.5"/></symbol>
+    <symbol id="i-dex" viewBox="0 0 24 24"><path d="M12 6.5C10 4.8 7 4.3 3.5 4.8v13.4c3.5-.5 6.5 0 8.5 1.7 2-1.7 5-2.2 8.5-1.7V4.8C17 4.3 14 4.8 12 6.5zM12 6.5v13.4"/></symbol>
+    <symbol id="i-hint" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5.5 5.5"/><path d="M8.3 9.4a2.3 2.3 0 0 1 4.4.6c0 1.4-2.2 1.6-2.2 3"/><circle cx="10.5" cy="14.6" r=".5" fill="currentColor"/></symbol>
     <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h6.4M15.1 12h6.4"/><circle cx="12" cy="12" r="3.1"/></symbol>
   </svg>
 
   <!-- Una Pokédex: en móvil, las dos mitades apiladas; en escritorio, abierta como un libro. -->
-  <div class="device">
+  <div class="device" id="device">
     <section class="half half--left">
       <header class="device-top">
         <a class="lens" href="./" aria-label="Epidex: inicio"><span class="lens-glass"></span></a>
@@ -55,6 +62,9 @@
         <p class="logo">Epidex</p>
         <div class="top-actions">
           <a class="lang-switch" href="./" hreflang="en" lang="en" data-lang="en" title="English">EN</a>
+          <button id="open-dex" type="button" class="round-btn" aria-label="Mi Pokédex" title="Mi Pokédex" aria-haspopup="dialog">
+            <svg aria-hidden="true"><use href="#i-dex"/></svg>
+          </button>
           <button id="open-help" type="button" class="round-btn" aria-label="Cómo se juega" title="Cómo se juega">
             <svg aria-hidden="true"><use href="#i-help"/></svg>
           </button>
@@ -64,13 +74,22 @@
         </div>
       </header>
 
-      <nav id="modes" class="modes" aria-label="Modo de juego" hidden></nav>
-      <p id="loading" class="panel-msg">Encendiendo la Pokédex…</p>
+      <p id="loading" class="panel-msg" data-stuck="La Pokédex no arranca. Recarga la página (Ctrl+Mayús+R, o desliza hacia abajo en el móvil).">Encendiendo la Pokédex…</p>
+      <script>
+        // Si el juego no arranca (JavaScript desactivado, archivos a medio actualizar en
+        // la caché...), que no se quede en "Encendiendo" para siempre.
+        setTimeout(function () {
+          var loading = document.getElementById("loading");
+          if (loading) loading.textContent = loading.dataset.stuck;
+        }, 8000);
+      </script>
       <p id="notice" class="panel-msg" role="alert" hidden></p>
 
       <section class="screen-bezel" aria-label="Pokémon del día" data-game hidden>
         <div class="screen-label">
-          <span class="screen-id"><svg aria-hidden="true"><use href="#i-ball"/></svg><span id="puzzle-label"></span></span>
+          <a id="open-modes" class="screen-id mode-chip" href="./" title="Cambiar de generación">
+            <svg aria-hidden="true"><use href="#i-ball"/></svg><span id="puzzle-label"></span><svg class="mode-chip-chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </a>
           <span id="circles-label" aria-live="polite"></span>
         </div>
         <div id="canvas-frame" class="screen">
@@ -80,14 +99,47 @@
         </div>
         <ol id="ladder" class="ladder" aria-label="Intentos: círculos de cada uno"></ol>
       </section>
+
+      <!-- Menú principal: un cartucho por región. -->
+      <section class="home-modes" aria-labelledby="modes-title" data-home hidden>
+        <div class="home-head">
+          <h2 id="modes-title">Elige región</h2>
+          <p id="modes-progress" class="modes-progress"></p>
+        </div>
+        <p class="modes-intro">Un Pokémon nuevo cada día en cada una. ¿Te las pasas todas?</p>
+        <nav id="modes-list" class="mode-grid" aria-label="Modo de juego"></nav>
+      </section>
     </section>
 
     <div class="hinge" aria-hidden="true"></div>
 
-    <section class="half half--right" data-game hidden>
-      <div class="flap-top" aria-hidden="true"></div>
+    <section class="half half--right">
+      <!-- Tapa (escritorio): tu Pokédex, una tecla por generación que se llena al capturar. -->
+      <button id="dex-flap" type="button" class="flap-top" aria-haspopup="dialog" data-game hidden>
+        <span class="flap-title"><svg aria-hidden="true"><use href="#i-dex"/></svg>Mi Pokédex</span>
+        <span id="dex-flap-count" class="flap-count"></span>
+        <span id="dex-flap-gens" class="flap-gens" aria-hidden="true"></span>
+      </button>
 
-      <section id="play" class="controls" aria-label="Tu respuesta">
+      <!-- Menú principal: tu Pokédex al lado de las regiones. -->
+      <section class="home-dex" aria-labelledby="home-dex-title" data-home hidden>
+        <div class="home-dex-screen">
+          <h2 id="home-dex-title" class="log-title">Mi Pokédex</h2>
+          <p class="home-dex-total"><strong id="home-caught" class="digits">0</strong><span id="home-of" class="home-dex-of"></span></p>
+          <div id="home-dex-bar" class="home-dex-bar" aria-hidden="true"></div>
+          <p id="home-dex-detail" class="home-dex-detail"></p>
+          <ol id="home-gens" class="home-gens"></ol>
+          <div class="home-recent">
+            <p class="log-title">Últimas capturas</p>
+            <ul id="home-recent" class="home-recent-list" data-empty="Adivina un Pokémon para capturar el primero."></ul>
+          </div>
+        </div>
+        <button id="home-open-dex" type="button" class="big-btn" aria-haspopup="dialog">
+          <svg aria-hidden="true"><use href="#i-dex"/></svg> Abrir mi Pokédex
+        </button>
+      </section>
+
+      <section id="play" class="controls" aria-label="Tu respuesta" data-game hidden>
         <form id="guess-form" class="guess" autocomplete="off">
           <label for="guess" class="visually-hidden">Tu respuesta</label>
           <div class="combo">
@@ -96,7 +148,9 @@
           </div>
           <p class="kbd-hint">Escribe cuando quieras · <kbd>Enter</kbd> responder · <kbd>Esc</kbd> borrar</p>
           <div class="pad">
-            <div class="dpad" aria-hidden="true"><i></i><i></i></div>
+            <button id="hint" type="button" class="key key--hint" aria-expanded="false" aria-controls="hint-panel" title="Pedir una pista (no gasta intento)" hidden>
+              <span class="key-face"><svg aria-hidden="true"><use href="#i-hint"/></svg></span><span class="key-label">Pista</span>
+            </button>
             <div class="key-group">
               <button id="skip" type="button" class="key key--b" title="Pasar y ver más círculos">
                 <span class="key-face">B</span><span class="key-label">Saltar</span>
@@ -108,6 +162,11 @@
           </div>
         </form>
         <div class="log">
+          <div id="hint-panel" class="hint-panel" hidden>
+            <p id="hint-pick" class="log-title"></p>
+            <div id="hint-options" class="hint-options"></div>
+          </div>
+          <p id="hint-line" class="hint-line" hidden></p>
           <p class="log-title">Registro</p>
           <ul id="history" class="history" aria-label="Respuestas falladas" data-empty="Sin fallos. ¿Lo sabes ya?"></ul>
         </div>
@@ -118,30 +177,41 @@
         <h2 id="result-answer" class="result-answer"></h2>
         <p id="result-title" class="result-title"></p>
         <p id="result-streak" class="result-streak" hidden></p>
+        <button id="result-dex" type="button" class="result-dex" hidden></button>
         <div id="result-grid" class="result-grid" aria-hidden="true"></div>
-        <section id="bonus" class="bonus" aria-labelledby="bonus-question" hidden>
-          <p class="bonus-head">
-            <span id="bonus-step">Pregunta extra</span>
-            <span id="bonus-marks" class="bonus-marks" aria-hidden="true"></span>
-          </p>
-          <h3 id="bonus-question" class="bonus-question"></h3>
-          <ol id="bonus-options" class="bonus-options"></ol>
-          <button id="bonus-next" type="button" class="big-btn big-btn--quiet" hidden>Siguiente</button>
-          <p class="kbd-hint"><kbd>1</kbd>–<kbd>4</kbd> responder · <kbd>Enter</kbd> seguir</p>
-        </section>
-        <p id="bonus-summary" class="bonus-summary" hidden></p>
-        <button id="share" type="button" class="big-btn">
-          <svg aria-hidden="true"><use href="#i-share"/></svg> Retar a un amigo
-        </button>
+        <div class="share-box" role="group" aria-labelledby="share-title">
+          <p id="share-title" class="share-title">Retar a un amigo</p>
+          <a id="share-wa" class="big-btn share-wa" href="https://api.whatsapp.com/send" target="_blank" rel="noopener">
+            <svg aria-hidden="true"><use href="#i-wa"/></svg> Mandar por WhatsApp
+          </a>
+          <div class="share-row">
+            <a id="share-tg" class="share-pill share-pill--tg" href="https://t.me/share/url" target="_blank" rel="noopener">
+              <svg aria-hidden="true"><use href="#i-tg"/></svg><span>Telegram</span>
+            </a>
+            <a id="share-x" class="share-pill share-pill--x" href="https://x.com/intent/tweet" target="_blank" rel="noopener">
+              <svg aria-hidden="true"><use href="#i-x"/></svg><span>X</span>
+            </a>
+            <button id="share-copy" type="button" class="share-pill">
+              <svg aria-hidden="true"><use href="#i-copy"/></svg><span>Copiar</span>
+            </button>
+            <button id="share-more" type="button" class="share-pill" hidden>
+              <svg aria-hidden="true"><use href="#i-share"/></svg><span>Más</span>
+            </button>
+          </div>
+        </div>
+        <a id="other-mode" class="big-btn big-btn--quiet" href="./">Volver al menú</a>
         <div class="result-footer">
           <p>Otro Pokémon en <strong id="countdown" class="digits">--:--:--</strong></p>
-          <button id="result-stats" type="button" class="text-btn">Estadísticas</button>
+          <span class="result-links">
+            <button id="result-dex-link" type="button" class="text-btn">Mi Pokédex</button>
+            <button id="result-stats" type="button" class="text-btn">Estadísticas</button>
+          </span>
         </div>
       </section>
 
       <footer class="device-foot">
         <span class="speaker" aria-hidden="true"></span>
-        <p>Siluetas dibujadas con series de Fourier · Proyecto de fans, sin relación con Nintendo ni The Pokémon Company</p>
+        <p>Siluetas dibujadas con series de Fourier · Proyecto de fans, sin relación con Nintendo ni The Pokémon Company · <a href="es/legal/">Aviso legal y privacidad</a></p>
       </footer>
     </section>
   </div>
@@ -149,17 +219,18 @@
   <!-- Contenido para leer (y para los buscadores): qué es, cómo se juega y preguntas frecuentes. -->
   <main class="about">
     <h1>¿Quién es ese Pokémon? Adivina el Pokémon del día por su silueta</h1>
-    <p class="about-intro">Cada día, un Pokémon de la 1.ª generación se dibuja solo con círculos que giran. Empieza siendo un churro y, con cada fallo, gana detalle. ¿Lo sacarás con solo 2 círculos?</p>
+    <p class="about-intro">Cada día, un Pokémon de cada región se dibuja solo con círculos que giran. Empieza siendo un churro y, con cada fallo, gana detalle. ¿Lo sacarás con solo 2 círculos?</p>
     <div class="about-cols">
       <section>
         <h2>Cómo se juega</h2>
-        <ol><li>Cada día hay un Pokémon nuevo de la <strong>1.ª generación</strong> (Kanto, del #001 al #151), el mismo para todo el mundo.</li><li>Su silueta se dibuja sola con <strong>2 círculos</strong> que giran: apenas un esbozo.</li><li>Escribe un nombre o salta. Cada fallo añade círculos: 2 → 4 → 8 → 16 → 32 → 64.</li><li>Tienes 6 intentos. Después, dos preguntas extra: su tipo y su familia evolutiva.</li><li>Comparte tu resultado sin hacer spoiler y mantén tu racha cada día.</li></ol>
+        <ol><li>Cada día hay un Pokémon nuevo <strong>en cada generación</strong>, de Kanto (Gen I) a Paldea (Gen IX), y otro con <strong>los 1025 mezclados</strong>. El mismo para todo el mundo.</li><li>Su silueta se dibuja sola con <strong>2 círculos</strong> que giran: apenas un esbozo.</li><li>Escribe un nombre o salta. Cada fallo añade círculos: 2 → 4 → 8 → 16 → 32 → 64.</li><li>Tienes 6 intentos.</li><li>¿Atascado? Pide una pista (tipo, fase evolutiva, categoría, color, tamaño o inicial). Solo una por partida, y la eliges tú.</li><li>Cada Pokémon que adivinas se guarda como capturado en tu Pokédex, y los que se escapan, como vistos. Complétala entera.</li><li>Comparte tu resultado sin hacer spoiler y mantén tu racha cada día.</li></ol>
       </section>
       <section>
         <h2>Preguntas frecuentes</h2>
-        <details><summary>¿Qué tienen que ver los círculos con el dibujo?</summary><p>Cualquier contorno cerrado se puede escribir como una suma de giros: una serie de Fourier. Cada círculo gira a su velocidad, montado sobre el anterior, y la punta del último dibuja la silueta. Con pocos círculos se ve la forma general; con muchos, hasta los detalles. Esos círculos encadenados se llaman epiciclos.</p></details><details><summary>¿Cuándo sale el Pokémon nuevo?</summary><p>Cada día a medianoche, hora de Madrid. Todo el mundo juega el mismo Pokémon ese día.</p></details><details><summary>¿Qué Pokémon pueden salir?</summary><p>Los 151 de la primera generación, de Bulbasaur a Mew.</p></details><details><summary>¿Es gratis? ¿Hace falta registrarse?</summary><p>Es gratis y sin registro. Tu progreso, tu racha y tus estadísticas se guardan solo en tu navegador.</p></details>
+        <details><summary>¿Qué tienen que ver los círculos con el dibujo?</summary><p>Cualquier contorno cerrado se puede escribir como una suma de giros: una serie de Fourier. Cada círculo gira a su velocidad, montado sobre el anterior, y la punta del último dibuja la silueta. Con pocos círculos se ve la forma general; con muchos, hasta los detalles. Esos círculos encadenados se llaman epiciclos.</p></details><details><summary>¿Cuándo sale el Pokémon nuevo?</summary><p>Cada día a medianoche, hora de Madrid. Todo el mundo juega el mismo Pokémon ese día.</p></details><details><summary>¿Qué Pokémon pueden salir?</summary><p>Los 1025, de Bulbasaur a Pecharunt. Elige generación (por defecto, la I) o juega con todas mezcladas: cada modo tiene su Pokémon del día y su propia racha.</p></details><details><summary>¿Es gratis? ¿Hace falta registrarse?</summary><p>Es gratis y sin registro. Tu progreso, tu racha y tus estadísticas se guardan solo en tu navegador.</p></details>
       </section>
     </div>
+    <p class="about-legal">Juego de fans no oficial, sin relación, patrocinio ni aprobación de Nintendo, Creatures Inc., GAME FREAK inc. ni The Pokémon Company. Pokémon y los nombres e ilustraciones de los Pokémon son marcas y © de sus respectivos titulares. <a href="es/legal/">Aviso legal y privacidad</a></p>
   </main>
 
   <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
@@ -169,8 +240,23 @@
       <h2 id="help-title">¿Quién es ese Pokémon?</h2>
       <button class="round-btn round-btn--plain" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
     </form>
-    <ol class="steps"><li>Cada día, un Pokémon de la <strong>1.ª generación</strong>.</li><li>Su silueta se dibuja con <strong>círculos que giran</strong>. Empieza con 2: un churro.</li><li>Cada fallo o salto añade círculos: <strong>2 → 4 → 8 → 16 → 32 → 64</strong>.</li><li>Al acabar, <strong>dos preguntas extra</strong>: su tipo y su familia evolutiva.</li><li>Aciértalo en el menor número de intentos y <strong>reta a tus amigos</strong>.</li></ol>
+    <ol class="steps"><li>Cada día, un Pokémon <strong>en cada región</strong> (de la Gen I a la IX, o todas mezcladas). Elígela en el menú principal.</li><li>Su silueta se dibuja con <strong>círculos que giran</strong>. Empieza con 2: un churro.</li><li>Cada fallo o salto añade círculos: <strong>2 → 4 → 8 → 16 → 32 → 64</strong>.</li><li>¿Atascado? Pide <strong>una pista</strong>: tipo, evolución, categoría, color, tamaño o inicial. Eliges cuál, pero solo una.</li><li>Los que aciertas quedan <strong>capturados en tu Pokédex</strong>; los que se escapan, como vistos.</li><li>Aciértalo en el menor número de intentos y <strong>reta a tus amigos</strong>.</li></ol>
     <form method="dialog"><button class="big-btn">¡Te elijo a ti!</button></form>
+  </dialog>
+
+  <dialog id="dex-dialog" class="card card--wide card--dex" aria-labelledby="dex-title">
+    <form method="dialog" class="card-header">
+      <h2 id="dex-title">Mi Pokédex</h2>
+      <button class="round-btn round-btn--plain" aria-label="Cerrar"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <p class="modes-intro">Cada Pokémon que adivinas queda capturado. Los que se te escapan quedan como vistos. Se guarda en este navegador.</p>
+    <div class="dex-summary">
+      <p><strong id="dex-caught" class="digits">0</strong> Capturados</p>
+      <p><strong id="dex-seen" class="digits">0</strong> Vistos</p>
+      <p id="dex-total" class="dex-total"></p>
+    </div>
+    <div id="dex-tabs" class="dex-tabs" role="tablist" aria-label="Modo de juego"></div>
+    <ol id="dex-grid" class="dex-grid" role="tabpanel"></ol>
   </dialog>
 
   <dialog id="stats-dialog" class="card" aria-labelledby="stats-title">

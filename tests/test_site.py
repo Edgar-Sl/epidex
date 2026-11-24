@@ -41,3 +41,26 @@ def test_con_dominio_hay_canonica_hreflang_y_sitemap(tmp_path):
     build_site(template, tmp_path / "web", site)
     for path in ("index.html", "es/index.html", "robots.txt", "sitemap.xml"):
         assert (tmp_path / "web" / path).exists()
+
+
+def test_aviso_legal_con_datos_y_anuncios():
+    from pipeline.site import LegalSettings, render_legal
+
+    template = "{{base}}<a href='{{home}}'>{{t.back}}</a><ul>{{identity}}</ul>{{t.body}}"
+    strings = {
+        "es": {
+            "back": "Volver",
+            "body": "<p>{{ads}} {{analytics}} © {{year}} {{owner}} {{contact}}</p>",
+            "ads_on": "Con anuncios.",
+            "ads_off": "Sin anuncios.",
+            "analytics_on": "Con analítica.",
+            "analytics_off": "Sin analítica.",
+        }
+    }
+    legal = LegalSettings(owner="Ana <A>", email="a@x.test", ads=True, updated="2027-01-02")
+    site = SiteSettings(languages=("en", "es"), legal=legal)
+    es = render_legal(template, site, "es", strings)
+    assert '<base href="../../">' in es and "href='es/'" in es
+    assert "Con anuncios. Sin analítica. © 2027 Ana &lt;A&gt;" in es
+    assert '<a href="mailto:a@x.test">a@x.test</a>' in es and "NIF" not in es
+    assert LegalSettings().missing() == ["owner", "email"] and legal.missing() == []

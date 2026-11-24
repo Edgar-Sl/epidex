@@ -6,7 +6,8 @@ Uso::
     python -m pipeline.download --force    # vuelve a descargarlas todas
 
 Se guardan como ``<dir>/<nnn>.png`` (``001.png`` ... ``151.png``), que es el id
-de cada elemento en la colección.
+de cada elemento en la colección. Con ``overrides`` en ``[images]`` se usa la
+imagen de otra forma del Pokémon (``{964 = 10256}``).
 """
 
 from __future__ import annotations
@@ -57,12 +58,13 @@ def main(argv: list[str] | None = None) -> None:
     config_path = Path(args.config)
     cfg = tomllib.loads(config_path.read_text(encoding="utf-8"))["images"]
     out_dir = config_path.parent / cfg["dir"]
+    overrides = {int(k): int(v) for k, v in cfg.get("overrides", {}).items()}
     total = 0
     for n in range(cfg["first"], cfg["last"] + 1):
         dest = out_dir / f"{item_id(n)}.png"
         if dest.exists() and not args.force:
             continue
-        total += download_file(cfg["url_template"].format(n=n), dest)
+        total += download_file(cfg["url_template"].format(n=overrides.get(n, n)), dest)
         time.sleep(PAUSE_S)
     logger.info("Imágenes en %s (%.1f MB descargados).", out_dir, total / 1e6)
 

@@ -24,25 +24,17 @@ async function getJSON(path) {
 }
 
 /**
- * Colección elegida por la URL (?modo=<id>) o la primera.
+ * Colección elegida por la URL (?modo=<id>), o null para el menú principal.
  * @param {CollectionInfo[]} collections
  * @param {string} [search]
  */
 export function pickCollection(collections, search = window.location.search) {
   const wanted = new URLSearchParams(search).get("modo");
-  return collections.find((c) => c.id === wanted) ?? collections[0];
+  return collections.find((c) => c.id === wanted) ?? null;
 }
 
-/**
- * Enlace a un modo de juego, conservando ?fecha= si se está probando otro día.
- * El primer modo usa la URL limpia.
- *
- * @param {CollectionInfo[]} collections
- * @param {string} id
- */
-export function modeUrl(collections, id) {
-  const params = new URLSearchParams();
-  if (id !== collections[0].id) params.set("modo", id);
+/** Conserva ?fecha= en los enlaces internos si se está probando otro día. */
+function withDate(params) {
   const date = dateOverride();
   if (date) params.set("fecha", date);
   const query = params.toString();
@@ -50,13 +42,30 @@ export function modeUrl(collections, id) {
 }
 
 /**
- * Enlace público para compartir: sin ?fecha= (cada uno juega su día).
- * @param {CollectionInfo[]} collections
+ * Enlace a un modo de juego.
  * @param {string} id
  */
-export function shareUrl(collections, id) {
-  const base = `${window.location.origin}${window.location.pathname}`;
-  return id === collections[0].id ? base : `${base}?modo=${encodeURIComponent(id)}`;
+export function modeUrl(id) {
+  return withDate(new URLSearchParams({ modo: id }));
+}
+
+/** Enlace al menú principal. */
+export function homeUrl() {
+  return withDate(new URLSearchParams());
+}
+
+/**
+ * Enlace público para compartir: sin ?fecha= (cada uno juega su día).
+ * @param {string} id
+ */
+export function shareUrl(id) {
+  return `${window.location.origin}${window.location.pathname}?modo=${encodeURIComponent(id)}`;
+}
+
+/** Fecha de hoy del juego (la del calendario, o la de ?fecha=). */
+export async function today(collection) {
+  const schedule = await getJSON(`${collection.id}/schedule.json`);
+  return dateOverride() ?? dateInTimeZone(schedule.timezone);
 }
 
 /**

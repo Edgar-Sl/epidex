@@ -7,6 +7,9 @@ lo correcto. El primer idioma va en la raíz y los demás en su carpeta::
     web/index.html      -> inglés
     web/es/index.html   -> español (con <base href="../">: comparte CSS, JS y datos)
 
+Y, si existe ``site/legal.json``, una página de aviso legal y privacidad por
+idioma (``web/legal/``, ``web/es/legal/``) con los datos de ``[site.legal]``.
+
 Los textos están en ``site/strings.json``. Lo que depende del dominio (URL
 canónica, ``hreflang``, ``og:url``, sitemap) solo se genera si ``[site] url``
 está definido en ``config.toml``.
@@ -14,16 +17,45 @@ está definido en ``config.toml``.
 
 from __future__ import annotations
 
+import datetime
 import html
 import json
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 logger = logging.getLogger(__name__)
 
 DEFAULT_LEVELS = (2, 4, 8, 16, 32, 64)
+
+
+@dataclass(frozen=True)
+class LegalSettings:
+    """Bloque ``[site.legal]``: quién responde de la web (aviso legal y privacidad)."""
+
+    owner: str = ""  # nombre del titular
+    email: str = ""  # contacto para retiradas de contenido y protección de datos
+    nif: str = ""  # opcional (obligatorio en España si hay actividad económica)
+    address: str = ""  # opcional; con el correo suele bastar para un particular
+    ads: bool = False  # si la web muestra anuncios (cambia el texto de privacidad)
+    updated: str = ""  # fecha de la última revisión del texto
+
+    @classmethod
+    def from_config(cls, raw: dict[str, Any]) -> LegalSettings:
+        """Lee el bloque ``[site.legal]``."""
+        return cls(
+            owner=str(raw.get("owner", "")),
+            email=str(raw.get("email", "")),
+            nif=str(raw.get("nif", "")),
+            address=str(raw.get("address", "")),
+            ads=bool(raw.get("ads", False)),
+            updated=str(raw.get("updated", "")),
+        )
+
+    def missing(self) -> list[str]:
+        """Datos imprescindibles sin rellenar."""
+        return [key for key in ("owner", "email") if not getattr(self, key)]
 
 
 @dataclass(frozen=True)
@@ -34,6 +66,7 @@ class SiteSettings:
     url: str = ""  # p. ej. "https://ejemplo.com/" (con / final); vacío = aún sin dominio
     languages: tuple[str, ...] = ("en", "es")  # el primero va en la raíz
     goatcounter: str = ""  # código de GoatCounter (analítica sin cookies); vacío = sin analítica
+    legal: LegalSettings = field(default_factory=LegalSettings)
 
     @classmethod
     def from_config(cls, raw: dict[str, Any]) -> SiteSettings:
@@ -43,6 +76,7 @@ class SiteSettings:
             url=str(raw.get("url", "")),
             languages=tuple(str(lang) for lang in raw.get("languages", cls.languages)),
             goatcounter=str(raw.get("goatcounter", "")),
+            legal=LegalSettings.from_config(raw.get("legal", {})),
         )
 
     def path(self, lang: str) -> str:
@@ -152,6 +186,7 @@ def render_page(
         "levels": " → ".join(str(k) for k in levels),
         "first_level": str(levels[0]),
         "attempts": str(len(levels)),
+        "legal_href": f"{path}legal/",
     }
     out = template
     for key, value in texts.items():
@@ -161,6 +196,61 @@ def render_page(
         out = out.replace("{{" + key + "}}", value)
     if "{{" in out:
         raise ValueError(f"Marcadores sin rellenar en la plantilla: {out[out.index('{{') :][:40]}")
+    return out
+
+
+LEGAL_LABELS = {
+    "en": {"owner": "Owner", "nif": "Tax ID", "address": "Address", "email": "Contact"},
+    "es": {"owner": "Titular", "nif": "NIF", "address": "Domicilio", "email": "Contacto"},
+}
+
+
+def render_legal(
+    template: str, site: SiteSettings, lang: str, strings: dict[str, dict[str, Any]]
+) -> str:
+    """Página de aviso legal y privacidad de un idioma (``site/legal.html``).
+
+    Los datos que falten en ``[site.legal]`` salen como «—»: hay que rellenarlos
+    antes de publicar (``build_site`` avisa).
+    """
+    texts = strings[lang]
+    legal = site.legal
+    path = f"{site.path(lang)}legal/"
+    labels = LEGAL_LABELS.get(lang, LEGAL_LABELS["en"])
+    email = html.escape(legal.email)
+    contact = f'<a href="mailto:{email}">{email}</a>' if legal.email else "—"
+    identity = "".join(
+        f"<li><strong>{labels[key]}:</strong> {value}</li>"
+        for key, value in (
+            ("owner", html.escape(legal.owner) or "—"),
+            ("nif", html.escape(legal.nif)),
+            ("address", html.escape(legal.address)),
+            ("email", contact),
+        )
+        if value
+    )
+    year = legal.updated[:4] if legal.updated[:4].isdigit() else str(datetime.date.today().year)
+    values = {
+        # Primero los párrafos que a su vez llevan marcadores.
+        "ads": texts["ads_on" if legal.ads else "ads_off"],
+        "analytics": texts["analytics_on" if site.goatcounter else "analytics_off"],
+        "lang": lang,
+        "base": f'<base href="{"../" * path.count("/")}">',
+        "home": site.path(lang) or "./",
+        "name": html.escape(site.name),
+        "owner": html.escape(legal.owner) or "—",
+        "contact": contact,
+        "identity": identity,
+        "year": year,
+        "updated": html.escape(legal.updated) or "—",
+    }
+    out = template
+    for key, value in texts.items():
+        out = out.replace("{{t." + key + "}}", value)
+    for key, value in values.items():
+        out = out.replace("{{" + key + "}}", value)
+    if "{{" in out:
+        raise ValueError(f"Marcadores sin rellenar en legal: {out[out.index('{{') :][:40]}")
     return out
 
 
@@ -212,6 +302,20 @@ def build_site(
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(render_page(template, site, lang, strings, levels), encoding="utf-8")
         written.append(dest)
+    legal_template = template_path.parent / "legal.html"
+    if legal_template.exists():
+        legal_strings = load_strings(template_path.parent / "legal.json")
+        legal_html = legal_template.read_text(encoding="utf-8")
+        for lang in site.languages:
+            dest = web_dir / site.path(lang) / "legal" / "index.html"
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(render_legal(legal_html, site, lang, legal_strings), encoding="utf-8")
+            written.append(dest)
+        if site.legal.missing():
+            logger.warning(
+                "Aviso legal incompleto: rellena %s en [site.legal] de config.toml.",
+                ", ".join(site.legal.missing()),
+            )
     (web_dir / "robots.txt").write_text(robots_txt(site), encoding="utf-8")
     written.append(web_dir / "robots.txt")
     sitemap = web_dir / "sitemap.xml"

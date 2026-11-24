@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- GENERADO por `python -m pipeline.build` a partir de site/legal.html y site/legal.json: edita la plantilla, no este archivo. -->
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{base}}
+  <title>{{t.title}} · {{name}}</title>
+  <meta name="description" content="{{t.description}}">
+  <meta name="theme-color" content="#dc2f2f">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/desktop.css">
+</head>
+<body class="legal-page">
+  <main class="about legal">
+    <p><a class="legal-back" href="{{home}}">← {{t.back}}</a></p>
+    <h1>{{t.title}}</h1>
+    <p class="about-intro">{{t.updated}} {{updated}}</p>
+    {{t.body}}
+  </main>
+</body>
+</html>

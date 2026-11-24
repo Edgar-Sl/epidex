@@ -14,9 +14,12 @@ import {
   isOver,
   levelIndex,
   skip,
+  takeHint,
 } from "../js/core/game.js";
-import { answerBonus, bonusQuestions, bonusResults } from "../js/core/bonus.js";
+import { availableHints, hintText } from "../js/core/hints.js";
+import { dexCounts, dexId, dexSlots, emptyDex, generationOf, recentCatches, recordInDex } from "../js/core/dex.js";
 import { buildShareText } from "../js/core/share.js";
+import { appShareUrl } from "../js/app/share-action.js";
 import { browserLang, t } from "../js/app/i18n.js";
 import { displayedStreak, emptyStats, previousDate, recordResult, winRate } from "../js/core/stats.js";
 import { GameStorage } from "../js/app/storage.js";
@@ -96,6 +99,80 @@ test("el estado no se modifica (inmutable)", () => {
   const s = createGame(PUZZLE, ENTRY);
   guess(s, "JPN");
   assertEqual(s.attempts.length, 0);
+});
+
+test("una sola pista por partida, y solo jugando", () => {
+  const start = createGame(PUZZLE, ENTRY);
+  const withHint = takeHint(start, "type");
+  assertEqual(withHint.hint, "type");
+  assertEqual(start.hint, undefined, "inmutable");
+  assertEqual(takeHint(withHint, "color").hint, "type", "no se cambia");
+  const over = guess(start, "ITA").state;
+  assertEqual(takeHint(over, "type").hint, undefined, "al acabar no hay pistas");
+});
+
+// ---- hints.js ------------------------------------------------------------
+const HINTS = {
+  type: { es: "Eléctrico", en: "Electric" },
+  stage: "middle",
+  size: { m: 0.4, kg: 6 },
+  letter: "P",
+  generation: 3,
+};
+const WORDS_ES = {
+  lang: "es", locale: "es-ES", stages: { middle: "Forma intermedia" }, startsWith: "Empieza por «{letter}»",
+};
+test("pistas disponibles en orden y su texto en cada idioma", () => {
+  assertEqual(availableHints({ hints: HINTS }), ["type", "stage", "size", "letter", "generation"]);
+  assertEqual(availableHints({}), []);
+  assertEqual(hintText("type", HINTS, WORDS_ES), "Eléctrico");
+  assertEqual(hintText("type", HINTS, { ...WORDS_ES, lang: "en" }), "Electric");
+  assertEqual(hintText("stage", HINTS, WORDS_ES), "Forma intermedia");
+  assertEqual(hintText("size", HINTS, WORDS_ES), "0,4 m · 6 kg");
+  assertEqual(hintText("letter", HINTS, WORDS_ES), "Empieza por «P»");
+  assertEqual(hintText("generation", HINTS, WORDS_ES), "Gen III · Hoenn");
+});
+
+test("compartir dice si se usó pista o no", () => {
+  const base = { gameName: "Epidex", number: 1, emoji: "Gen I", maxAttempts: 6, won: true,
+    attemptsUsed: 1, results: ["correct", "unused", "unused", "unused", "unused", "unused"] };
+  assertEqual(buildShareText({ ...base, hint: "Tipo" }).split("\n").at(-1), "Con pista: Tipo");
+  assertEqual(buildShareText({ ...base, hint: null }).split("\n").at(-1), "Sin pistas");
+  assertEqual(buildShareText(base).split("\n").length, 2, "sin pistas en el modo: nada");
+});
+
+// ---- dex.js --------------------------------------------------------------
+test("la Pokédex anota capturados y vistos, y capturar es para siempre", () => {
+  let dex = emptyDex();
+  dex = recordInDex(dex, { id: "025", won: false, date: "2026-01-01", name: "Pikachu" });
+  assertEqual(dex.entries["025"].status, "seen");
+  dex = recordInDex(dex, { id: "025", won: true, date: "2026-01-05", name: "Pikachu", art: "gen1/art/x.webp" });
+  assertEqual(dex.entries["025"], { status: "caught", date: "2026-01-05", name: "Pikachu", art: "gen1/art/x.webp" });
+  const again = recordInDex(dex, { id: "025", won: false, date: "2026-02-01", name: "Pikachu" });
+  assertEqual(again.entries["025"].status, "caught", "no baja a visto");
+  dex = recordInDex(dex, { id: "1025", won: false, date: "2026-01-02", name: "Pecharunt" });
+  assertEqual(dexCounts(dex), { caught: 1, seen: 1 });
+  assertEqual(dexCounts(dex, [1, 151]), { caught: 1, seen: 0 });
+});
+
+test("casillas de la Pokédex por generación", () => {
+  const dex = recordInDex(emptyDex(), { id: "152", won: true, date: "2026-01-01", name: "Chikorita" });
+  const johto = dexSlots(dex, 1);
+  assertEqual(johto.length, 100);
+  assertEqual(johto[0].id, "152");
+  assertEqual(johto[0].entry.name, "Chikorita");
+  assertEqual(johto[1].entry, null);
+  assertEqual(dexSlots(dex, 8).at(-1).id, "1025");
+  assertEqual([dexId(7), generationOf(25), generationOf(1000)], ["007", 0, 8]);
+});
+
+test("últimas capturas, de la más reciente a la más antigua", () => {
+  let dex = emptyDex();
+  dex = recordInDex(dex, { id: "001", won: true, date: "2026-01-01", name: "Bulbasaur" });
+  dex = recordInDex(dex, { id: "004", won: false, date: "2026-01-03", name: "Charmander" });
+  dex = recordInDex(dex, { id: "007", won: true, date: "2026-01-02", name: "Squirtle" });
+  assertEqual(recentCatches(dex, 5).map((e) => e.id), ["007", "001"]);
+  assertEqual(recentCatches(dex, 1).length, 1);
 });
 
 // ---- autocomplete.js -----------------------------------------------------
@@ -204,39 +281,15 @@ test("texto para compartir: resultado, círculos y enlace, sin la respuesta", ()
   );
 });
 
-test("texto para compartir con las preguntas extra", () => {
-  const text = buildShareText({ gameName: "Epidex", number: 1, emoji: "🌍", maxAttempts: 6,
-    won: true, attemptsUsed: 1, circles: 2, bonus: ["correct", "wrong"],
-    results: ["correct", "unused", "unused", "unused", "unused", "unused"] });
-  assertEqual(text.split("\n").at(-1), "Extra: ✅❌");
-});
-
-// ---- bonus.js ------------------------------------------------------------
-const BONUS = [
-  { question: "¿Vecino?", options: ["A", "B", "C", "D"], answer: 2 },
-  { question: "¿Habitantes?", options: ["1", "3", "9", "27"], answer: 0 },
-  { question: "mal", options: ["A"], answer: 3 },
-];
-
-test("preguntas extra: solo las válidas y solo con la partida acabada", () => {
-  const questions = bonusQuestions({ bonus: BONUS });
-  assertEqual(questions.length, 2);
-  assertEqual(bonusQuestions({}), []);
-  // Formato por idioma: {"en": [...], "es": [...]}.
-  const en = [{ question: "Type?", options: ["A", "B"], answer: 1 }];
-  assertEqual(bonusQuestions({ bonus: { en, es: BONUS } }, "en"), en);
-  assertEqual(bonusQuestions({ bonus: { en, es: BONUS } }, "es").length, 2);
-  const playing = createGame(PUZZLE, ENTRY);
-  assertEqual(answerBonus(playing, questions, 2), null);
-  const over = guess(playing, "ITA").state;
-  const first = answerBonus(over, questions, 2);
-  assertEqual(first.correct, true);
-  const second = answerBonus(first.state, questions, 3);
-  assertEqual(second.correct, false);
-  assertEqual(bonusResults(second.state, questions), ["correct", "wrong"]);
-  assertEqual(answerBonus(second.state, questions, 0), null, "no quedan preguntas");
-  assertEqual(answerBonus(over, questions, 9), null, "opción fuera de rango");
-  assertEqual(over.bonus, undefined, "inmutable");
+test("enlaces de WhatsApp, Telegram y X con el mensaje y los emojis intactos", () => {
+  const wa = new URL(appShareUrl("whatsapp", "Epidex #1 · 1/6\n🟩", "https://x.test/"));
+  assertEqual(wa.origin + wa.pathname, "https://api.whatsapp.com/send");
+  assertEqual(wa.searchParams.get("text"), "Epidex #1 · 1/6\n🟩\nhttps://x.test/");
+  const tg = new URL(appShareUrl("telegram", "🟩", "https://x.test/"));
+  assertEqual([tg.searchParams.get("url"), tg.searchParams.get("text")], ["https://x.test/", "🟩"]);
+  const x = new URL(appShareUrl("x", "🟩", "https://x.test/"));
+  assertEqual(x.hostname, "x.com");
+  assertEqual(x.searchParams.get("text"), "🟩");
 });
 
 test("cuenta atrás hasta la medianoche de Madrid", () => {

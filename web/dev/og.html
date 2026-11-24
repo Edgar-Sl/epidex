@@ -66,8 +66,8 @@
     [document.getElementById("headline").textContent, document.getElementById("sub").textContent] = COPY[lang];
 
     // Un puzzle lejano del calendario y solo su segundo nivel: no desvela nada.
-    const schedule = await (await fetch("../data/pokemon/schedule.json")).json();
-    const puzzle = await (await fetch(`../data/pokemon/puzzles/${schedule.days[300].puzzle}.json`)).json();
+    const schedule = await (await fetch("../data/gen1/schedule.json")).json();
+    const puzzle = await (await fetch(`../data/gen1/puzzles/${schedule.days[300].puzzle}.json`)).json();
     document.getElementById("tiles").replaceChildren(
       ...puzzle.levels.map((k, i) => {
         const span = document.createElement("span");

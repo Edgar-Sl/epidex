@@ -7,7 +7,6 @@
  */
 
 import { AnswerIndex } from "../core/answer-index.js";
-import { answerBonus, bonusChoices, bonusQuestions, bonusResults } from "../core/bonus.js";
 import { formatDuration, msUntilNextDay } from "../core/dates.js";
 import {
   STATE_VERSION,
@@ -20,7 +19,10 @@ import {
   levelIndex,
   maxAttempts,
   skip,
+  takeHint,
 } from "../core/game.js";
+import { recordInDex, emptyDex } from "../core/dex.js";
+import { availableHints, hintText } from "../core/hints.js";
 import { buildShareText } from "../core/share.js";
 import { displayedStreak, emptyStats, recordResult } from "../core/stats.js";
 import { EpicycleRenderer } from "../render/epicycles.js";
@@ -30,9 +32,9 @@ import { byId, h, replayAnimation } from "../ui/dom.js";
 import { enableTypeAnywhere, hasFinePointer } from "../ui/keyboard.js";
 import { renderStats } from "../ui/stats-view.js";
 import { SITE } from "./config.js";
-import { LANG, t } from "./i18n.js";
-import { shareResult } from "./share-action.js";
-import { GameStorage } from "./storage.js";
+import { LANG, LOCALE, t } from "./i18n.js";
+import { appShareUrl, canShareNatively, copyToClipboard, shareResult } from "./share-action.js";
+import { GameStorage, dexStore } from "./storage.js";
 
 const RESULT_LABEL = {
   correct: t("resultCorrect"),
@@ -51,21 +53,22 @@ export class GameController {
    * @param {Object} options.puzzle JSON del puzzle.
    * @param {string} options.timezone Zona del calendario (para la cuenta atrás).
    * @param {(message: string, options?: object) => void} options.toast
+   * @param {() => void} [options.onDexChange] Al anotar algo en la Pokédex.
    */
-  constructor({ collection, shareLink, answers, entry, puzzle, timezone, toast }) {
+  constructor({ collection, shareLink, answers, entry, puzzle, timezone, toast, onDexChange = () => {} }) {
     this.collection = collection;
     this.shareLink = shareLink;
     this.puzzle = puzzle;
     this.timezone = timezone;
     this.toast = toast;
+    this.onDexChange = onDexChange;
+    /** Pistas que se pueden pedir en este puzzle (ninguna si el modo no tiene). */
+    this.hintKinds = collection.ui?.hints === false ? [] : availableHints(puzzle);
     this.names = new Map(answers.map((a) => [a.id, a.name]));
     this.storage = new GameStorage(collection.id);
     this.state = this.storage.loadGame(puzzle.id, STATE_VERSION) ?? createGame(puzzle, entry);
     this.stats = this.storage.loadStats(emptyStats(maxAttempts(this.state)));
     this.countdownTimer = null;
-    this.bonus = bonusQuestions(puzzle, LANG);
-    /** Pregunta extra recién respondida: se queda a la vista hasta pulsar "Siguiente". */
-    this.bonusShown = null;
     /** La partida acaba de terminar en esta visita (para celebrar la racha). */
     this.justFinished = false;
 
@@ -80,21 +83,24 @@ export class GameController {
       input: /** @type {HTMLInputElement} */ (byId("guess")),
       submit: /** @type {HTMLButtonElement} */ (byId("submit")),
       skip: byId("skip"),
+      hint: /** @type {HTMLButtonElement} */ (byId("hint")),
+      hintPanel: byId("hint-panel"),
+      hintPick: byId("hint-pick"),
+      hintOptions: byId("hint-options"),
+      hintLine: byId("hint-line"),
+      resultDex: byId("result-dex"),
       history: byId("history"),
       result: byId("result"),
       resultTitle: byId("result-title"),
       resultAnswer: byId("result-answer"),
       resultGrid: byId("result-grid"),
-      share: byId("share"),
+      shareWa: /** @type {HTMLAnchorElement} */ (byId("share-wa")),
+      shareTg: /** @type {HTMLAnchorElement} */ (byId("share-tg")),
+      shareX: /** @type {HTMLAnchorElement} */ (byId("share-x")),
+      shareCopy: byId("share-copy"),
+      shareMore: byId("share-more"),
       countdown: byId("countdown"),
       streak: byId("result-streak"),
-      bonus: byId("bonus"),
-      bonusStep: byId("bonus-step"),
-      bonusMarks: byId("bonus-marks"),
-      bonusQuestion: byId("bonus-question"),
-      bonusOptions: byId("bonus-options"),
-      bonusNext: /** @type {HTMLButtonElement} */ (byId("bonus-next")),
-      bonusSummary: byId("bonus-summary"),
       statsBody: byId("stats-body"),
       statsDialog: /** @type {HTMLDialogElement} */ (byId("stats-dialog")),
       // Opcional: arte que se revela al acabar (colecciones con `ui.art`).
@@ -119,7 +125,7 @@ export class GameController {
     });
 
     this.ui.input.placeholder = collection.ui.placeholder;
-    this.ui.puzzleLabel.textContent = `${collection.title} · #${entry.number}`;
+    this.ui.puzzleLabel.textContent = `${collection.menu?.kicker ?? collection.title} · #${entry.number}`;
     this.renderPalette();
 
     this.ui.form.addEventListener("submit", (e) => {
@@ -128,15 +134,35 @@ export class GameController {
       if (answer) this.apply(guess(this.state, answer.id), answer.name);
     });
     this.ui.skip.addEventListener("click", () => this.apply(skip(this.state)));
-    this.ui.share.addEventListener("click", () => this.share());
-    this.ui.bonusNext.addEventListener("click", () => this.nextBonus());
-    this.ui.bonusOptions.addEventListener("click", (e) => {
-      const button = /** @type {HTMLElement} */ (e.target).closest("button[data-choice]");
-      if (button) this.chooseBonus(Number(button.getAttribute("data-choice")));
-    });
-    document.addEventListener("keydown", (e) => this.onBonusKey(e));
+    this.ui.hint.hidden = this.hintKinds.length === 0;
+    this.hintTitle = this.ui.hint.title;
+    this.ui.hint.addEventListener("click", () => this.toggleHints());
+    this.ui.hintPick.textContent = t("hintPick");
+    this.ui.hintOptions.replaceChildren(
+      ...this.hintKinds.map((kind) => {
+        const button = h("button", { type: "button", class: "hint-option", text: t(`hint_${kind}`) });
+        button.addEventListener("click", () => this.useHint(kind));
+        return button;
+      }),
+    );
+    // El mensaje cambia al responder las preguntas extra: el enlace se completa
+    // justo al pulsar (antes de que el navegador lo abra).
+    for (const [link, app] of [
+      [this.ui.shareWa, "whatsapp"],
+      [this.ui.shareTg, "telegram"],
+      [this.ui.shareX, "x"],
+    ]) {
+      link.addEventListener("click", () => {
+        link.href = appShareUrl(app, this.shareText(false), this.shareLink);
+      });
+    }
+    this.ui.shareCopy.addEventListener("click", () => this.copyResult());
+    this.ui.shareMore.hidden = !canShareNatively();
+    this.ui.shareMore.addEventListener("click", () => this.share());
     enableTypeAnywhere(this.ui.input);
 
+    // Partida ya acabada (p. ej. al recargar): que esté en la Pokédex.
+    if (isOver(this.state)) this.recordDex();
     this.render();
     // En escritorio, listo para escribir (en móvil no: abriría el teclado de golpe).
     if (hasFinePointer() && !isOver(this.state) && !document.querySelector("dialog[open]")) {
@@ -148,6 +174,64 @@ export class GameController {
   openStats() {
     renderStats(this.ui.statsBody, this.stats, this.state.date, this.highlightKey());
     this.ui.statsDialog.showModal();
+  }
+
+  // ---- pistas --------------------------------------------------------------
+
+  /** Abre o cierra la lista de pistas (en la pantalla del registro). */
+  toggleHints(open = this.ui.hintPanel.hidden) {
+    if (this.state.hint || isOver(this.state)) open = false;
+    this.ui.hintPanel.hidden = !open;
+    this.ui.hint.setAttribute("aria-expanded", String(open));
+    if (open) this.ui.hintOptions.querySelector("button")?.focus();
+  }
+
+  /** @param {string} kind */
+  useHint(kind) {
+    const state = takeHint(this.state, kind);
+    if (state === this.state) return;
+    this.state = state;
+    this.storage.saveGame(state);
+    this.toggleHints(false);
+    this.render();
+    replayAnimation(this.ui.hintLine, "is-new");
+    this.ui.input.focus();
+  }
+
+  /** "Tipo: Eléctrico" */
+  hintLabel(kind = this.state.hint) {
+    const text = hintText(kind, this.puzzle.hints ?? {}, {
+      lang: LANG,
+      locale: LOCALE,
+      startsWith: t("startsWith"),
+      stages: {
+        single: t("stage_single"),
+        basic: t("stage_basic"),
+        middle: t("stage_middle"),
+        final: t("stage_final"),
+      },
+    });
+    return `${t(`hint_${kind}`)}: ${text}`;
+  }
+
+  // ---- Pokédex -------------------------------------------------------------
+
+  /** Anota la partida acabada en la Pokédex del jugador. */
+  recordDex() {
+    const { state } = this;
+    const dex = dexStore.load(emptyDex());
+    const next = recordInDex(dex, {
+      id: state.answer,
+      won: state.status === "won",
+      date: state.date,
+      name: this.names.get(state.answer) ?? state.answer,
+      art: this.collection.ui.art ? `${this.collection.id}/art/${this.puzzle.id}.webp` : undefined,
+    });
+    if (next !== dex) {
+      dexStore.save(next);
+      this.onDexChange();
+    }
+    this.dexEntry = next.entries[state.answer];
   }
 
   // ---- jugadas -------------------------------------------------------------
@@ -197,6 +281,7 @@ export class GameController {
       attemptsUsed: this.state.attempts.length,
     });
     this.storage.saveStats(this.stats);
+    this.recordDex();
     this.renderer.setCircles(circlesToShow(this.state));
     this.renderer.complete();
     this.justFinished = true;
@@ -205,125 +290,50 @@ export class GameController {
       burstConfetti(this.ui.frame);
     }
     this.scan();
-    // Que el resultado y el botón de compartir queden a la vista en móvil.
-    requestAnimationFrame(() => this.ui.result.scrollIntoView({ behavior: "smooth", block: "nearest" }));
+    // Que el resultado y el botón de compartir queden a la vista en móvil. Se espera a
+    // que el aparato se reajuste al nuevo contenido (ui/fit.js): en escritorio suele caber.
+    setTimeout(() => {
+      const box = this.ui.result.getBoundingClientRect();
+      if (box.top < 0 || box.bottom > window.innerHeight) {
+        this.ui.result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }, 250);
   }
 
-  async share() {
+  /**
+   * Texto para compartir (sin spoiler).
+   * @param {boolean} [withUrl] Con el enlace al final.
+   */
+  shareText(withUrl = true) {
     const { state } = this;
     const won = state.status === "won";
-    const text = buildShareText({
+    return buildShareText({
       gameName: SITE.name,
       number: state.number,
-      emoji: this.collection.emoji,
+      emoji: this.collection.menu?.kicker ?? this.collection.emoji, // "Epidex Gen I #12"
       won,
       attemptsUsed: state.attempts.length,
       maxAttempts: maxAttempts(state),
       results: attemptResults(state),
       // Al acabar se muestra el dibujo completo; lo que cuenta es el nivel del acierto.
       circles: won ? state.levels[state.attempts.length - 1] : undefined,
-      bonus: bonusResults(state, this.bonus),
-      url: this.shareLink,
+      // Pista: su nombre ("Tipo"), null si se jugó sin ninguna; nada si el modo no tiene.
+      hint: this.hintKinds.length ? (state.hint ? t(`hint_${state.hint}`) : null) : undefined,
+      url: withUrl ? this.shareLink : undefined,
       lang: LANG,
     });
-    const outcome = await shareResult(text);
+  }
+
+  /** Hoja de compartir del sistema (o copiar, si no hay). */
+  async share() {
+    const outcome = await shareResult(this.shareText());
     if (outcome === "copied") this.toast(t("copied"), { tone: "success" });
     if (outcome === "failed") this.toast(t("copyFailed"), { tone: "error" });
   }
 
-  // ---- preguntas extra -----------------------------------------------------
-
-  /** @param {number} choice Índice de la opción elegida. */
-  chooseBonus(choice) {
-    if (this.bonusShown !== null) return; // primero "Siguiente"
-    const step = answerBonus(this.state, this.bonus, choice);
-    if (!step) return;
-    const index = bonusChoices(this.state).length;
-    this.state = step.state;
-    this.storage.saveGame(step.state);
-    this.bonusShown = index;
-    this.renderBonus();
-    const done = bonusChoices(this.state).length >= this.bonus.length;
-    if (done && bonusResults(this.state, this.bonus).every((r) => r === "correct")) {
-      burstConfetti(this.ui.bonus, { count: 50 });
-    }
-    this.ui.bonusNext.focus({ preventScroll: true });
-  }
-
-  nextBonus() {
-    if (this.bonusShown === null) return;
-    this.bonusShown = null;
-    this.renderBonus();
-    const first = this.ui.bonusOptions.querySelector("button");
-    if (first && hasFinePointer()) first.focus({ preventScroll: true });
-    else if (this.ui.bonus.hidden) this.ui.share.focus({ preventScroll: true });
-  }
-
-  /** Teclas 1-4 responden y Enter pasa a la siguiente (en escritorio). */
-  onBonusKey(e) {
-    if (this.ui.bonus.hidden || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
-    if (document.querySelector("dialog[open]")) return;
-    const n = Number(e.key);
-    if (Number.isInteger(n) && n >= 1 && n <= 9) {
-      e.preventDefault();
-      this.chooseBonus(n - 1);
-    } else if (e.key === "Enter" && this.bonusShown !== null && e.target !== this.ui.bonusNext) {
-      e.preventDefault();
-      this.nextBonus();
-    }
-  }
-
-  renderBonus() {
-    const { ui, bonus } = this;
-    const chosen = bonusChoices(this.state);
-    const results = bonusResults(this.state, bonus);
-    const index = this.bonusShown ?? chosen.length;
-    const question = bonus[index];
-    const over = isOver(this.state);
-
-    ui.bonus.hidden = !over || !question;
-    ui.bonusSummary.hidden = !over || bonus.length === 0 || Boolean(question);
-    if (!over) return;
-
-    if (!question) {
-      const right = results.filter((r) => r === "correct").length;
-      ui.bonusSummary.textContent = `${t("bonusSummary", { right, total: bonus.length })} ${results
-        .map((r) => (r === "correct" ? "✅" : "❌"))
-        .join("")}`;
-      ui.bonusSummary.classList.toggle("bonus-summary--perfect", right === bonus.length);
-      return;
-    }
-
-    const answered = this.bonusShown !== null;
-    const choice = chosen[index];
-    ui.bonusStep.textContent = t("bonusStep", { n: index + 1, total: bonus.length });
-    ui.bonusMarks.textContent = results.map((r) => (r === "correct" ? "✅" : "❌")).join("");
-    ui.bonusQuestion.textContent = question.question;
-    ui.bonusOptions.replaceChildren(
-      ...question.options.map((label, i) => {
-        let state = "";
-        if (answered && i === question.answer) state = "is-right";
-        else if (answered && i === choice) state = "is-wrong";
-        return h(
-          "li",
-          {},
-          h(
-            "button",
-            {
-              type: "button",
-              class: `bonus-option ${state}`.trim(),
-              disabled: answered ? "" : null,
-              "aria-pressed": answered && i === choice ? "true" : null,
-              "data-choice": i,
-            },
-            h("kbd", { text: String(i + 1), "aria-hidden": "true" }),
-            h("span", { text: label }),
-          ),
-        );
-      }),
-    );
-    ui.bonusNext.hidden = !answered;
-    ui.bonusNext.textContent = index + 1 < bonus.length ? t("next") : t("seeResult");
+  async copyResult() {
+    const ok = await copyToClipboard(this.shareText());
+    this.toast(t(ok ? "copied" : "copyFailed"), { tone: ok ? "success" : "error" });
   }
 
   // ---- pintado -------------------------------------------------------------
@@ -384,6 +394,13 @@ export class GameController {
       }),
     );
 
+    // Pista: la tecla se apaga cuando ya se ha usado, y la pista queda en la pantalla.
+    ui.hint.disabled = over || Boolean(state.hint);
+    ui.hint.title = state.hint ? t("hintUsed") : this.hintTitle;
+    ui.hintLine.hidden = !state.hint;
+    if (state.hint) ui.hintLine.textContent = this.hintLabel();
+    if (over || state.hint) this.toggleHints(false);
+
     this.autocomplete.setExclude(guessedIds(state));
     ui.play.hidden = over;
     ui.result.hidden = !over;
@@ -395,12 +412,18 @@ export class GameController {
       ? t("correct", { score: `${state.attempts.length}/${maxAttempts(state)}` })
       : t("lost");
     ui.resultAnswer.textContent = this.names.get(state.answer) ?? state.answer;
+    const entry = this.dexEntry;
+    ui.resultDex.hidden = !entry;
+    if (entry) {
+      const caughtNow = entry.status === "caught" && entry.date === state.date;
+      ui.resultDex.textContent = t(caughtNow ? "dexCaught" : entry.status === "caught" ? "dexCaughtAgain" : "dexSeen");
+      ui.resultDex.className = `result-dex result-dex--${entry.status}`;
+    }
     this.revealArt();
     const streak = displayedStreak(this.stats, state.date);
     ui.streak.hidden = !won || streak < 1;
     ui.streak.textContent = streak === 1 ? t("streakStart") : t("streak", { n: streak });
     ui.streak.classList.toggle("is-new", this.justFinished);
-    this.renderBonus();
     ui.resultGrid.replaceChildren(
       ...results.map((r) => h("span", { class: `cell cell--${r}`, title: RESULT_LABEL[r] })),
     );

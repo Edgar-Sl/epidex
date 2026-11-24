@@ -1,0 +1,1833 @@
+{
+  "version": 1,
+  "collection": "gen2",
+  "timezone": "Europe/Madrid",
+  "start_date": "2026-11-19",
+  "days": [
+    {
+      "date": "2026-11-19",
+      "number": 1,
+      "puzzle": "a79b9f52e2"
+    },
+    {
+      "date": "2026-11-20",
+      "number": 2,
+      "puzzle": "294b043265"
+    },
+    {
+      "date": "2026-11-21",
+      "number": 3,
+      "puzzle": "23406f35e6"
+    },
+    {
+      "date": "2026-11-22",
+      "number": 4,
+      "puzzle": "a1a546cb81"
+    },
+    {
+      "date": "2026-11-23",
+      "number": 5,
+      "puzzle": "8363d4fae6"
+    },
+    {
+      "date": "2026-11-24",
+      "number": 6,
+      "puzzle": "4e1033d4f9"
+    },
+    {
+      "date": "2026-11-25",
+      "number": 7,
+      "puzzle": "0a44a9a41e"
+    },
+    {
+      "date": "2026-11-26",
+      "number": 8,
+      "puzzle": "ab2e8ad341"
+    },
+    {
+      "date": "2026-11-27",
+      "number": 9,
+      "puzzle": "5eeaf6daeb"
+    },
+    {
+      "date": "2026-11-28",
+      "number": 10,
+      "puzzle": "df6ca93f6b"
+    },
+    {
+      "date": "2026-11-29",
+      "number": 11,
+      "puzzle": "3668e375ff"
+    },
+    {
+      "date": "2026-11-30",
+      "number": 12,
+      "puzzle": "836f63c61a"
+    },
+    {
+      "date": "2026-12-01",
+      "number": 13,
+      "puzzle": "81a013ae88"
+    },
+    {
+      "date": "2026-12-02",
+      "number": 14,
+      "puzzle": "508927f73f"
+    },
+    {
+      "date": "2026-12-03",
+      "number": 15,
+      "puzzle": "6027c8a688"
+    },
+    {
+      "date": "2026-12-04",
+      "number": 16,
+      "puzzle": "89371e6cce"
+    },
+    {
+      "date": "2026-12-05",
+      "number": 17,
+      "puzzle": "bad74d88c6"
+    },
+    {
+      "date": "2026-12-06",
+      "number": 18,
+      "puzzle": "0fec5ca642"
+    },
+    {
+      "date": "2026-12-07",
+      "number": 19,
+      "puzzle": "d4200358e2"
+    },
+    {
+      "date": "2026-12-08",
+      "number": 20,
+      "puzzle": "977f58d5f0"
+    },
+    {
+      "date": "2026-12-09",
+      "number": 21,
+      "puzzle": "bdf1bcbf8a"
+    },
+    {
+      "date": "2026-12-10",
+      "number": 22,
+      "puzzle": "dcaaed2665"
+    },
+    {
+      "date": "2026-12-11",
+      "number": 23,
+      "puzzle": "84a602bbad"
+    },
+    {
+      "date": "2026-12-12",
+      "number": 24,
+      "puzzle": "2bbb18c447"
+    },
+    {
+      "date": "2026-12-13",
+      "number": 25,
+      "puzzle": "f141c49fb9"
+    },
+    {
+      "date": "2026-12-14",
+      "number": 26,
+      "puzzle": "a3a4f38a32"
+    },
+    {
+      "date": "2026-12-15",
+      "number": 27,
+      "puzzle": "61fc2f06e9"
+    },
+    {
+      "date": "2026-12-16",
+      "number": 28,
+      "puzzle": "5510af7ec7"
+    },
+    {
+      "date": "2026-12-17",
+      "number": 29,
+      "puzzle": "da02cc7150"
+    },
+    {
+      "date": "2026-12-18",
+      "number": 30,
+      "puzzle": "6da2f3aba5"
+    },
+    {
+      "date": "2026-12-19",
+      "number": 31,
+      "puzzle": "d5a38653b9"
+    },
+    {
+      "date": "2026-12-20",
+      "number": 32,
+      "puzzle": "3865683db5"
+    },
+    {
+      "date": "2026-12-21",
+      "number": 33,
+      "puzzle": "4d77ec2140"
+    },
+    {
+      "date": "2026-12-22",
+      "number": 34,
+      "puzzle": "9e20bbea44"
+    },
+    {
+      "date": "2026-12-23",
+      "number": 35,
+      "puzzle": "dcdd9bdc3a"
+    },
+    {
+      "date": "2026-12-24",
+      "number": 36,
+      "puzzle": "11c9ba7bfd"
+    },
+    {
+      "date": "2026-12-25",
+      "number": 37,
+      "puzzle": "b1342aee39"
+    },
+    {
+      "date": "2026-12-26",
+      "number": 38,
+      "puzzle": "31d962f64f"
+    },
+    {
+      "date": "2026-12-27",
+      "number": 39,
+      "puzzle": "f034336bf0"
+    },
+    {
+      "date": "2026-12-28",
+      "number": 40,
+      "puzzle": "6ca9cb193b"
+    },
+    {
+      "date": "2026-12-29",
+      "number": 41,
+      "puzzle": "7251360233"
+    },
+    {
+      "date": "2026-12-30",
+      "number": 42,
+      "puzzle": "d7ca4c2718"
+    },
+    {
+      "date": "2026-12-31",
+      "number": 43,
+      "puzzle": "5f875e6b95"
+    },
+    {
+      "date": "2027-01-01",
+      "number": 44,
+      "puzzle": "d085ccc32c"
+    },
+    {
+      "date": "2027-01-02",
+      "number": 45,
+      "puzzle": "2725ad2161"
+    },
+    {
+      "date": "2027-01-03",
+      "number": 46,
+      "puzzle": "fd378a1281"
+    },
+    {
+      "date": "2027-01-04",
+      "number": 47,
+      "puzzle": "fbbd7389bf"
+    },
+    {
+      "date": "2027-01-05",
+      "number": 48,
+      "puzzle": "a3625bd094"
+    },
+    {
+      "date": "2027-01-06",
+      "number": 49,
+      "puzzle": "724ca0626c"
+    },
+    {
+      "date": "2027-01-07",
+      "number": 50,
+      "puzzle": "ce5b082ecb"
+    },
+    {
+      "date": "2027-01-08",
+      "number": 51,
+      "puzzle": "a09d2bf91f"
+    },
+    {
+      "date": "2027-01-09",
+      "number": 52,
+      "puzzle": "d120a3220b"
+    },
+    {
+      "date": "2027-01-10",
+      "number": 53,
+      "puzzle": "92040204ed"
+    },
+    {
+      "date": "2027-01-11",
+      "number": 54,
+      "puzzle": "7074ef8296"
+    },
+    {
+      "date": "2027-01-12",
+      "number": 55,
+      "puzzle": "81cb7c2bee"
+    },
+    {
+      "date": "2027-01-13",
+      "number": 56,
+      "puzzle": "048a75d73b"
+    },
+    {
+      "date": "2027-01-14",
+      "number": 57,
+      "puzzle": "b3f58dde1f"
+    },
+    {
+      "date": "2027-01-15",
+      "number": 58,
+      "puzzle": "d72beb6df4"
+    },
+    {
+      "date": "2027-01-16",
+      "number": 59,
+      "puzzle": "2414912792"
+    },
+    {
+      "date": "2027-01-17",
+      "number": 60,
+      "puzzle": "c747619492"
+    },
+    {
+      "date": "2027-01-18",
+      "number": 61,
+      "puzzle": "9be1b86f3f"
+    },
+    {
+      "date": "2027-01-19",
+      "number": 62,
+      "puzzle": "9d3b685c55"
+    },
+    {
+      "date": "2027-01-20",
+      "number": 63,
+      "puzzle": "0ac23b3ee9"
+    },
+    {
+      "date": "2027-01-21",
+      "number": 64,
+      "puzzle": "e789871b63"
+    },
+    {
+      "date": "2027-01-22",
+      "number": 65,
+      "puzzle": "67ce6806e1"
+    },
+    {
+      "date": "2027-01-23",
+      "number": 66,
+      "puzzle": "83039c968d"
+    },
+    {
+      "date": "2027-01-24",
+      "number": 67,
+      "puzzle": "656c682d6f"
+    },
+    {
+      "date": "2027-01-25",
+      "number": 68,
+      "puzzle": "0d5cec51fc"
+    },
+    {
+      "date": "2027-01-26",
+      "number": 69,
+      "puzzle": "5e80695bd8"
+    },
+    {
+      "date": "2027-01-27",
+      "number": 70,
+      "puzzle": "7be02b7b79"
+    },
+    {
+      "date": "2027-01-28",
+      "number": 71,
+      "puzzle": "b8f8f1b5a6"
+    },
+    {
+      "date": "2027-01-29",
+      "number": 72,
+      "puzzle": "cac31e5ac5"
+    },
+    {
+      "date": "2027-01-30",
+      "number": 73,
+      "puzzle": "5601bf5ba3"
+    },
+    {
+      "date": "2027-01-31",
+      "number": 74,
+      "puzzle": "864b299718"
+    },
+    {
+      "date": "2027-02-01",
+      "number": 75,
+      "puzzle": "b423d129ef"
+    },
+    {
+      "date": "2027-02-02",
+      "number": 76,
+      "puzzle": "530aedc72d"
+    },
+    {
+      "date": "2027-02-03",
+      "number": 77,
+      "puzzle": "2de11ce6cb"
+    },
+    {
+      "date": "2027-02-04",
+      "number": 78,
+      "puzzle": "80ac61e79b"
+    },
+    {
+      "date": "2027-02-05",
+      "number": 79,
+      "puzzle": "78fd7b1e11"
+    },
+    {
+      "date": "2027-02-06",
+      "number": 80,
+      "puzzle": "71e3bf420b"
+    },
+    {
+      "date": "2027-02-07",
+      "number": 81,
+      "puzzle": "2dda853c49"
+    },
+    {
+      "date": "2027-02-08",
+      "number": 82,
+      "puzzle": "acfdda6f34"
+    },
+    {
+      "date": "2027-02-09",
+      "number": 83,
+      "puzzle": "bcc5ed3fdf"
+    },
+    {
+      "date": "2027-02-10",
+      "number": 84,
+      "puzzle": "3d80f92349"
+    },
+    {
+      "date": "2027-02-11",
+      "number": 85,
+      "puzzle": "506f854c96"
+    },
+    {
+      "date": "2027-02-12",
+      "number": 86,
+      "puzzle": "31c278eed0"
+    },
+    {
+      "date": "2027-02-13",
+      "number": 87,
+      "puzzle": "90d3a07c71"
+    },
+    {
+      "date": "2027-02-14",
+      "number": 88,
+      "puzzle": "06aa125bd7"
+    },
+    {
+      "date": "2027-02-15",
+      "number": 89,
+      "puzzle": "f0681edde0"
+    },
+    {
+      "date": "2027-02-16",
+      "number": 90,
+      "puzzle": "8a80343ff8"
+    },
+    {
+      "date": "2027-02-17",
+      "number": 91,
+      "puzzle": "2bffef85d0"
+    },
+    {
+      "date": "2027-02-18",
+      "number": 92,
+      "puzzle": "3255a8fb41"
+    },
+    {
+      "date": "2027-02-19",
+      "number": 93,
+      "puzzle": "96aeb68938"
+    },
+    {
+      "date": "2027-02-20",
+      "number": 94,
+      "puzzle": "33f886346b"
+    },
+    {
+      "date": "2027-02-21",
+      "number": 95,
+      "puzzle": "aa775cb101"
+    },
+    {
+      "date": "2027-02-22",
+      "number": 96,
+      "puzzle": "6f4e8b5192"
+    },
+    {
+      "date": "2027-02-23",
+      "number": 97,
+      "puzzle": "a28c0d62d2"
+    },
+    {
+      "date": "2027-02-24",
+      "number": 98,
+      "puzzle": "4a4572009f"
+    },
+    {
+      "date": "2027-02-25",
+      "number": 99,
+      "puzzle": "3dd9b16a98"
+    },
+    {
+      "date": "2027-02-26",
+      "number": 100,
+      "puzzle": "9f7073b844"
+    },
+    {
+      "date": "2027-02-27",
+      "number": 101,
+      "puzzle": "fbbd7389bf"
+    },
+    {
+      "date": "2027-02-28",
+      "number": 102,
+      "puzzle": "294b043265"
+    },
+    {
+      "date": "2027-03-01",
+      "number": 103,
+      "puzzle": "f0681edde0"
+    },
+    {
+      "date": "2027-03-02",
+      "number": 104,
+      "puzzle": "6ca9cb193b"
+    },
+    {
+      "date": "2027-03-03",
+      "number": 105,
+      "puzzle": "7be02b7b79"
+    },
+    {
+      "date": "2027-03-04",
+      "number": 106,
+      "puzzle": "8363d4fae6"
+    },
+    {
+      "date": "2027-03-05",
+      "number": 107,
+      "puzzle": "5601bf5ba3"
+    },
+    {
+      "date": "2027-03-06",
+      "number": 108,
+      "puzzle": "977f58d5f0"
+    },
+    {
+      "date": "2027-03-07",
+      "number": 109,
+      "puzzle": "d72beb6df4"
+    },
+    {
+      "date": "2027-03-08",
+      "number": 110,
+      "puzzle": "61fc2f06e9"
+    },
+    {
+      "date": "2027-03-09",
+      "number": 111,
+      "puzzle": "06aa125bd7"
+    },
+    {
+      "date": "2027-03-10",
+      "number": 112,
+      "puzzle": "bad74d88c6"
+    },
+    {
+      "date": "2027-03-11",
+      "number": 113,
+      "puzzle": "84a602bbad"
+    },
+    {
+      "date": "2027-03-12",
+      "number": 114,
+      "puzzle": "cac31e5ac5"
+    },
+    {
+      "date": "2027-03-13",
+      "number": 115,
+      "puzzle": "530aedc72d"
+    },
+    {
+      "date": "2027-03-14",
+      "number": 116,
+      "puzzle": "fd378a1281"
+    },
+    {
+      "date": "2027-03-15",
+      "number": 117,
+      "puzzle": "2725ad2161"
+    },
+    {
+      "date": "2027-03-16",
+      "number": 118,
+      "puzzle": "80ac61e79b"
+    },
+    {
+      "date": "2027-03-17",
+      "number": 119,
+      "puzzle": "508927f73f"
+    },
+    {
+      "date": "2027-03-18",
+      "number": 120,
+      "puzzle": "048a75d73b"
+    },
+    {
+      "date": "2027-03-19",
+      "number": 121,
+      "puzzle": "e789871b63"
+    },
+    {
+      "date": "2027-03-20",
+      "number": 122,
+      "puzzle": "71e3bf420b"
+    },
+    {
+      "date": "2027-03-21",
+      "number": 123,
+      "puzzle": "bcc5ed3fdf"
+    },
+    {
+      "date": "2027-03-22",
+      "number": 124,
+      "puzzle": "864b299718"
+    },
+    {
+      "date": "2027-03-23",
+      "number": 125,
+      "puzzle": "3668e375ff"
+    },
+    {
+      "date": "2027-03-24",
+      "number": 126,
+      "puzzle": "81a013ae88"
+    },
+    {
+      "date": "2027-03-25",
+      "number": 127,
+      "puzzle": "9be1b86f3f"
+    },
+    {
+      "date": "2027-03-26",
+      "number": 128,
+      "puzzle": "b3f58dde1f"
+    },
+    {
+      "date": "2027-03-27",
+      "number": 129,
+      "puzzle": "dcaaed2665"
+    },
+    {
+      "date": "2027-03-28",
+      "number": 130,
+      "puzzle": "2dda853c49"
+    },
+    {
+      "date": "2027-03-29",
+      "number": 131,
+      "puzzle": "a09d2bf91f"
+    },
+    {
+      "date": "2027-03-30",
+      "number": 132,
+      "puzzle": "3dd9b16a98"
+    },
+    {
+      "date": "2027-03-31",
+      "number": 133,
+      "puzzle": "bdf1bcbf8a"
+    },
+    {
+      "date": "2027-04-01",
+      "number": 134,
+      "puzzle": "506f854c96"
+    },
+    {
+      "date": "2027-04-02",
+      "number": 135,
+      "puzzle": "a28c0d62d2"
+    },
+    {
+      "date": "2027-04-03",
+      "number": 136,
+      "puzzle": "9e20bbea44"
+    },
+    {
+      "date": "2027-04-04",
+      "number": 137,
+      "puzzle": "33f886346b"
+    },
+    {
+      "date": "2027-04-05",
+      "number": 138,
+      "puzzle": "6027c8a688"
+    },
+    {
+      "date": "2027-04-06",
+      "number": 139,
+      "puzzle": "4d77ec2140"
+    },
+    {
+      "date": "2027-04-07",
+      "number": 140,
+      "puzzle": "31d962f64f"
+    },
+    {
+      "date": "2027-04-08",
+      "number": 141,
+      "puzzle": "3d80f92349"
+    },
+    {
+      "date": "2027-04-09",
+      "number": 142,
+      "puzzle": "9d3b685c55"
+    },
+    {
+      "date": "2027-04-10",
+      "number": 143,
+      "puzzle": "b1342aee39"
+    },
+    {
+      "date": "2027-04-11",
+      "number": 144,
+      "puzzle": "4e1033d4f9"
+    },
+    {
+      "date": "2027-04-12",
+      "number": 145,
+      "puzzle": "a3a4f38a32"
+    },
+    {
+      "date": "2027-04-13",
+      "number": 146,
+      "puzzle": "92040204ed"
+    },
+    {
+      "date": "2027-04-14",
+      "number": 147,
+      "puzzle": "31c278eed0"
+    },
+    {
+      "date": "2027-04-15",
+      "number": 148,
+      "puzzle": "da02cc7150"
+    },
+    {
+      "date": "2027-04-16",
+      "number": 149,
+      "puzzle": "96aeb68938"
+    },
+    {
+      "date": "2027-04-17",
+      "number": 150,
+      "puzzle": "0fec5ca642"
+    },
+    {
+      "date": "2027-04-18",
+      "number": 151,
+      "puzzle": "656c682d6f"
+    },
+    {
+      "date": "2027-04-19",
+      "number": 152,
+      "puzzle": "f141c49fb9"
+    },
+    {
+      "date": "2027-04-20",
+      "number": 153,
+      "puzzle": "7074ef8296"
+    },
+    {
+      "date": "2027-04-21",
+      "number": 154,
+      "puzzle": "b8f8f1b5a6"
+    },
+    {
+      "date": "2027-04-22",
+      "number": 155,
+      "puzzle": "f034336bf0"
+    },
+    {
+      "date": "2027-04-23",
+      "number": 156,
+      "puzzle": "2414912792"
+    },
+    {
+      "date": "2027-04-24",
+      "number": 157,
+      "puzzle": "df6ca93f6b"
+    },
+    {
+      "date": "2027-04-25",
+      "number": 158,
+      "puzzle": "9f7073b844"
+    },
+    {
+      "date": "2027-04-26",
+      "number": 159,
+      "puzzle": "d120a3220b"
+    },
+    {
+      "date": "2027-04-27",
+      "number": 160,
+      "puzzle": "78fd7b1e11"
+    },
+    {
+      "date": "2027-04-28",
+      "number": 161,
+      "puzzle": "5f875e6b95"
+    },
+    {
+      "date": "2027-04-29",
+      "number": 162,
+      "puzzle": "6f4e8b5192"
+    },
+    {
+      "date": "2027-04-30",
+      "number": 163,
+      "puzzle": "8a80343ff8"
+    },
+    {
+      "date": "2027-05-01",
+      "number": 164,
+      "puzzle": "2bbb18c447"
+    },
+    {
+      "date": "2027-05-02",
+      "number": 165,
+      "puzzle": "d4200358e2"
+    },
+    {
+      "date": "2027-05-03",
+      "number": 166,
+      "puzzle": "c747619492"
+    },
+    {
+      "date": "2027-05-04",
+      "number": 167,
+      "puzzle": "4a4572009f"
+    },
+    {
+      "date": "2027-05-05",
+      "number": 168,
+      "puzzle": "6da2f3aba5"
+    },
+    {
+      "date": "2027-05-06",
+      "number": 169,
+      "puzzle": "0a44a9a41e"
+    },
+    {
+      "date": "2027-05-07",
+      "number": 170,
+      "puzzle": "0ac23b3ee9"
+    },
+    {
+      "date": "2027-05-08",
+      "number": 171,
+      "puzzle": "a1a546cb81"
+    },
+    {
+      "date": "2027-05-09",
+      "number": 172,
+      "puzzle": "3865683db5"
+    },
+    {
+      "date": "2027-05-10",
+      "number": 173,
+      "puzzle": "d085ccc32c"
+    },
+    {
+      "date": "2027-05-11",
+      "number": 174,
+      "puzzle": "89371e6cce"
+    },
+    {
+      "date": "2027-05-12",
+      "number": 175,
+      "puzzle": "b423d129ef"
+    },
+    {
+      "date": "2027-05-13",
+      "number": 176,
+      "puzzle": "d5a38653b9"
+    },
+    {
+      "date": "2027-05-14",
+      "number": 177,
+      "puzzle": "2de11ce6cb"
+    },
+    {
+      "date": "2027-05-15",
+      "number": 178,
+      "puzzle": "5e80695bd8"
+    },
+    {
+      "date": "2027-05-16",
+      "number": 179,
+      "puzzle": "90d3a07c71"
+    },
+    {
+      "date": "2027-05-17",
+      "number": 180,
+      "puzzle": "81cb7c2bee"
+    },
+    {
+      "date": "2027-05-18",
+      "number": 181,
+      "puzzle": "a79b9f52e2"
+    },
+    {
+      "date": "2027-05-19",
+      "number": 182,
+      "puzzle": "0d5cec51fc"
+    },
+    {
+      "date": "2027-05-20",
+      "number": 183,
+      "puzzle": "ab2e8ad341"
+    },
+    {
+      "date": "2027-05-21",
+      "number": 184,
+      "puzzle": "11c9ba7bfd"
+    },
+    {
+      "date": "2027-05-22",
+      "number": 185,
+      "puzzle": "2bffef85d0"
+    },
+    {
+      "date": "2027-05-23",
+      "number": 186,
+      "puzzle": "83039c968d"
+    },
+    {
+      "date": "2027-05-24",
+      "number": 187,
+      "puzzle": "dcdd9bdc3a"
+    },
+    {
+      "date": "2027-05-25",
+      "number": 188,
+      "puzzle": "aa775cb101"
+    },
+    {
+      "date": "2027-05-26",
+      "number": 189,
+      "puzzle": "3255a8fb41"
+    },
+    {
+      "date": "2027-05-27",
+      "number": 190,
+      "puzzle": "67ce6806e1"
+    },
+    {
+      "date": "2027-05-28",
+      "number": 191,
+      "puzzle": "724ca0626c"
+    },
+    {
+      "date": "2027-05-29",
+      "number": 192,
+      "puzzle": "5510af7ec7"
+    },
+    {
+      "date": "2027-05-30",
+      "number": 193,
+      "puzzle": "d7ca4c2718"
+    },
+    {
+      "date": "2027-05-31",
+      "number": 194,
+      "puzzle": "5eeaf6daeb"
+    },
+    {
+      "date": "2027-06-01",
+      "number": 195,
+      "puzzle": "a3625bd094"
+    },
+    {
+      "date": "2027-06-02",
+      "number": 196,
+      "puzzle": "7251360233"
+    },
+    {
+      "date": "2027-06-03",
+      "number": 197,
+      "puzzle": "836f63c61a"
+    },
+    {
+      "date": "2027-06-04",
+      "number": 198,
+      "puzzle": "ce5b082ecb"
+    },
+    {
+      "date": "2027-06-05",
+      "number": 199,
+      "puzzle": "acfdda6f34"
+    },
+    {
+      "date": "2027-06-06",
+      "number": 200,
+      "puzzle": "23406f35e6"
+    },
+    {
+      "date": "2027-06-07",
+      "number": 201,
+      "puzzle": "0ac23b3ee9"
+    },
+    {
+      "date": "2027-06-08",
+      "number": 202,
+      "puzzle": "bcc5ed3fdf"
+    },
+    {
+      "date": "2027-06-09",
+      "number": 203,
+      "puzzle": "cac31e5ac5"
+    },
+    {
+      "date": "2027-06-10",
+      "number": 204,
+      "puzzle": "2725ad2161"
+    },
+    {
+      "date": "2027-06-11",
+      "number": 205,
+      "puzzle": "294b043265"
+    },
+    {
+      "date": "2027-06-12",
+      "number": 206,
+      "puzzle": "3dd9b16a98"
+    },
+    {
+      "date": "2027-06-13",
+      "number": 207,
+      "puzzle": "ce5b082ecb"
+    },
+    {
+      "date": "2027-06-14",
+      "number": 208,
+      "puzzle": "df6ca93f6b"
+    },
+    {
+      "date": "2027-06-15",
+      "number": 209,
+      "puzzle": "977f58d5f0"
+    },
+    {
+      "date": "2027-06-16",
+      "number": 210,
+      "puzzle": "530aedc72d"
+    },
+    {
+      "date": "2027-06-17",
+      "number": 211,
+      "puzzle": "b1342aee39"
+    },
+    {
+      "date": "2027-06-18",
+      "number": 212,
+      "puzzle": "71e3bf420b"
+    },
+    {
+      "date": "2027-06-19",
+      "number": 213,
+      "puzzle": "3865683db5"
+    },
+    {
+      "date": "2027-06-20",
+      "number": 214,
+      "puzzle": "84a602bbad"
+    },
+    {
+      "date": "2027-06-21",
+      "number": 215,
+      "puzzle": "506f854c96"
+    },
+    {
+      "date": "2027-06-22",
+      "number": 216,
+      "puzzle": "11c9ba7bfd"
+    },
+    {
+      "date": "2027-06-23",
+      "number": 217,
+      "puzzle": "d5a38653b9"
+    },
+    {
+      "date": "2027-06-24",
+      "number": 218,
+      "puzzle": "9f7073b844"
+    },
+    {
+      "date": "2027-06-25",
+      "number": 219,
+      "puzzle": "96aeb68938"
+    },
+    {
+      "date": "2027-06-26",
+      "number": 220,
+      "puzzle": "bad74d88c6"
+    },
+    {
+      "date": "2027-06-27",
+      "number": 221,
+      "puzzle": "4d77ec2140"
+    },
+    {
+      "date": "2027-06-28",
+      "number": 222,
+      "puzzle": "048a75d73b"
+    },
+    {
+      "date": "2027-06-29",
+      "number": 223,
+      "puzzle": "f034336bf0"
+    },
+    {
+      "date": "2027-06-30",
+      "number": 224,
+      "puzzle": "c747619492"
+    },
+    {
+      "date": "2027-07-01",
+      "number": 225,
+      "puzzle": "31d962f64f"
+    },
+    {
+      "date": "2027-07-02",
+      "number": 226,
+      "puzzle": "d120a3220b"
+    },
+    {
+      "date": "2027-07-03",
+      "number": 227,
+      "puzzle": "d7ca4c2718"
+    },
+    {
+      "date": "2027-07-04",
+      "number": 228,
+      "puzzle": "a09d2bf91f"
+    },
+    {
+      "date": "2027-07-05",
+      "number": 229,
+      "puzzle": "4a4572009f"
+    },
+    {
+      "date": "2027-07-06",
+      "number": 230,
+      "puzzle": "23406f35e6"
+    },
+    {
+      "date": "2027-07-07",
+      "number": 231,
+      "puzzle": "61fc2f06e9"
+    },
+    {
+      "date": "2027-07-08",
+      "number": 232,
+      "puzzle": "2de11ce6cb"
+    },
+    {
+      "date": "2027-07-09",
+      "number": 233,
+      "puzzle": "3d80f92349"
+    },
+    {
+      "date": "2027-07-10",
+      "number": 234,
+      "puzzle": "dcdd9bdc3a"
+    },
+    {
+      "date": "2027-07-11",
+      "number": 235,
+      "puzzle": "33f886346b"
+    },
+    {
+      "date": "2027-07-12",
+      "number": 236,
+      "puzzle": "2bffef85d0"
+    },
+    {
+      "date": "2027-07-13",
+      "number": 237,
+      "puzzle": "d4200358e2"
+    },
+    {
+      "date": "2027-07-14",
+      "number": 238,
+      "puzzle": "a79b9f52e2"
+    },
+    {
+      "date": "2027-07-15",
+      "number": 239,
+      "puzzle": "a3625bd094"
+    },
+    {
+      "date": "2027-07-16",
+      "number": 240,
+      "puzzle": "5510af7ec7"
+    },
+    {
+      "date": "2027-07-17",
+      "number": 241,
+      "puzzle": "7be02b7b79"
+    },
+    {
+      "date": "2027-07-18",
+      "number": 242,
+      "puzzle": "ab2e8ad341"
+    },
+    {
+      "date": "2027-07-19",
+      "number": 243,
+      "puzzle": "aa775cb101"
+    },
+    {
+      "date": "2027-07-20",
+      "number": 244,
+      "puzzle": "864b299718"
+    },
+    {
+      "date": "2027-07-21",
+      "number": 245,
+      "puzzle": "3255a8fb41"
+    },
+    {
+      "date": "2027-07-22",
+      "number": 246,
+      "puzzle": "b423d129ef"
+    },
+    {
+      "date": "2027-07-23",
+      "number": 247,
+      "puzzle": "0a44a9a41e"
+    },
+    {
+      "date": "2027-07-24",
+      "number": 248,
+      "puzzle": "9e20bbea44"
+    },
+    {
+      "date": "2027-07-25",
+      "number": 249,
+      "puzzle": "b3f58dde1f"
+    },
+    {
+      "date": "2027-07-26",
+      "number": 250,
+      "puzzle": "90d3a07c71"
+    },
+    {
+      "date": "2027-07-27",
+      "number": 251,
+      "puzzle": "8363d4fae6"
+    },
+    {
+      "date": "2027-07-28",
+      "number": 252,
+      "puzzle": "724ca0626c"
+    },
+    {
+      "date": "2027-07-29",
+      "number": 253,
+      "puzzle": "92040204ed"
+    },
+    {
+      "date": "2027-07-30",
+      "number": 254,
+      "puzzle": "bdf1bcbf8a"
+    },
+    {
+      "date": "2027-07-31",
+      "number": 255,
+      "puzzle": "06aa125bd7"
+    },
+    {
+      "date": "2027-08-01",
+      "number": 256,
+      "puzzle": "6f4e8b5192"
+    },
+    {
+      "date": "2027-08-02",
+      "number": 257,
+      "puzzle": "da02cc7150"
+    },
+    {
+      "date": "2027-08-03",
+      "number": 258,
+      "puzzle": "5e80695bd8"
+    },
+    {
+      "date": "2027-08-04",
+      "number": 259,
+      "puzzle": "89371e6cce"
+    },
+    {
+      "date": "2027-08-05",
+      "number": 260,
+      "puzzle": "6027c8a688"
+    },
+    {
+      "date": "2027-08-06",
+      "number": 261,
+      "puzzle": "81cb7c2bee"
+    },
+    {
+      "date": "2027-08-07",
+      "number": 262,
+      "puzzle": "4e1033d4f9"
+    },
+    {
+      "date": "2027-08-08",
+      "number": 263,
+      "puzzle": "836f63c61a"
+    },
+    {
+      "date": "2027-08-09",
+      "number": 264,
+      "puzzle": "7074ef8296"
+    },
+    {
+      "date": "2027-08-10",
+      "number": 265,
+      "puzzle": "fd378a1281"
+    },
+    {
+      "date": "2027-08-11",
+      "number": 266,
+      "puzzle": "6da2f3aba5"
+    },
+    {
+      "date": "2027-08-12",
+      "number": 267,
+      "puzzle": "656c682d6f"
+    },
+    {
+      "date": "2027-08-13",
+      "number": 268,
+      "puzzle": "508927f73f"
+    },
+    {
+      "date": "2027-08-14",
+      "number": 269,
+      "puzzle": "6ca9cb193b"
+    },
+    {
+      "date": "2027-08-15",
+      "number": 270,
+      "puzzle": "80ac61e79b"
+    },
+    {
+      "date": "2027-08-16",
+      "number": 271,
+      "puzzle": "f141c49fb9"
+    },
+    {
+      "date": "2027-08-17",
+      "number": 272,
+      "puzzle": "2dda853c49"
+    },
+    {
+      "date": "2027-08-18",
+      "number": 273,
+      "puzzle": "f0681edde0"
+    },
+    {
+      "date": "2027-08-19",
+      "number": 274,
+      "puzzle": "d085ccc32c"
+    },
+    {
+      "date": "2027-08-20",
+      "number": 275,
+      "puzzle": "a3a4f38a32"
+    },
+    {
+      "date": "2027-08-21",
+      "number": 276,
+      "puzzle": "5601bf5ba3"
+    },
+    {
+      "date": "2027-08-22",
+      "number": 277,
+      "puzzle": "a28c0d62d2"
+    },
+    {
+      "date": "2027-08-23",
+      "number": 278,
+      "puzzle": "d72beb6df4"
+    },
+    {
+      "date": "2027-08-24",
+      "number": 279,
+      "puzzle": "b8f8f1b5a6"
+    },
+    {
+      "date": "2027-08-25",
+      "number": 280,
+      "puzzle": "2bbb18c447"
+    },
+    {
+      "date": "2027-08-26",
+      "number": 281,
+      "puzzle": "fbbd7389bf"
+    },
+    {
+      "date": "2027-08-27",
+      "number": 282,
+      "puzzle": "31c278eed0"
+    },
+    {
+      "date": "2027-08-28",
+      "number": 283,
+      "puzzle": "a1a546cb81"
+    },
+    {
+      "date": "2027-08-29",
+      "number": 284,
+      "puzzle": "acfdda6f34"
+    },
+    {
+      "date": "2027-08-30",
+      "number": 285,
+      "puzzle": "7251360233"
+    },
+    {
+      "date": "2027-08-31",
+      "number": 286,
+      "puzzle": "83039c968d"
+    },
+    {
+      "date": "2027-09-01",
+      "number": 287,
+      "puzzle": "8a80343ff8"
+    },
+    {
+      "date": "2027-09-02",
+      "number": 288,
+      "puzzle": "e789871b63"
+    },
+    {
+      "date": "2027-09-03",
+      "number": 289,
+      "puzzle": "0fec5ca642"
+    },
+    {
+      "date": "2027-09-04",
+      "number": 290,
+      "puzzle": "67ce6806e1"
+    },
+    {
+      "date": "2027-09-05",
+      "number": 291,
+      "puzzle": "9be1b86f3f"
+    },
+    {
+      "date": "2027-09-06",
+      "number": 292,
+      "puzzle": "78fd7b1e11"
+    },
+    {
+      "date": "2027-09-07",
+      "number": 293,
+      "puzzle": "81a013ae88"
+    },
+    {
+      "date": "2027-09-08",
+      "number": 294,
+      "puzzle": "3668e375ff"
+    },
+    {
+      "date": "2027-09-09",
+      "number": 295,
+      "puzzle": "9d3b685c55"
+    },
+    {
+      "date": "2027-09-10",
+      "number": 296,
+      "puzzle": "2414912792"
+    },
+    {
+      "date": "2027-09-11",
+      "number": 297,
+      "puzzle": "5eeaf6daeb"
+    },
+    {
+      "date": "2027-09-12",
+      "number": 298,
+      "puzzle": "dcaaed2665"
+    },
+    {
+      "date": "2027-09-13",
+      "number": 299,
+      "puzzle": "0d5cec51fc"
+    },
+    {
+      "date": "2027-09-14",
+      "number": 300,
+      "puzzle": "5f875e6b95"
+    },
+    {
+      "date": "2027-09-15",
+      "number": 301,
+      "puzzle": "acfdda6f34"
+    },
+    {
+      "date": "2027-09-16",
+      "number": 302,
+      "puzzle": "3dd9b16a98"
+    },
+    {
+      "date": "2027-09-17",
+      "number": 303,
+      "puzzle": "6027c8a688"
+    },
+    {
+      "date": "2027-09-18",
+      "number": 304,
+      "puzzle": "bad74d88c6"
+    },
+    {
+      "date": "2027-09-19",
+      "number": 305,
+      "puzzle": "530aedc72d"
+    },
+    {
+      "date": "2027-09-20",
+      "number": 306,
+      "puzzle": "81cb7c2bee"
+    },
+    {
+      "date": "2027-09-21",
+      "number": 307,
+      "puzzle": "9f7073b844"
+    },
+    {
+      "date": "2027-09-22",
+      "number": 308,
+      "puzzle": "d5a38653b9"
+    },
+    {
+      "date": "2027-09-23",
+      "number": 309,
+      "puzzle": "f0681edde0"
+    },
+    {
+      "date": "2027-09-24",
+      "number": 310,
+      "puzzle": "a1a546cb81"
+    },
+    {
+      "date": "2027-09-25",
+      "number": 311,
+      "puzzle": "0ac23b3ee9"
+    },
+    {
+      "date": "2027-09-26",
+      "number": 312,
+      "puzzle": "d7ca4c2718"
+    },
+    {
+      "date": "2027-09-27",
+      "number": 313,
+      "puzzle": "81a013ae88"
+    },
+    {
+      "date": "2027-09-28",
+      "number": 314,
+      "puzzle": "31d962f64f"
+    },
+    {
+      "date": "2027-09-29",
+      "number": 315,
+      "puzzle": "9be1b86f3f"
+    },
+    {
+      "date": "2027-09-30",
+      "number": 316,
+      "puzzle": "da02cc7150"
+    },
+    {
+      "date": "2027-10-01",
+      "number": 317,
+      "puzzle": "92040204ed"
+    },
+    {
+      "date": "2027-10-02",
+      "number": 318,
+      "puzzle": "b423d129ef"
+    },
+    {
+      "date": "2027-10-03",
+      "number": 319,
+      "puzzle": "61fc2f06e9"
+    },
+    {
+      "date": "2027-10-04",
+      "number": 320,
+      "puzzle": "8363d4fae6"
+    },
+    {
+      "date": "2027-10-05",
+      "number": 321,
+      "puzzle": "67ce6806e1"
+    },
+    {
+      "date": "2027-10-06",
+      "number": 322,
+      "puzzle": "5e80695bd8"
+    },
+    {
+      "date": "2027-10-07",
+      "number": 323,
+      "puzzle": "bdf1bcbf8a"
+    },
+    {
+      "date": "2027-10-08",
+      "number": 324,
+      "puzzle": "11c9ba7bfd"
+    },
+    {
+      "date": "2027-10-09",
+      "number": 325,
+      "puzzle": "506f854c96"
+    },
+    {
+      "date": "2027-10-10",
+      "number": 326,
+      "puzzle": "33f886346b"
+    },
+    {
+      "date": "2027-10-11",
+      "number": 327,
+      "puzzle": "4d77ec2140"
+    },
+    {
+      "date": "2027-10-12",
+      "number": 328,
+      "puzzle": "724ca0626c"
+    },
+    {
+      "date": "2027-10-13",
+      "number": 329,
+      "puzzle": "89371e6cce"
+    },
+    {
+      "date": "2027-10-14",
+      "number": 330,
+      "puzzle": "d72beb6df4"
+    },
+    {
+      "date": "2027-10-15",
+      "number": 331,
+      "puzzle": "656c682d6f"
+    },
+    {
+      "date": "2027-10-16",
+      "number": 332,
+      "puzzle": "2dda853c49"
+    },
+    {
+      "date": "2027-10-17",
+      "number": 333,
+      "puzzle": "71e3bf420b"
+    },
+    {
+      "date": "2027-10-18",
+      "number": 334,
+      "puzzle": "0d5cec51fc"
+    },
+    {
+      "date": "2027-10-19",
+      "number": 335,
+      "puzzle": "cac31e5ac5"
+    },
+    {
+      "date": "2027-10-20",
+      "number": 336,
+      "puzzle": "7be02b7b79"
+    },
+    {
+      "date": "2027-10-21",
+      "number": 337,
+      "puzzle": "7074ef8296"
+    },
+    {
+      "date": "2027-10-22",
+      "number": 338,
+      "puzzle": "6ca9cb193b"
+    },
+    {
+      "date": "2027-10-23",
+      "number": 339,
+      "puzzle": "9e20bbea44"
+    },
+    {
+      "date": "2027-10-24",
+      "number": 340,
+      "puzzle": "5510af7ec7"
+    },
+    {
+      "date": "2027-10-25",
+      "number": 341,
+      "puzzle": "90d3a07c71"
+    },
+    {
+      "date": "2027-10-26",
+      "number": 342,
+      "puzzle": "06aa125bd7"
+    },
+    {
+      "date": "2027-10-27",
+      "number": 343,
+      "puzzle": "96aeb68938"
+    },
+    {
+      "date": "2027-10-28",
+      "number": 344,
+      "puzzle": "2725ad2161"
+    },
+    {
+      "date": "2027-10-29",
+      "number": 345,
+      "puzzle": "a79b9f52e2"
+    },
+    {
+      "date": "2027-10-30",
+      "number": 346,
+      "puzzle": "3d80f92349"
+    },
+    {
+      "date": "2027-10-31",
+      "number": 347,
+      "puzzle": "3255a8fb41"
+    },
+    {
+      "date": "2027-11-01",
+      "number": 348,
+      "puzzle": "b3f58dde1f"
+    },
+    {
+      "date": "2027-11-02",
+      "number": 349,
+      "puzzle": "23406f35e6"
+    },
+    {
+      "date": "2027-11-03",
+      "number": 350,
+      "puzzle": "5f875e6b95"
+    },
+    {
+      "date": "2027-11-04",
+      "number": 351,
+      "puzzle": "2bbb18c447"
+    },
+    {
+      "date": "2027-11-05",
+      "number": 352,
+      "puzzle": "b1342aee39"
+    },
+    {
+      "date": "2027-11-06",
+      "number": 353,
+      "puzzle": "508927f73f"
+    },
+    {
+      "date": "2027-11-07",
+      "number": 354,
+      "puzzle": "d120a3220b"
+    },
+    {
+      "date": "2027-11-08",
+      "number": 355,
+      "puzzle": "f034336bf0"
+    },
+    {
+      "date": "2027-11-09",
+      "number": 356,
+      "puzzle": "4a4572009f"
+    },
+    {
+      "date": "2027-11-10",
+      "number": 357,
+      "puzzle": "b8f8f1b5a6"
+    },
+    {
+      "date": "2027-11-11",
+      "number": 358,
+      "puzzle": "8a80343ff8"
+    },
+    {
+      "date": "2027-11-12",
+      "number": 359,
+      "puzzle": "31c278eed0"
+    },
+    {
+      "date": "2027-11-13",
+      "number": 360,
+      "puzzle": "048a75d73b"
+    },
+    {
+      "date": "2027-11-14",
+      "number": 361,
+      "puzzle": "c747619492"
+    },
+    {
+      "date": "2027-11-15",
+      "number": 362,
+      "puzzle": "0fec5ca642"
+    },
+    {
+      "date": "2027-11-16",
+      "number": 363,
+      "puzzle": "aa775cb101"
+    },
+    {
+      "date": "2027-11-17",
+      "number": 364,
+      "puzzle": "3865683db5"
+    },
+    {
+      "date": "2027-11-18",
+      "number": 365,
+      "puzzle": "a28c0d62d2"
+    }
+  ]
+}

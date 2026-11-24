@@ -22,7 +22,6 @@ from pathlib import Path
 from typing import Any
 
 from pipeline.answers import answers_to_dict, build_answers
-from pipeline.bonus import bonus_builder
 from pipeline.cli import build_parser, setup_logging
 from pipeline.config import Collection, Settings, load_collection, load_settings
 from pipeline.puzzle import Puzzle, build_puzzle, puzzle_to_dict
@@ -73,24 +72,17 @@ def check_distinct_drawings(puzzles: list[Puzzle]) -> None:
         raise ValueError(f"Puzzles con el mismo dibujo y colores (indistinguibles): {detail}")
 
 
-def languages(settings: Settings) -> list[str]:
-    """Idiomas del sitio (``[site] languages``; el primero es el principal)."""
-    return [str(lang) for lang in settings.site.get("languages", ["es"])]
+def collection_hints(collection: Collection, settings: Settings) -> dict[str, dict[str, Any]]:
+    """Pistas de cada respuesta de la colección (bloque ``hints``), solo las de sus tipos.
 
-
-def collection_bonus(
-    collection: Collection, settings: Settings, names: dict[str, str], lang: str = "es"
-):
-    """Generador de preguntas extra de la colección (bloque ``bonus``), o ``None``.
-
-    El bloque es ``{"type": "pokemon", "facts": "data/pokemon_facts.json"}``: el
-    tipo de preguntas y el archivo de datos del que salen (ver bonus.py).
+    El bloque es ``{"file": "data/pokemon_hints.json", "kinds": ["type", ...]}``.
     """
-    spec = collection.extra.get("bonus")
+    spec = collection.extra.get("hints")
     if not isinstance(spec, dict):
-        return None
-    facts = spec.get("facts")
-    return bonus_builder(spec.get("type"), names, settings.root / facts if facts else None, lang)
+        return {}
+    data = json.loads((settings.root / spec["file"]).read_text(encoding="utf-8"))["pokemon"]
+    kinds = spec.get("kinds", [])
+    return {pid: {k: h[k] for k in kinds if k in h} for pid, h in data.items()}
 
 
 def build_collection(
@@ -141,18 +133,11 @@ def build_collection(
     if puzzles_dir.exists():
         for old in puzzles_dir.glob("*.json"):
             old.unlink()
-    # Preguntas extra en cada idioma: {"en": [...], "es": [...]}. Los nombres de
-    # los Pokémon son los mismos en inglés y en español.
-    names = {a.id: a.name for a in answers}
-    bonus = {
-        lang: collection_bonus(collection, settings, names, lang) for lang in languages(settings)
-    }
+    hints = collection_hints(collection, settings)
     for puzzle in puzzles:
         data = puzzle_to_dict(puzzle)
-        seed = f"{settings.id_salt}:{puzzle.id}"
-        questions = {lang: make(puzzle.answer, seed) for lang, make in bonus.items() if make}
-        if questions:
-            data["bonus"] = questions
+        if puzzle.answer in hints:
+            data["hints"] = hints[puzzle.answer]
         write_json(puzzles_dir / f"{puzzle.id}.json", data, compact=True)
 
     write_json(out_dir / "answers.json", answers_to_dict(collection.id, answers))
@@ -183,12 +168,14 @@ def collection_index_entry(collection: Collection) -> dict[str, Any]:
         "title": collection.title,
         "emoji": collection.emoji,
     }
-    if isinstance(collection.extra.get("ui"), dict):
-        entry["ui"] = collection.extra["ui"]
-    # Textos en otros idiomas: {"en": {"title": ..., "ui": {...}}}.
+    # ``menu``: lo que enseña la tarjeta del modo en el menú (generación, región...).
+    for key in ("ui", "menu"):
+        if isinstance(collection.extra.get(key), dict):
+            entry[key] = collection.extra[key]
+    # Textos en otros idiomas: {"en": {"title": ..., "ui": {...}, "menu": {...}}}.
     if isinstance(collection.extra.get("i18n"), dict):
         entry["i18n"] = {
-            lang: {k: v for k, v in block.items() if k in ("title", "ui")}
+            lang: {k: v for k, v in block.items() if k in ("title", "ui", "menu")}
             for lang, block in collection.extra["i18n"].items()
         }
     return entry
@@ -230,7 +217,11 @@ def main(argv: list[str] | None = None) -> None:
         built.append(collection)
 
     # El índice siempre recoge todas las colecciones existentes, se generen o no ahora.
-    all_collections = [load_collection(p) for p in sorted(settings.collections_dir.glob("*.json"))]
+    # En el orden del campo ``order`` de cada colección: el primero es el modo por defecto.
+    all_collections = sorted(
+        (load_collection(p) for p in sorted(settings.collections_dir.glob("*.json"))),
+        key=lambda c: c.extra.get("order", 0),
+    )
     write_json(
         settings.web_data_dir / "collections.json",
         {"version": 1, "collections": [collection_index_entry(c) for c in all_collections]},

@@ -112,3 +112,18 @@ export class GameStorage {
     return this.write("stats", stats);
   }
 }
+
+/** La Pokédex del jugador (core/dex.js), común a todos los modos. */
+export const dexStore = {
+  storage: null,
+  /** @param {object} empty `emptyDex()` */
+  load(empty) {
+    this.storage ??= new GameStorage("pokedex");
+    const saved = this.storage.read("dex", null);
+    return saved && saved.version === empty.version && saved.entries ? saved : empty;
+  },
+  save(dex) {
+    this.storage ??= new GameStorage("pokedex");
+    return this.storage.write("dex", dex);
+  },
+};

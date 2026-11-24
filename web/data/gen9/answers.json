@@ -1,0 +1,614 @@
+{
+  "version": 1,
+  "collection": "gen9",
+  "answers": [
+    {
+      "id": "979",
+      "name": "Annihilape",
+      "aliases": []
+    },
+    {
+      "id": "930",
+      "name": "Arboliva",
+      "aliases": []
+    },
+    {
+      "id": "1018",
+      "name": "Archaludon",
+      "aliases": []
+    },
+    {
+      "id": "997",
+      "name": "Arctibax",
+      "aliases": []
+    },
+    {
+      "id": "936",
+      "name": "Armarouge",
+      "aliases": []
+    },
+    {
+      "id": "998",
+      "name": "Baxcalibur",
+      "aliases": []
+    },
+    {
+      "id": "939",
+      "name": "Bellibolt",
+      "aliases": []
+    },
+    {
+      "id": "962",
+      "name": "Bombirdier",
+      "aliases": []
+    },
+    {
+      "id": "947",
+      "name": "Brambleghast",
+      "aliases": []
+    },
+    {
+      "id": "946",
+      "name": "Bramblin",
+      "aliases": []
+    },
+    {
+      "id": "986",
+      "name": "Brute Bonnet",
+      "aliases": []
+    },
+    {
+      "id": "951",
+      "name": "Capsakid",
+      "aliases": []
+    },
+    {
+      "id": "937",
+      "name": "Ceruledge",
+      "aliases": []
+    },
+    {
+      "id": "975",
+      "name": "Cetitan",
+      "aliases": []
+    },
+    {
+      "id": "974",
+      "name": "Cetoddle",
+      "aliases": []
+    },
+    {
+      "id": "935",
+      "name": "Charcadet",
+      "aliases": []
+    },
+    {
+      "id": "1004",
+      "name": "Chi-Yu",
+      "aliases": [
+        "Chi Yu"
+      ]
+    },
+    {
+      "id": "1002",
+      "name": "Chien-Pao",
+      "aliases": [
+        "Chien Pao"
+      ]
+    },
+    {
+      "id": "980",
+      "name": "Clodsire",
+      "aliases": []
+    },
+    {
+      "id": "910",
+      "name": "Crocalor",
+      "aliases": []
+    },
+    {
+      "id": "967",
+      "name": "Cyclizar",
+      "aliases": []
+    },
+    {
+      "id": "927",
+      "name": "Dachsbun",
+      "aliases": []
+    },
+    {
+      "id": "1011",
+      "name": "Dipplin",
+      "aliases": []
+    },
+    {
+      "id": "929",
+      "name": "Dolliv",
+      "aliases": []
+    },
+    {
+      "id": "977",
+      "name": "Dondozo",
+      "aliases": []
+    },
+    {
+      "id": "982",
+      "name": "Dudunsparce",
+      "aliases": []
+    },
+    {
+      "id": "956",
+      "name": "Espathra",
+      "aliases": []
+    },
+    {
+      "id": "981",
+      "name": "Farigiraf",
+      "aliases": []
+    },
+    {
+      "id": "1016",
+      "name": "Fezandipiti",
+      "aliases": []
+    },
+    {
+      "id": "926",
+      "name": "Fidough",
+      "aliases": []
+    },
+    {
+      "id": "963",
+      "name": "Finizen",
+      "aliases": []
+    },
+    {
+      "id": "973",
+      "name": "Flamigo",
+      "aliases": []
+    },
+    {
+      "id": "955",
+      "name": "Flittle",
+      "aliases": []
+    },
+    {
+      "id": "907",
+      "name": "Floragato",
+      "aliases": []
+    },
+    {
+      "id": "987",
+      "name": "Flutter Mane",
+      "aliases": []
+    },
+    {
+      "id": "996",
+      "name": "Frigibax",
+      "aliases": []
+    },
+    {
+      "id": "909",
+      "name": "Fuecoco",
+      "aliases": []
+    },
+    {
+      "id": "934",
+      "name": "Garganacl",
+      "aliases": []
+    },
+    {
+      "id": "1000",
+      "name": "Gholdengo",
+      "aliases": []
+    },
+    {
+      "id": "999",
+      "name": "Gimmighoul",
+      "aliases": []
+    },
+    {
+      "id": "969",
+      "name": "Glimmet",
+      "aliases": []
+    },
+    {
+      "id": "970",
+      "name": "Glimmora",
+      "aliases": []
+    },
+    {
+      "id": "1020",
+      "name": "Gouging Fire",
+      "aliases": []
+    },
+    {
+      "id": "945",
+      "name": "Grafaiai",
+      "aliases": []
+    },
+    {
+      "id": "984",
+      "name": "Great Tusk",
+      "aliases": []
+    },
+    {
+      "id": "971",
+      "name": "Greavard",
+      "aliases": []
+    },
+    {
+      "id": "972",
+      "name": "Houndstone",
+      "aliases": []
+    },
+    {
+      "id": "1019",
+      "name": "Hydrapple",
+      "aliases": []
+    },
+    {
+      "id": "1022",
+      "name": "Iron Boulder",
+      "aliases": []
+    },
+    {
+      "id": "991",
+      "name": "Iron Bundle",
+      "aliases": []
+    },
+    {
+      "id": "1023",
+      "name": "Iron Crown",
+      "aliases": []
+    },
+    {
+      "id": "992",
+      "name": "Iron Hands",
+      "aliases": []
+    },
+    {
+      "id": "993",
+      "name": "Iron Jugulis",
+      "aliases": []
+    },
+    {
+      "id": "1010",
+      "name": "Iron Leaves",
+      "aliases": []
+    },
+    {
+      "id": "994",
+      "name": "Iron Moth",
+      "aliases": []
+    },
+    {
+      "id": "995",
+      "name": "Iron Thorns",
+      "aliases": []
+    },
+    {
+      "id": "990",
+      "name": "Iron Treads",
+      "aliases": []
+    },
+    {
+      "id": "1006",
+      "name": "Iron Valiant",
+      "aliases": []
+    },
+    {
+      "id": "941",
+      "name": "Kilowattrel",
+      "aliases": []
+    },
+    {
+      "id": "983",
+      "name": "Kingambit",
+      "aliases": []
+    },
+    {
+      "id": "950",
+      "name": "Klawf",
+      "aliases": []
+    },
+    {
+      "id": "1007",
+      "name": "Koraidon",
+      "aliases": []
+    },
+    {
+      "id": "915",
+      "name": "Lechonk",
+      "aliases": []
+    },
+    {
+      "id": "920",
+      "name": "Lokix",
+      "aliases": []
+    },
+    {
+      "id": "943",
+      "name": "Mabosstiff",
+      "aliases": []
+    },
+    {
+      "id": "942",
+      "name": "Maschiff",
+      "aliases": []
+    },
+    {
+      "id": "925",
+      "name": "Maushold",
+      "aliases": []
+    },
+    {
+      "id": "908",
+      "name": "Meowscarada",
+      "aliases": []
+    },
+    {
+      "id": "1008",
+      "name": "Miraidon",
+      "aliases": []
+    },
+    {
+      "id": "1015",
+      "name": "Munkidori",
+      "aliases": []
+    },
+    {
+      "id": "932",
+      "name": "Nacli",
+      "aliases": []
+    },
+    {
+      "id": "933",
+      "name": "Naclstack",
+      "aliases": []
+    },
+    {
+      "id": "919",
+      "name": "Nymble",
+      "aliases": []
+    },
+    {
+      "id": "1017",
+      "name": "Ogerpon",
+      "aliases": []
+    },
+    {
+      "id": "916",
+      "name": "Oinkologne",
+      "aliases": []
+    },
+    {
+      "id": "1014",
+      "name": "Okidogi",
+      "aliases": []
+    },
+    {
+      "id": "968",
+      "name": "Orthworm",
+      "aliases": []
+    },
+    {
+      "id": "964",
+      "name": "Palafin",
+      "aliases": []
+    },
+    {
+      "id": "921",
+      "name": "Pawmi",
+      "aliases": []
+    },
+    {
+      "id": "922",
+      "name": "Pawmo",
+      "aliases": []
+    },
+    {
+      "id": "923",
+      "name": "Pawmot",
+      "aliases": []
+    },
+    {
+      "id": "1025",
+      "name": "Pecharunt",
+      "aliases": []
+    },
+    {
+      "id": "1012",
+      "name": "Poltchageist",
+      "aliases": []
+    },
+    {
+      "id": "914",
+      "name": "Quaquaval",
+      "aliases": []
+    },
+    {
+      "id": "912",
+      "name": "Quaxly",
+      "aliases": []
+    },
+    {
+      "id": "913",
+      "name": "Quaxwell",
+      "aliases": []
+    },
+    {
+      "id": "954",
+      "name": "Rabsca",
+      "aliases": []
+    },
+    {
+      "id": "1021",
+      "name": "Raging Bolt",
+      "aliases": []
+    },
+    {
+      "id": "953",
+      "name": "Rellor",
+      "aliases": []
+    },
+    {
+      "id": "966",
+      "name": "Revavroom",
+      "aliases": []
+    },
+    {
+      "id": "1005",
+      "name": "Roaring Moon",
+      "aliases": []
+    },
+    {
+      "id": "989",
+      "name": "Sandy Shocks",
+      "aliases": []
+    },
+    {
+      "id": "952",
+      "name": "Scovillain",
+      "aliases": []
+    },
+    {
+      "id": "985",
+      "name": "Scream Tail",
+      "aliases": []
+    },
+    {
+      "id": "944",
+      "name": "Shroodle",
+      "aliases": []
+    },
+    {
+      "id": "1013",
+      "name": "Sinistcha",
+      "aliases": []
+    },
+    {
+      "id": "911",
+      "name": "Skeledirge",
+      "aliases": []
+    },
+    {
+      "id": "988",
+      "name": "Slither Wing",
+      "aliases": []
+    },
+    {
+      "id": "928",
+      "name": "Smoliv",
+      "aliases": []
+    },
+    {
+      "id": "918",
+      "name": "Spidops",
+      "aliases": []
+    },
+    {
+      "id": "906",
+      "name": "Sprigatito",
+      "aliases": []
+    },
+    {
+      "id": "931",
+      "name": "Squawkabilly",
+      "aliases": []
+    },
+    {
+      "id": "938",
+      "name": "Tadbulb",
+      "aliases": []
+    },
+    {
+      "id": "924",
+      "name": "Tandemaus",
+      "aliases": []
+    },
+    {
+      "id": "917",
+      "name": "Tarountula",
+      "aliases": []
+    },
+    {
+      "id": "978",
+      "name": "Tatsugiri",
+      "aliases": []
+    },
+    {
+      "id": "1024",
+      "name": "Terapagos",
+      "aliases": []
+    },
+    {
+      "id": "1003",
+      "name": "Ting-Lu",
+      "aliases": [
+        "Ting Lu"
+      ]
+    },
+    {
+      "id": "957",
+      "name": "Tinkatink",
+      "aliases": []
+    },
+    {
+      "id": "959",
+      "name": "Tinkaton",
+      "aliases": []
+    },
+    {
+      "id": "958",
+      "name": "Tinkatuff",
+      "aliases": []
+    },
+    {
+      "id": "948",
+      "name": "Toedscool",
+      "aliases": []
+    },
+    {
+      "id": "949",
+      "name": "Toedscruel",
+      "aliases": []
+    },
+    {
+      "id": "965",
+      "name": "Varoom",
+      "aliases": []
+    },
+    {
+      "id": "976",
+      "name": "Veluza",
+      "aliases": []
+    },
+    {
+      "id": "1009",
+      "name": "Walking Wake",
+      "aliases": []
+    },
+    {
+      "id": "940",
+      "name": "Wattrel",
+      "aliases": []
+    },
+    {
+      "id": "960",
+      "name": "Wiglett",
+      "aliases": []
+    },
+    {
+      "id": "1001",
+      "name": "Wo-Chien",
+      "aliases": [
+        "Wo Chien"
+      ]
+    },
+    {
+      "id": "961",
+      "name": "Wugtrio",
+      "aliases": []
+    }
+  ]
+}

@@ -42,13 +42,35 @@ DESKTOP_WINDOW = (1440, 900)
 
 # nombre -> (parámetros de capture.html, ¿móvil?)
 SHOTS: dict[str, tuple[dict[str, str], bool]] = {
-    "movil-inicio": ({"fecha": "2026-11-26"}, True),
-    "movil-pistas": ({"fecha": "2026-11-26", "jugadas": "fallo,fallo"}, True),
-    "movil-resultado": ({"fecha": "2026-11-26", "jugadas": "fallo,fallo,salto,acierto"}, True),
-    "movil-ayuda": ({"fecha": "2026-11-26", "ayuda": "1"}, True),
-    "movil-estadisticas": ({"fecha": "2026-11-26", "jugadas": "fallo,acierto", "stats": "1"}, True),
-    "escritorio": ({"fecha": "2026-11-28", "jugadas": "fallo"}, False),
-    "escritorio-resultado": ({"fecha": "2026-11-28", "jugadas": "fallo,salto,acierto"}, False),
+    "movil-menu": ({"fecha": "2026-11-26", "pokedex": "48"}, True),
+    "movil-inicio": ({"fecha": "2026-11-26", "modo": "gen1"}, True),
+    "movil-pista": (
+        {"fecha": "2026-11-26", "modo": "gen1", "jugadas": "fallo,pista:stage,fallo"},
+        True,
+    ),
+    "movil-resultado": (
+        {"fecha": "2026-11-26", "modo": "gen1", "jugadas": "fallo,fallo,salto,acierto"},
+        True,
+    ),
+    "movil-pokedex": (
+        {"fecha": "2026-11-26", "modo": "gen1", "jugadas": "fallo,acierto", "pokedex": "48"},
+        True,
+    ),
+    "movil-ayuda": ({"fecha": "2026-11-26", "modo": "gen1", "ayuda": "1"}, True),
+    "movil-estadisticas": (
+        {"fecha": "2026-11-26", "modo": "gen1", "jugadas": "fallo,acierto", "stats": "1"},
+        True,
+    ),
+    "escritorio-menu": ({"fecha": "2026-11-28", "pokedex": "60"}, False),
+    "escritorio": ({"fecha": "2026-11-28", "modo": "gen1", "jugadas": "fallo,pista:type"}, False),
+    "escritorio-resultado": (
+        {"fecha": "2026-11-28", "modo": "gen1", "jugadas": "fallo,salto,acierto"},
+        False,
+    ),
+    "escritorio-pokedex": (
+        {"fecha": "2026-11-28", "modo": "gen1", "jugadas": "acierto", "pokedex": "60"},
+        False,
+    ),
 }
 
 
@@ -114,7 +136,7 @@ def main(argv: list[str] | None = None) -> None:
     finally:
         server.shutdown()
 
-    levels = settings.preview_dir / "pokemon_levels.html"
+    levels = settings.preview_dir / "gen1_levels.html"
     if levels.exists():
         dest = out / "fourier-niveles.png"
         screenshot(chrome, levels.resolve().as_uri(), dest, 1100, 300)

@@ -26,7 +26,8 @@ and keeps its own license:
   trademarks are © and ™ Nintendo, Creatures Inc., GAME FREAK inc. and The
   Pokémon Company. This is an unofficial fan project, not affiliated with or
   endorsed by them. No rights over that material are claimed or granted.
-- Pokémon types and evolution data (data/pokemon_facts.json) come from PokeAPI
+- Pokémon names, generations and clue data (data/collections/*.json,
+  data/pokemon_hints.json) come from PokeAPI
   (https://github.com/PokeAPI/pokeapi), BSD 3-Clause License,
   Copyright (c) Paul Hallett and PokéAPI contributors.
 - Fonts M PLUS Rounded 1c and DotGothic16 (web/fonts/): SIL Open Font License 1.1.

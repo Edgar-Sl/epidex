@@ -9,6 +9,8 @@
  *  - Una respuesta incorrecta o "saltar" consume el intento y pasa al nivel siguiente.
  *  - Repetir una respuesta ya dada no consume intento.
  *  - Se gana al acertar; se pierde al agotar los intentos.
+ *  - Se puede pedir una pista por partida, eligiendo cuál (ver core/hints.js).
+ *    No gasta intento, pero queda anotada en el resultado.
  */
 
 /** @typedef {"playing" | "won" | "lost"} Status */
@@ -24,6 +26,7 @@
  * @property {number[]} levels    Círculos de cada intento.
  * @property {Attempt[]} attempts
  * @property {Status} status
+ * @property {string | null} [hint] Pista elegida (tipo, evolución...), si se pidió.
  */
 
 export const STATE_VERSION = 1;
@@ -133,6 +136,18 @@ export function guess(state, answerId) {
 export function skip(state) {
   if (isOver(state)) return { state, outcome: "over" };
   return { state: addAttempt(state, { type: "skip" }, false), outcome: "skip" };
+}
+
+/**
+ * Pide la pista ``kind``. Solo una por partida y solo mientras se juega.
+ *
+ * @param {GameState} state
+ * @param {string} kind
+ * @returns {GameState} El estado nuevo, o el mismo si no se puede.
+ */
+export function takeHint(state, kind) {
+  if (isOver(state) || state.hint) return state;
+  return { ...state, hint: kind };
 }
 
 /**

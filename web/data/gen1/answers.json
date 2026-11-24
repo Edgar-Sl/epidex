@@ -1,0 +1,773 @@
+{
+  "version": 1,
+  "collection": "gen1",
+  "answers": [
+    {
+      "id": "063",
+      "name": "Abra",
+      "aliases": []
+    },
+    {
+      "id": "142",
+      "name": "Aerodactyl",
+      "aliases": []
+    },
+    {
+      "id": "065",
+      "name": "Alakazam",
+      "aliases": []
+    },
+    {
+      "id": "024",
+      "name": "Arbok",
+      "aliases": []
+    },
+    {
+      "id": "059",
+      "name": "Arcanine",
+      "aliases": []
+    },
+    {
+      "id": "144",
+      "name": "Articuno",
+      "aliases": []
+    },
+    {
+      "id": "015",
+      "name": "Beedrill",
+      "aliases": []
+    },
+    {
+      "id": "069",
+      "name": "Bellsprout",
+      "aliases": []
+    },
+    {
+      "id": "009",
+      "name": "Blastoise",
+      "aliases": []
+    },
+    {
+      "id": "001",
+      "name": "Bulbasaur",
+      "aliases": []
+    },
+    {
+      "id": "012",
+      "name": "Butterfree",
+      "aliases": []
+    },
+    {
+      "id": "010",
+      "name": "Caterpie",
+      "aliases": []
+    },
+    {
+      "id": "113",
+      "name": "Chansey",
+      "aliases": []
+    },
+    {
+      "id": "006",
+      "name": "Charizard",
+      "aliases": []
+    },
+    {
+      "id": "004",
+      "name": "Charmander",
+      "aliases": []
+    },
+    {
+      "id": "005",
+      "name": "Charmeleon",
+      "aliases": []
+    },
+    {
+      "id": "036",
+      "name": "Clefable",
+      "aliases": []
+    },
+    {
+      "id": "035",
+      "name": "Clefairy",
+      "aliases": []
+    },
+    {
+      "id": "091",
+      "name": "Cloyster",
+      "aliases": []
+    },
+    {
+      "id": "104",
+      "name": "Cubone",
+      "aliases": []
+    },
+    {
+      "id": "087",
+      "name": "Dewgong",
+      "aliases": []
+    },
+    {
+      "id": "050",
+      "name": "Diglett",
+      "aliases": []
+    },
+    {
+      "id": "132",
+      "name": "Ditto",
+      "aliases": []
+    },
+    {
+      "id": "085",
+      "name": "Dodrio",
+      "aliases": []
+    },
+    {
+      "id": "084",
+      "name": "Doduo",
+      "aliases": []
+    },
+    {
+      "id": "148",
+      "name": "Dragonair",
+      "aliases": []
+    },
+    {
+      "id": "149",
+      "name": "Dragonite",
+      "aliases": []
+    },
+    {
+      "id": "147",
+      "name": "Dratini",
+      "aliases": []
+    },
+    {
+      "id": "096",
+      "name": "Drowzee",
+      "aliases": []
+    },
+    {
+      "id": "051",
+      "name": "Dugtrio",
+      "aliases": []
+    },
+    {
+      "id": "133",
+      "name": "Eevee",
+      "aliases": []
+    },
+    {
+      "id": "023",
+      "name": "Ekans",
+      "aliases": []
+    },
+    {
+      "id": "125",
+      "name": "Electabuzz",
+      "aliases": []
+    },
+    {
+      "id": "101",
+      "name": "Electrode",
+      "aliases": []
+    },
+    {
+      "id": "102",
+      "name": "Exeggcute",
+      "aliases": []
+    },
+    {
+      "id": "103",
+      "name": "Exeggutor",
+      "aliases": []
+    },
+    {
+      "id": "083",
+      "name": "Farfetch’d",
+      "aliases": [
+        "Farfetch'd",
+        "Farfetchd"
+      ]
+    },
+    {
+      "id": "022",
+      "name": "Fearow",
+      "aliases": []
+    },
+    {
+      "id": "136",
+      "name": "Flareon",
+      "aliases": []
+    },
+    {
+      "id": "092",
+      "name": "Gastly",
+      "aliases": []
+    },
+    {
+      "id": "094",
+      "name": "Gengar",
+      "aliases": []
+    },
+    {
+      "id": "074",
+      "name": "Geodude",
+      "aliases": []
+    },
+    {
+      "id": "044",
+      "name": "Gloom",
+      "aliases": []
+    },
+    {
+      "id": "042",
+      "name": "Golbat",
+      "aliases": []
+    },
+    {
+      "id": "118",
+      "name": "Goldeen",
+      "aliases": []
+    },
+    {
+      "id": "055",
+      "name": "Golduck",
+      "aliases": []
+    },
+    {
+      "id": "076",
+      "name": "Golem",
+      "aliases": []
+    },
+    {
+      "id": "075",
+      "name": "Graveler",
+      "aliases": []
+    },
+    {
+      "id": "088",
+      "name": "Grimer",
+      "aliases": []
+    },
+    {
+      "id": "058",
+      "name": "Growlithe",
+      "aliases": []
+    },
+    {
+      "id": "130",
+      "name": "Gyarados",
+      "aliases": []
+    },
+    {
+      "id": "093",
+      "name": "Haunter",
+      "aliases": []
+    },
+    {
+      "id": "107",
+      "name": "Hitmonchan",
+      "aliases": []
+    },
+    {
+      "id": "106",
+      "name": "Hitmonlee",
+      "aliases": []
+    },
+    {
+      "id": "116",
+      "name": "Horsea",
+      "aliases": []
+    },
+    {
+      "id": "097",
+      "name": "Hypno",
+      "aliases": []
+    },
+    {
+      "id": "002",
+      "name": "Ivysaur",
+      "aliases": []
+    },
+    {
+      "id": "039",
+      "name": "Jigglypuff",
+      "aliases": []
+    },
+    {
+      "id": "135",
+      "name": "Jolteon",
+      "aliases": []
+    },
+    {
+      "id": "124",
+      "name": "Jynx",
+      "aliases": []
+    },
+    {
+      "id": "140",
+      "name": "Kabuto",
+      "aliases": []
+    },
+    {
+      "id": "141",
+      "name": "Kabutops",
+      "aliases": []
+    },
+    {
+      "id": "064",
+      "name": "Kadabra",
+      "aliases": []
+    },
+    {
+      "id": "014",
+      "name": "Kakuna",
+      "aliases": []
+    },
+    {
+      "id": "115",
+      "name": "Kangaskhan",
+      "aliases": []
+    },
+    {
+      "id": "099",
+      "name": "Kingler",
+      "aliases": []
+    },
+    {
+      "id": "109",
+      "name": "Koffing",
+      "aliases": []
+    },
+    {
+      "id": "098",
+      "name": "Krabby",
+      "aliases": []
+    },
+    {
+      "id": "131",
+      "name": "Lapras",
+      "aliases": []
+    },
+    {
+      "id": "108",
+      "name": "Lickitung",
+      "aliases": []
+    },
+    {
+      "id": "068",
+      "name": "Machamp",
+      "aliases": []
+    },
+    {
+      "id": "067",
+      "name": "Machoke",
+      "aliases": []
+    },
+    {
+      "id": "066",
+      "name": "Machop",
+      "aliases": []
+    },
+    {
+      "id": "129",
+      "name": "Magikarp",
+      "aliases": []
+    },
+    {
+      "id": "126",
+      "name": "Magmar",
+      "aliases": []
+    },
+    {
+      "id": "081",
+      "name": "Magnemite",
+      "aliases": []
+    },
+    {
+      "id": "082",
+      "name": "Magneton",
+      "aliases": []
+    },
+    {
+      "id": "056",
+      "name": "Mankey",
+      "aliases": []
+    },
+    {
+      "id": "105",
+      "name": "Marowak",
+      "aliases": []
+    },
+    {
+      "id": "052",
+      "name": "Meowth",
+      "aliases": []
+    },
+    {
+      "id": "011",
+      "name": "Metapod",
+      "aliases": []
+    },
+    {
+      "id": "151",
+      "name": "Mew",
+      "aliases": []
+    },
+    {
+      "id": "150",
+      "name": "Mewtwo",
+      "aliases": []
+    },
+    {
+      "id": "146",
+      "name": "Moltres",
+      "aliases": []
+    },
+    {
+      "id": "122",
+      "name": "Mr. Mime",
+      "aliases": [
+        "Mr Mime",
+        "Mister Mime"
+      ]
+    },
+    {
+      "id": "089",
+      "name": "Muk",
+      "aliases": []
+    },
+    {
+      "id": "034",
+      "name": "Nidoking",
+      "aliases": []
+    },
+    {
+      "id": "031",
+      "name": "Nidoqueen",
+      "aliases": []
+    },
+    {
+      "id": "029",
+      "name": "Nidoran♀",
+      "aliases": [
+        "Nidoran hembra",
+        "Nidoran F"
+      ]
+    },
+    {
+      "id": "032",
+      "name": "Nidoran♂",
+      "aliases": [
+        "Nidoran macho",
+        "Nidoran M"
+      ]
+    },
+    {
+      "id": "030",
+      "name": "Nidorina",
+      "aliases": []
+    },
+    {
+      "id": "033",
+      "name": "Nidorino",
+      "aliases": []
+    },
+    {
+      "id": "038",
+      "name": "Ninetales",
+      "aliases": []
+    },
+    {
+      "id": "043",
+      "name": "Oddish",
+      "aliases": []
+    },
+    {
+      "id": "138",
+      "name": "Omanyte",
+      "aliases": []
+    },
+    {
+      "id": "139",
+      "name": "Omastar",
+      "aliases": []
+    },
+    {
+      "id": "095",
+      "name": "Onix",
+      "aliases": []
+    },
+    {
+      "id": "046",
+      "name": "Paras",
+      "aliases": []
+    },
+    {
+      "id": "047",
+      "name": "Parasect",
+      "aliases": []
+    },
+    {
+      "id": "053",
+      "name": "Persian",
+      "aliases": []
+    },
+    {
+      "id": "018",
+      "name": "Pidgeot",
+      "aliases": []
+    },
+    {
+      "id": "017",
+      "name": "Pidgeotto",
+      "aliases": []
+    },
+    {
+      "id": "016",
+      "name": "Pidgey",
+      "aliases": []
+    },
+    {
+      "id": "025",
+      "name": "Pikachu",
+      "aliases": []
+    },
+    {
+      "id": "127",
+      "name": "Pinsir",
+      "aliases": []
+    },
+    {
+      "id": "060",
+      "name": "Poliwag",
+      "aliases": []
+    },
+    {
+      "id": "061",
+      "name": "Poliwhirl",
+      "aliases": []
+    },
+    {
+      "id": "062",
+      "name": "Poliwrath",
+      "aliases": []
+    },
+    {
+      "id": "077",
+      "name": "Ponyta",
+      "aliases": []
+    },
+    {
+      "id": "137",
+      "name": "Porygon",
+      "aliases": []
+    },
+    {
+      "id": "057",
+      "name": "Primeape",
+      "aliases": []
+    },
+    {
+      "id": "054",
+      "name": "Psyduck",
+      "aliases": []
+    },
+    {
+      "id": "026",
+      "name": "Raichu",
+      "aliases": []
+    },
+    {
+      "id": "078",
+      "name": "Rapidash",
+      "aliases": []
+    },
+    {
+      "id": "020",
+      "name": "Raticate",
+      "aliases": []
+    },
+    {
+      "id": "019",
+      "name": "Rattata",
+      "aliases": []
+    },
+    {
+      "id": "112",
+      "name": "Rhydon",
+      "aliases": []
+    },
+    {
+      "id": "111",
+      "name": "Rhyhorn",
+      "aliases": []
+    },
+    {
+      "id": "027",
+      "name": "Sandshrew",
+      "aliases": []
+    },
+    {
+      "id": "028",
+      "name": "Sandslash",
+      "aliases": []
+    },
+    {
+      "id": "123",
+      "name": "Scyther",
+      "aliases": []
+    },
+    {
+      "id": "117",
+      "name": "Seadra",
+      "aliases": []
+    },
+    {
+      "id": "119",
+      "name": "Seaking",
+      "aliases": []
+    },
+    {
+      "id": "086",
+      "name": "Seel",
+      "aliases": []
+    },
+    {
+      "id": "090",
+      "name": "Shellder",
+      "aliases": []
+    },
+    {
+      "id": "080",
+      "name": "Slowbro",
+      "aliases": []
+    },
+    {
+      "id": "079",
+      "name": "Slowpoke",
+      "aliases": []
+    },
+    {
+      "id": "143",
+      "name": "Snorlax",
+      "aliases": []
+    },
+    {
+      "id": "021",
+      "name": "Spearow",
+      "aliases": []
+    },
+    {
+      "id": "007",
+      "name": "Squirtle",
+      "aliases": []
+    },
+    {
+      "id": "121",
+      "name": "Starmie",
+      "aliases": []
+    },
+    {
+      "id": "120",
+      "name": "Staryu",
+      "aliases": []
+    },
+    {
+      "id": "114",
+      "name": "Tangela",
+      "aliases": []
+    },
+    {
+      "id": "128",
+      "name": "Tauros",
+      "aliases": []
+    },
+    {
+      "id": "072",
+      "name": "Tentacool",
+      "aliases": []
+    },
+    {
+      "id": "073",
+      "name": "Tentacruel",
+      "aliases": []
+    },
+    {
+      "id": "134",
+      "name": "Vaporeon",
+      "aliases": []
+    },
+    {
+      "id": "049",
+      "name": "Venomoth",
+      "aliases": []
+    },
+    {
+      "id": "048",
+      "name": "Venonat",
+      "aliases": []
+    },
+    {
+      "id": "003",
+      "name": "Venusaur",
+      "aliases": []
+    },
+    {
+      "id": "071",
+      "name": "Victreebel",
+      "aliases": []
+    },
+    {
+      "id": "045",
+      "name": "Vileplume",
+      "aliases": []
+    },
+    {
+      "id": "100",
+      "name": "Voltorb",
+      "aliases": []
+    },
+    {
+      "id": "037",
+      "name": "Vulpix",
+      "aliases": []
+    },
+    {
+      "id": "008",
+      "name": "Wartortle",
+      "aliases": []
+    },
+    {
+      "id": "013",
+      "name": "Weedle",
+      "aliases": []
+    },
+    {
+      "id": "070",
+      "name": "Weepinbell",
+      "aliases": []
+    },
+    {
+      "id": "110",
+      "name": "Weezing",
+      "aliases": []
+    },
+    {
+      "id": "040",
+      "name": "Wigglytuff",
+      "aliases": []
+    },
+    {
+      "id": "145",
+      "name": "Zapdos",
+      "aliases": []
+    },
+    {
+      "id": "041",
+      "name": "Zubat",
+      "aliases": []
+    }
+  ]
+}
