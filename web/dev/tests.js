@@ -130,6 +130,8 @@ test("pistas disponibles en orden y su texto en cada idioma", () => {
   );
   assertEqual(hintText("ability", { ability: { es: "Electricidad Estática", en: "Static" } }, WORDS_ES), "Electricidad Estática");
   assertEqual(hintText("tint", { tint: { es: "Amarillo", en: "Yellow", key: "yellow" } }, { ...WORDS_ES, lang: "en" }), "Yellow");
+  assertEqual(hintText("size", { type: { es: "Planta" } }, WORDS_ES), "", "pista guardada que ya no existe");
+  assertEqual(hintText("size", undefined, WORDS_ES), "");
   assertEqual(availableHints({}), []);
   assertEqual(hintText("type", HINTS, WORDS_ES), "Eléctrico");
   assertEqual(hintText("type", HINTS, { ...WORDS_ES, lang: "en" }), "Electric");

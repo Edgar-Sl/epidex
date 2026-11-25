@@ -194,7 +194,7 @@ export class GameController {
         final: t("stage_final"),
       },
     });
-    return `${t(`hint_${kind}`)}: ${text}`;
+    return text ? `${t(`hint_${kind}`)}: ${text}` : "";
   }
 
   // ---- Pokédex -------------------------------------------------------------
@@ -378,8 +378,9 @@ export class GameController {
     // Pista: la tecla se apaga cuando ya se ha usado, y la pista queda en la pantalla.
     ui.hint.disabled = over || Boolean(state.hint);
     ui.hint.title = state.hint ? t("hintUsed") : this.hintTitle;
-    ui.hintLine.hidden = !state.hint;
-    if (state.hint) ui.hintLine.textContent = this.hintLabel();
+    const hintLabel = state.hint ? this.hintLabel() : "";
+    ui.hintLine.hidden = !hintLabel;
+    ui.hintLine.textContent = hintLabel;
     // Pista del color: además del texto, la silueta se rellena con ese color.
     const tint = state.hint === "tint" ? (TINTS[this.puzzle.hints?.tint?.key] ?? null) : null;
     if (this.renderer.options.fillColor !== tint) this.renderer.setOptions({ fillColor: tint });

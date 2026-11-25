@@ -85,7 +85,9 @@ export function pickHint(kinds, seed) {
  * @returns {string}
  */
 export function hintText(kind, hints, words) {
-  const value = hints[kind];
+  const value = hints?.[kind];
+  // Pista guardada que el puzzle ya no trae (p. ej. el tamaño, que se quitó): nada.
+  if (value === undefined || value === null) return "";
   const pick = (v) => (typeof v === "object" ? (v[words.lang] ?? v.en ?? "") : String(v));
   switch (kind) {
     case "stage":
