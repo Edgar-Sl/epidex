@@ -1,8 +1,9 @@
 """Calendario diario: qué puzzle toca cada fecha.
 
-Cada día se elige un puzzle **al azar** entre los que no han salido en los
-últimos ``min_gap`` días (30 por defecto; si la colección es más pequeña, entre
-los que llevan más tiempo sin salir). Es determinista: misma semilla, mismos
+Los puzzles salen en **ciclos al azar**: no se repite ninguno hasta que han
+salido todos, cada ciclo tiene un orden distinto, y entre ciclos ninguno se
+repite antes de ``min_gap`` días (30 por defecto; si la colección es más
+pequeña, el máximo posible). Es determinista: misma semilla, mismos
 puzzles y mismos días congelados -> mismo calendario.
 
 Los días ya jugados no deben cambiar: ``build_schedule`` acepta los días del
@@ -37,14 +38,18 @@ import numpy as np
 FORMAT_VERSION = 1
 
 
-def random_with_gap(
+def cycles_with_gap(
     puzzle_ids: Sequence[str],
     n_days: int,
     seed: int,
     min_gap: int = 30,
     prefix: Sequence[str] = (),
 ) -> list[str]:
-    """Genera ``n_days`` puzzles al azar sin repetir ninguno en ``min_gap`` días.
+    """Genera ``n_days`` puzzles en ciclos al azar, sin repetir en ``min_gap`` días.
+
+    Dentro de cada ciclo salen todos los puzzles una vez, en orden aleatorio;
+    cuando han salido todos empieza otro. Al empezar un ciclo, los que salieron
+    hace menos de ``min_gap`` días esperan su turno.
 
     Args:
         puzzle_ids: Identificadores disponibles (el orden de entrada no importa).
@@ -52,7 +57,8 @@ def random_with_gap(
         seed: Semilla del generador aleatorio.
         min_gap: Días que deben pasar antes de que un puzzle pueda repetirse. Si
             hay menos puzzles que eso, se usa el máximo posible (``len - 1``).
-        prefix: Días ya fijados (calendario anterior) que se conservan tal cual.
+        prefix: Días ya fijados (calendario anterior) que se conservan tal cual;
+            cuentan para el ciclo en curso.
 
     Returns:
         Lista de longitud ``max(n_days, len(prefix))`` que empieza por ``prefix``.
@@ -64,12 +70,23 @@ def random_with_gap(
     if not pool:
         raise ValueError("No hay puzzles para el calendario")
     gap = max(0, min(min_gap, len(pool) - 1))
+    remaining = set(pool)
+    for pid in prefix:  # en qué punto del ciclo deja el calendario anterior
+        remaining.discard(pid)
+        if not remaining:
+            remaining = set(pool)
     rng = np.random.default_rng([seed, len(prefix)])
     result = list(prefix)
     while len(result) < n_days:
         recent = set(result[-gap:]) if gap else set()
-        candidates = [pid for pid in pool if pid not in recent]
-        result.append(candidates[rng.integers(len(candidates))])
+        # Siempre hay alguno: los recientes de este ciclo ya no quedan en
+        # ``remaining`` y los del anterior son como mucho ``gap`` < len(pool).
+        candidates = sorted(remaining - recent)
+        pick = candidates[rng.integers(len(candidates))]
+        result.append(pick)
+        remaining.discard(pick)
+        if not remaining:
+            remaining = set(pool)
     return result
 
 
@@ -95,7 +112,7 @@ def build_schedule(
         min_gap: Días mínimos entre dos apariciones del mismo puzzle.
         frozen: Días de un calendario anterior que se conservan (ver ``frozen_days``).
     """
-    order = random_with_gap(
+    order = cycles_with_gap(
         puzzle_ids, n_days, seed, min_gap, [d["puzzle"] for d in frozen]
     )
     days = [

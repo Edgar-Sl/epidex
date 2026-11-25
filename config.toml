@@ -27,7 +27,7 @@ max_final_error = 0.05
 [schedule]
 start_date = 2026-11-19   # día del puzzle #1
 end_date = 2030-12-31     # último día del calendario (más de 4 años). Amplíalo antes de que llegue
-min_gap = 30              # días mínimos antes de que se repita un Pokémon; luego, al azar
+min_gap = 30              # salen todos (al azar) antes de repetir, y nunca antes de 30 días
 seed = 20261201           # semilla del azar (cambiarla cambia el orden de los días no jugados)
 timezone = "Europe/Madrid"
 

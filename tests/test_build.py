@@ -12,7 +12,7 @@ from pipeline.build import build_collection
 from pipeline.config import ScheduleSettings, Settings, parse_collection
 from pipeline.fourier import evaluate
 from pipeline.puzzle import build_puzzle, puzzle_id, puzzle_to_dict
-from pipeline.schedule import build_schedule, frozen_days, random_with_gap
+from pipeline.schedule import build_schedule, cycles_with_gap, frozen_days
 from pipeline.sources.base import Shape
 
 LEVELS = (2, 4, 8, 16, 32, 64)
@@ -185,18 +185,19 @@ def assert_gap(order, gap):
         last[pid] = i
 
 
-def test_calendario_determinista_y_sin_repetir_en_30_dias():
+def test_calendario_por_ciclos_sin_repetir_en_30_dias():
     ids = [f"p{i}" for i in range(72)]
-    order = random_with_gap(ids, 1000, seed=1)
-    assert order == random_with_gap(list(reversed(ids)), 1000, seed=1)
-    assert order != random_with_gap(ids, 1000, seed=2)
+    order = cycles_with_gap(ids, 1000, seed=1)
+    assert order == cycles_with_gap(list(reversed(ids)), 1000, seed=1)
+    assert order != cycles_with_gap(ids, 1000, seed=2)
     assert_gap(order, 30)
-    assert set(order) == set(ids)
+    for start in range(0, 1000 - 72, 72):  # cada ciclo completo contiene todos una vez
+        assert sorted(order[start : start + 72]) == sorted(ids)
 
 
 def test_calendario_con_pocos_puzzles_usa_el_hueco_maximo():
     ids = ["a", "b", "c"]
-    order = random_with_gap(ids, 30, seed=0)
+    order = cycles_with_gap(ids, 30, seed=0)
     assert_gap(order, 2)  # con 3 puzzles, cada uno sale cada 3 días
 
 
