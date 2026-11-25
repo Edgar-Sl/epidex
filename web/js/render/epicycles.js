@@ -101,6 +101,8 @@ const DEFAULTS = {
   loop: false,
   /** Rellenar la figura cuando el trazo está completo. */
   fillWhenComplete: true,
+  /** Color de relleno que manda sobre --epi-fill (pista del color), o null. */
+  fillColor: null,
 };
 
 /**
@@ -297,7 +299,7 @@ export class EpicycleRenderer {
       if (done) {
         ctx.closePath();
         if (options.fillWhenComplete) {
-          ctx.fillStyle = colors.fill;
+          ctx.fillStyle = options.fillColor ?? colors.fill;
           ctx.fill();
         }
       } else {

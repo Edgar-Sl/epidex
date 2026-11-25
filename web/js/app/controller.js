@@ -22,7 +22,7 @@ import {
   takeHint,
 } from "../core/game.js";
 import { recordInDex, emptyDex } from "../core/dex.js";
-import { availableHints, hintText, pickHint } from "../core/hints.js";
+import { TINTS, availableHints, hintText, pickHint } from "../core/hints.js";
 import { buildShareText } from "../core/share.js";
 import { displayedStreak, emptyStats, recordResult } from "../core/stats.js";
 import { EpicycleRenderer } from "../render/epicycles.js";
@@ -380,6 +380,9 @@ export class GameController {
     ui.hint.title = state.hint ? t("hintUsed") : this.hintTitle;
     ui.hintLine.hidden = !state.hint;
     if (state.hint) ui.hintLine.textContent = this.hintLabel();
+    // Pista del color: además del texto, la silueta se rellena con ese color.
+    const tint = state.hint === "tint" ? (TINTS[this.puzzle.hints?.tint?.key] ?? null) : null;
+    if (this.renderer.options.fillColor !== tint) this.renderer.setOptions({ fillColor: tint });
 
     this.autocomplete.setExclude(guessedIds(state));
     ui.play.hidden = over;

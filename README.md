@@ -70,7 +70,10 @@ que tiene ese Pokémon, elegida al azar (la misma para todo el mundo ese día):
 | Pista | Ejemplo (Pikachu) |
 |---|---|
 | Tipo | Eléctrico |
-| Inicial | Empieza por «P» |
+| Categoría | Pokémon Ratón |
+| Evolución | Fase inicial · Forma intermedia · Forma final · No evoluciona |
+| Habilidad | Electricidad Estática |
+| Color | Amarillo (y la silueta se pinta de amarillo) |
 
 No gasta intento, pero queda en el resultado que compartes («Con pista: Tipo» o
 «Sin pistas»). Los datos salen de PokeAPI y van dentro de cada puzzle (`hints`).

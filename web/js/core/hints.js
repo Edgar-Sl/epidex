@@ -2,18 +2,35 @@
  * Pistas: datos del Pokémon que el jugador puede pedir (una por partida, al azar).
  *
  * Cada puzzle trae las suyas en `puzzle.hints` (las genera
- * pipeline/pokemon_collections.py): tipo, fase evolutiva, categoría de la
- * Pokédex, color, tamaño, inicial y, mezclando generaciones, la generación.
+ * pipeline/pokemon_collections.py): tipo, categoría de la Pokédex, fase
+ * evolutiva, habilidad y color (que además pinta la silueta).
  * Aquí se decide el orden, cuál toca al pedirla (al azar) y cómo se lee cada una; los textos de la
  * interfaz se pasan desde fuera (app/i18n.js) para que esto siga siendo puro.
  */
 
 /**
- * Pistas que pueden tocar. Los puzzles traen más datos (fase evolutiva,
- * categoría, color, tamaño, generación), pero solo estas ayudan de verdad; el
- * resto se sigue sabiendo leer en `hintText` por las partidas ya guardadas.
+ * Pistas que pueden tocar (una al azar). Los puzzles antiguos traen otras
+ * (tamaño, inicial...): se siguen sabiendo leer en `hintText` por las partidas
+ * ya guardadas, pero ya no se dan.
  */
-export const HINT_KINDS = ["type", "letter"];
+export const HINT_KINDS = ["type", "genus", "stage", "ability", "tint"];
+
+/**
+ * Pista del color: la silueta se rellena con el color del Pokémon (los 10 de
+ * PokeAPI), en tonos que se distinguen sobre la pantalla verde.
+ */
+export const TINTS = {
+  black: "#2d2d34",
+  blue: "#3b74d6",
+  brown: "#8a5a32",
+  gray: "#8b8f96",
+  green: "#3f9b46",
+  pink: "#ef8fc0",
+  purple: "#8d5cc4",
+  red: "#d8413a",
+  white: "#f7f7f2",
+  yellow: "#f2c81e",
+};
 
 /** Generación -> [número romano, región en español, región en inglés]. */
 const GENERATIONS = {

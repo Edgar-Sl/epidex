@@ -3,9 +3,9 @@
 A partir de las tablas CSV de PokeAPI (licencia BSD-3) escribe:
 
 * ``data/collections/gen1.json`` ... ``gen9.json`` y ``all.json``: los modos.
-* ``data/pokemon_hints.json``: las pistas de cada Pokémon (tipo, fase evolutiva,
+* ``data/pokemon_hints.json``: las pistas de cada Pokémon (tipo, fase evolutiva, habilidad,
   categoría, color, tamaño, inicial y generación), que ``build`` mete en cada
-  puzzle. El jugador elige una (ver ``web/js/core/hints.js``).
+  puzzle. El juego da una al azar (ver ``web/js/core/hints.js``).
 
  Se suben al repo, así que solo hace falta volver a
 ejecutarlo si sale una generación nueva (sube ``LAST_ID`` y añade su región a
@@ -33,7 +33,8 @@ COLLECTIONS = ROOT / "data" / "collections"
 HINTS = ROOT / "data" / "pokemon_hints.json"
 
 # Pistas de cada modo. La generación solo tiene sentido mezclándolas todas.
-HINT_KINDS = ["type", "stage", "genus", "color", "size", "letter"]
+# Las que van en cada puzzle. El juego da una al azar (ver ``web/js/core/hints.js``).
+HINT_KINDS = ["type", "stage", "genus", "ability", "tint"]
 
 # Generación -> (número romano, región en español, región en inglés).
 GENERATIONS = {
@@ -103,7 +104,7 @@ def collection(
         "answers": {"from_provider": False},
         "hints": {
             "file": "data/pokemon_hints.json",
-            "kinds": HINT_KINDS + (["generation"] if cid == "all" else []),
+            "kinds": HINT_KINDS,
         },
         "items": items,
     }
@@ -134,6 +135,9 @@ def build_hints(
     pokemon_types: list[dict[str, str]],
     type_names: list[dict[str, str]],
     color_names: list[dict[str, str]],
+    pokemon_abilities: list[dict[str, str]] = (),
+    ability_names: list[dict[str, str]] = (),
+    colors: list[dict[str, str]] = (),
     last_id: int = LAST_ID,
 ) -> dict[str, dict[str, Any]]:
     """Pistas de cada especie. Los textos van en español e inglés; los números, tal cual."""
@@ -145,6 +149,14 @@ def build_hints(
     genus = by_lang(species_names_rows, "pokemon_species_id", "genus")
     types_tr = by_lang(type_names, "type_id")
     colors_tr = by_lang(color_names, "pokemon_color_id")
+    color_key = {r["id"]: r["identifier"] for r in colors}  # "10" -> "yellow"
+    abilities_tr = by_lang(ability_names, "ability_id")
+    # Habilidad principal: la del hueco 1, que no es oculta.
+    main_ability = {
+        int(r["pokemon_id"]): r["ability_id"]
+        for r in pokemon_abilities
+        if r["slot"] == "1" and r["is_hidden"] == "0" and int(r["pokemon_id"]) <= last_id
+    }
     # La forma por defecto de cada especie tiene el mismo id que la especie.
     body = {int(r["id"]): r for r in pokemon if int(r["id"]) <= last_id}
     types: dict[int, list[tuple[int, str]]] = {}
@@ -165,6 +177,11 @@ def build_hints(
             "letter": names[pid][0].upper(),
             "generation": int(r["generation_id"]),
         }
+        if i in main_ability and main_ability[i] in abilities_tr:
+            out[pid]["ability"] = abilities_tr[main_ability[i]]
+        if r["color_id"] in color_key:
+            # Color de la silueta (pista visual): su nombre y la clave para pintarla.
+            out[pid]["tint"] = {**colors_tr[r["color_id"]], "key": color_key[r["color_id"]]}
     return out
 
 
@@ -228,6 +245,9 @@ def main() -> None:
         read_csv("pokemon_types.csv"),
         read_csv("type_names.csv"),
         read_csv("pokemon_color_names.csv"),
+        read_csv("pokemon_abilities.csv"),
+        read_csv("ability_names.csv"),
+        read_csv("pokemon_colors.csv"),
     )
     data = {
         "_comment": "Pistas de cada Pokémon, según PokeAPI (BSD-3). Lo genera "

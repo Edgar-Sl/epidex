@@ -45,9 +45,8 @@
       "type",
       "stage",
       "genus",
-      "color",
-      "size",
-      "letter"
+      "ability",
+      "tint"
     ]
   },
   "items": [

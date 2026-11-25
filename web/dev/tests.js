@@ -123,7 +123,13 @@ const WORDS_ES = {
   lang: "es", locale: "es-ES", stages: { middle: "Forma intermedia" }, startsWith: "Empieza por «{letter}»",
 };
 test("pistas disponibles en orden y su texto en cada idioma", () => {
-  assertEqual(availableHints({ hints: HINTS }), ["type", "letter"]);
+  assertEqual(availableHints({ hints: HINTS }), ["type", "stage"]);
+  assertEqual(
+    availableHints({ hints: { ...HINTS, genus: { es: "Pokémon Ratón" }, ability: { es: "Electricidad Estática" }, tint: { es: "Amarillo", key: "yellow" } } }),
+    ["type", "genus", "stage", "ability", "tint"],
+  );
+  assertEqual(hintText("ability", { ability: { es: "Electricidad Estática", en: "Static" } }, WORDS_ES), "Electricidad Estática");
+  assertEqual(hintText("tint", { tint: { es: "Amarillo", en: "Yellow", key: "yellow" } }, { ...WORDS_ES, lang: "en" }), "Yellow");
   assertEqual(availableHints({}), []);
   assertEqual(hintText("type", HINTS, WORDS_ES), "Eléctrico");
   assertEqual(hintText("type", HINTS, { ...WORDS_ES, lang: "en" }), "Electric");
