@@ -22,7 +22,7 @@ import {
   takeHint,
 } from "../core/game.js";
 import { recordInDex, emptyDex } from "../core/dex.js";
-import { availableHints, hintText } from "../core/hints.js";
+import { availableHints, hintText, pickHint } from "../core/hints.js";
 import { buildShareText } from "../core/share.js";
 import { displayedStreak, emptyStats, recordResult } from "../core/stats.js";
 import { EpicycleRenderer } from "../render/epicycles.js";
@@ -84,9 +84,6 @@ export class GameController {
       submit: /** @type {HTMLButtonElement} */ (byId("submit")),
       skip: byId("skip"),
       hint: /** @type {HTMLButtonElement} */ (byId("hint")),
-      hintPanel: byId("hint-panel"),
-      hintPick: byId("hint-pick"),
-      hintOptions: byId("hint-options"),
       hintLine: byId("hint-line"),
       resultDex: byId("result-dex"),
       history: byId("history"),
@@ -136,14 +133,8 @@ export class GameController {
     this.ui.skip.addEventListener("click", () => this.apply(skip(this.state)));
     this.ui.hint.hidden = this.hintKinds.length === 0;
     this.hintTitle = this.ui.hint.title;
-    this.ui.hint.addEventListener("click", () => this.toggleHints());
-    this.ui.hintPick.textContent = t("hintPick");
-    this.ui.hintOptions.replaceChildren(
-      ...this.hintKinds.map((kind) => {
-        const button = h("button", { type: "button", class: "hint-option", text: t(`hint_${kind}`) });
-        button.addEventListener("click", () => this.useHint(kind));
-        return button;
-      }),
+    this.ui.hint.addEventListener("click", () =>
+      this.useHint(pickHint(this.hintKinds, `${this.puzzle.id}|${this.state.date}`)),
     );
     // El mensaje cambia al responder las preguntas extra: el enlace se completa
     // justo al pulsar (antes de que el navegador lo abra).
@@ -178,21 +169,13 @@ export class GameController {
 
   // ---- pistas --------------------------------------------------------------
 
-  /** Abre o cierra la lista de pistas (en la pantalla del registro). */
-  toggleHints(open = this.ui.hintPanel.hidden) {
-    if (this.state.hint || isOver(this.state)) open = false;
-    this.ui.hintPanel.hidden = !open;
-    this.ui.hint.setAttribute("aria-expanded", String(open));
-    if (open) this.ui.hintOptions.querySelector("button")?.focus();
-  }
-
-  /** @param {string} kind */
+  /** @param {string | null} kind Pista que toca (ver `pickHint`). */
   useHint(kind) {
+    if (!kind) return;
     const state = takeHint(this.state, kind);
     if (state === this.state) return;
     this.state = state;
     this.storage.saveGame(state);
-    this.toggleHints(false);
     this.render();
     replayAnimation(this.ui.hintLine, "is-new");
     this.ui.input.focus();
@@ -399,7 +382,6 @@ export class GameController {
     ui.hint.title = state.hint ? t("hintUsed") : this.hintTitle;
     ui.hintLine.hidden = !state.hint;
     if (state.hint) ui.hintLine.textContent = this.hintLabel();
-    if (over || state.hint) this.toggleHints(false);
 
     this.autocomplete.setExclude(guessedIds(state));
     ui.play.hidden = over;

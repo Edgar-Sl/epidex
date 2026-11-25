@@ -12,7 +12,7 @@ from pipeline.build import build_collection
 from pipeline.config import ScheduleSettings, Settings, parse_collection
 from pipeline.fourier import evaluate
 from pipeline.puzzle import build_puzzle, puzzle_id, puzzle_to_dict
-from pipeline.schedule import build_schedule, shuffled_cycles
+from pipeline.schedule import build_schedule, frozen_days, random_with_gap
 from pipeline.sources.base import Shape
 
 LEVELS = (2, 4, 8, 16, 32, 64)
@@ -178,14 +178,41 @@ def test_answers_rechaza_alias_huerfanos():
 # --------------------------------------------------------------------------- #
 # Calendario
 # --------------------------------------------------------------------------- #
-def test_calendario_determinista_y_por_ciclos():
-    ids = [f"p{i}" for i in range(10)]
-    order = shuffled_cycles(ids, 35, seed=1)
-    assert order == shuffled_cycles(list(reversed(ids)), 35, seed=1)
-    assert order != shuffled_cycles(ids, 35, seed=2)
-    for start in range(0, 30, 10):  # cada ciclo completo contiene todos una vez
-        assert sorted(order[start : start + 10]) == sorted(ids)
-    assert all(a != b for a, b in zip(order, order[1:], strict=False))
+def assert_gap(order, gap):
+    last = {}
+    for i, pid in enumerate(order):
+        assert pid not in last or i - last[pid] > gap, f"{pid} repetido a los {i - last[pid]} días"
+        last[pid] = i
+
+
+def test_calendario_determinista_y_sin_repetir_en_30_dias():
+    ids = [f"p{i}" for i in range(72)]
+    order = random_with_gap(ids, 1000, seed=1)
+    assert order == random_with_gap(list(reversed(ids)), 1000, seed=1)
+    assert order != random_with_gap(ids, 1000, seed=2)
+    assert_gap(order, 30)
+    assert set(order) == set(ids)
+
+
+def test_calendario_con_pocos_puzzles_usa_el_hueco_maximo():
+    ids = ["a", "b", "c"]
+    order = random_with_gap(ids, 30, seed=0)
+    assert_gap(order, 2)  # con 3 puzzles, cada uno sale cada 3 días
+
+
+def test_calendario_conserva_los_dias_ya_jugados():
+    ids = [f"p{i}" for i in range(50)]
+    old = build_schedule("c", ids, date(2026, 12, 1), 20, seed=5)
+    kept = frozen_days(old, date(2026, 12, 1), date(2026, 12, 7), ids)
+    assert [d["date"] for d in kept][-1] == "2026-12-07" and len(kept) == 7
+    new = build_schedule("c", ids, date(2026, 12, 1), 400, seed=99, frozen=kept)
+    assert new["days"][:7] == old["days"][:7]
+    assert_gap([d["puzzle"] for d in new["days"]], 30)
+    # Si falta un puzzle de esos días o cambia el día #1, no se conserva nada.
+    first = old["days"][0]["puzzle"]
+    without_first = [i for i in ids if i != first]
+    assert frozen_days(old, date(2026, 12, 1), date(2026, 12, 7), without_first) == []
+    assert frozen_days(old, date(2026, 12, 2), date(2026, 12, 7), ids) == []
 
 
 def test_calendario_formato():

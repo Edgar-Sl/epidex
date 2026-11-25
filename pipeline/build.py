@@ -18,14 +18,16 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from pipeline.answers import answers_to_dict, build_answers
 from pipeline.cli import build_parser, setup_logging
 from pipeline.config import Collection, Settings, load_collection, load_settings
 from pipeline.puzzle import Puzzle, build_puzzle, puzzle_to_dict
-from pipeline.schedule import build_schedule
+from pipeline.schedule import build_schedule, frozen_days
 from pipeline.site import SiteSettings, build_site
 from pipeline.sources import ShapeProvider, create_provider
 
@@ -143,8 +145,21 @@ def build_collection(
     write_json(out_dir / "answers.json", answers_to_dict(collection.id, answers))
 
     sched = settings.schedule
+    # Los días ya jugados (hasta hoy) se conservan del calendario anterior.
+    schedule_path = out_dir / "schedule.json"
+    previous = (
+        json.loads(schedule_path.read_text(encoding="utf-8")) if schedule_path.exists() else None
+    )
+    today = datetime.now(ZoneInfo(sched.timezone)).date()
     schedule = build_schedule(
-        collection.id, ids, sched.start_date, sched.days, sched.seed, sched.timezone
+        collection.id,
+        ids,
+        sched.start_date,
+        sched.n_days,
+        sched.seed,
+        sched.timezone,
+        min_gap=sched.min_gap,
+        frozen=frozen_days(previous, sched.start_date, today, ids),
     )
     write_json(out_dir / "schedule.json", schedule)
 

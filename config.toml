@@ -26,8 +26,9 @@ max_final_error = 0.05
 
 [schedule]
 start_date = 2026-11-19   # día del puzzle #1
-days = 365                # días que se generan en schedule.json
-seed = 20261201           # semilla del barajado (cambiarla cambia el orden)
+end_date = 2030-12-31     # último día del calendario (más de 4 años). Amplíalo antes de que llegue
+min_gap = 30              # días mínimos antes de que se repita un Pokémon; luego, al azar
+seed = 20261201           # semilla del azar (cambiarla cambia el orden de los días no jugados)
 timezone = "Europe/Madrid"
 
 # Imágenes de origen: arte oficial de la 1.ª generación (repositorio de PokeAPI).

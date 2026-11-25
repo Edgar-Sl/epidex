@@ -4,7 +4,7 @@
  * Cada puzzle trae las suyas en `puzzle.hints` (las genera
  * pipeline/pokemon_collections.py): tipo, fase evolutiva, categoría de la
  * Pokédex, color, tamaño, inicial y, mezclando generaciones, la generación.
- * Aquí solo se decide el orden y cómo se lee cada una; los textos de la
+ * Aquí se decide el orden, cuál toca al pedirla (al azar) y cómo se lee cada una; los textos de la
  * interfaz se pasan desde fuera (app/i18n.js) para que esto siga siendo puro.
  */
 
@@ -32,6 +32,26 @@ const GENERATIONS = {
 export function availableHints(puzzle) {
   const hints = puzzle?.hints ?? {};
   return HINT_KINDS.filter((kind) => hints[kind] !== undefined && hints[kind] !== null);
+}
+
+/**
+ * Pista que toca al pedirla: una al azar entre las disponibles.
+ *
+ * El azar sale de `seed` (puzzle y fecha), así que es la misma para todo el
+ * mundo ese día y no cambia al recargar la página.
+ *
+ * @param {string[]} kinds Pistas disponibles (`availableHints`).
+ * @param {string} seed
+ * @returns {string | null}
+ */
+export function pickHint(kinds, seed) {
+  if (!kinds.length) return null;
+  let hash = 2166136261; // FNV-1a de 32 bits
+  for (const ch of seed) {
+    hash ^= ch.codePointAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return kinds[(hash >>> 0) % kinds.length];
 }
 
 /**

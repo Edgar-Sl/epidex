@@ -1,9 +1,13 @@
 """Calendario diario: qué puzzle toca cada fecha.
 
-Se baraja la lista de puzzles con una semilla fija (determinista: misma semilla
-y mismos puzzles -> mismo calendario) en *ciclos*: no se repite ningún puzzle
-hasta que han salido todos, y cada ciclo tiene un orden distinto. Entre un ciclo
-y el siguiente se evita que el mismo puzzle salga dos días seguidos.
+Cada día se elige un puzzle **al azar** entre los que no han salido en los
+últimos ``min_gap`` días (30 por defecto; si la colección es más pequeña, entre
+los que llevan más tiempo sin salir). Es determinista: misma semilla, mismos
+puzzles y mismos días congelados -> mismo calendario.
+
+Los días ya jugados no deben cambiar: ``build_schedule`` acepta los días del
+calendario anterior (``frozen``) y los conserva tal cual; el resto se elige a
+continuación respetando la separación mínima con ellos.
 
 Formato de ``schedule.json`` (versión 1)::
 
@@ -20,9 +24,6 @@ Formato de ``schedule.json`` (versión 1)::
 
 ``number`` es el que aparece al compartir ("#12"). El navegador calcula la fecha
 de hoy en ``timezone`` y busca su entrada.
-
-Limitación conocida: si se añaden o quitan puzzles, el barajado cambia también
-para fechas pasadas. Antes de publicar habrá que "congelar" los días ya jugados.
 """
 
 from __future__ import annotations
@@ -36,16 +37,25 @@ import numpy as np
 FORMAT_VERSION = 1
 
 
-def shuffled_cycles(puzzle_ids: Sequence[str], n_days: int, seed: int) -> list[str]:
-    """Genera ``n_days`` puzzles a base de ciclos barajados.
+def random_with_gap(
+    puzzle_ids: Sequence[str],
+    n_days: int,
+    seed: int,
+    min_gap: int = 30,
+    prefix: Sequence[str] = (),
+) -> list[str]:
+    """Genera ``n_days`` puzzles al azar sin repetir ninguno en ``min_gap`` días.
 
     Args:
         puzzle_ids: Identificadores disponibles (el orden de entrada no importa).
-        n_days: Número de días a generar.
+        n_days: Número total de días (incluidos los de ``prefix``).
         seed: Semilla del generador aleatorio.
+        min_gap: Días que deben pasar antes de que un puzzle pueda repetirse. Si
+            hay menos puzzles que eso, se usa el máximo posible (``len - 1``).
+        prefix: Días ya fijados (calendario anterior) que se conservan tal cual.
 
     Returns:
-        Lista de longitud ``n_days``.
+        Lista de longitud ``max(n_days, len(prefix))`` que empieza por ``prefix``.
 
     Raises:
         ValueError: Si no hay puzzles.
@@ -53,16 +63,14 @@ def shuffled_cycles(puzzle_ids: Sequence[str], n_days: int, seed: int) -> list[s
     pool = sorted(set(puzzle_ids))
     if not pool:
         raise ValueError("No hay puzzles para el calendario")
-    result: list[str] = []
-    cycle = 0
+    gap = max(0, min(min_gap, len(pool) - 1))
+    rng = np.random.default_rng([seed, len(prefix)])
+    result = list(prefix)
     while len(result) < n_days:
-        rng = np.random.default_rng([seed, cycle])
-        order = [pool[i] for i in rng.permutation(len(pool))]
-        if result and len(order) > 1 and order[0] == result[-1]:
-            order[0], order[1] = order[1], order[0]
-        result.extend(order)
-        cycle += 1
-    return result[:n_days]
+        recent = set(result[-gap:]) if gap else set()
+        candidates = [pid for pid in pool if pid not in recent]
+        result.append(candidates[rng.integers(len(candidates))])
+    return result
 
 
 def build_schedule(
@@ -72,6 +80,8 @@ def build_schedule(
     n_days: int,
     seed: int,
     timezone: str = "Europe/Madrid",
+    min_gap: int = 30,
+    frozen: Sequence[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     """Construye el contenido de ``schedule.json``.
 
@@ -82,8 +92,12 @@ def build_schedule(
         n_days: Días a generar.
         seed: Semilla del barajado.
         timezone: Zona horaria en la que el frontend calcula "hoy".
+        min_gap: Días mínimos entre dos apariciones del mismo puzzle.
+        frozen: Días de un calendario anterior que se conservan (ver ``frozen_days``).
     """
-    order = shuffled_cycles(puzzle_ids, n_days, seed)
+    order = random_with_gap(
+        puzzle_ids, n_days, seed, min_gap, [d["puzzle"] for d in frozen]
+    )
     days = [
         {
             "date": (start_date + timedelta(days=i)).isoformat(),
@@ -99,3 +113,26 @@ def build_schedule(
         "start_date": start_date.isoformat(),
         "days": days,
     }
+
+
+def frozen_days(
+    previous: dict[str, Any] | None, start_date: date, until: date, puzzle_ids: Sequence[str]
+) -> list[dict[str, Any]]:
+    """Días de un calendario anterior que hay que conservar: del #1 hasta ``until``.
+
+    Solo si el calendario anterior empieza el mismo día y todos esos puzzles
+    siguen existiendo (si no, no se puede conservar sin romper la numeración).
+    """
+    if not previous or previous.get("start_date") != start_date.isoformat():
+        return []
+    ids = set(puzzle_ids)
+    kept = []
+    for i, day in enumerate(previous.get("days", [])):
+        if day.get("date") != (start_date + timedelta(days=i)).isoformat():
+            return []
+        if date.fromisoformat(day["date"]) > until:
+            break
+        if day.get("puzzle") not in ids:
+            return []
+        kept.append(day)
+    return kept

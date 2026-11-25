@@ -148,7 +148,7 @@
           </div>
           <p class="kbd-hint">{{t.kbd_hint}}</p>
           <div class="pad">
-            <button id="hint" type="button" class="key key--hint" aria-expanded="false" aria-controls="hint-panel" title="{{t.hint_title}}" hidden>
+            <button id="hint" type="button" class="key key--hint" title="{{t.hint_title}}" hidden>
               <span class="key-face"><svg aria-hidden="true"><use href="#i-hint"/></svg></span><span class="key-label">{{t.hint}}</span>
             </button>
             <div class="key-group">
@@ -162,10 +162,6 @@
           </div>
         </form>
         <div class="log">
-          <div id="hint-panel" class="hint-panel" hidden>
-            <p id="hint-pick" class="log-title"></p>
-            <div id="hint-options" class="hint-options"></div>
-          </div>
           <p id="hint-line" class="hint-line" hidden></p>
           <p class="log-title">{{t.log}}</p>
           <ul id="history" class="history" aria-label="{{t.wrong_list}}" data-empty="{{t.log_empty}}"></ul>

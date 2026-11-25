@@ -60,12 +60,12 @@ En el móvil, las dos mitades de la Pokédex van una encima de otra y ocupan tod
 tablet en vertical, igual pero más grandes. En el ordenador la Pokédex se abre como un libro y se
 amplía o reduce (con `zoom`, en [`web/js/ui/fit.js`](web/js/ui/fit.js)) para llenar la ventana
 sin scroll, desde un portátil de 1280×720 hasta un monitor grande; se reajusta sola al cambiar de
-tamaño o de contenido (al acabar la partida, al abrir las pistas…).
+tamaño o de contenido (al acabar la partida, al pedir la pista…).
 
-### Pistas: una por partida, la eliges tú
+### Pistas: una por partida, al azar
 
-La tecla **Pista** (a la izquierda de B y A) abre en la pantalla del registro las pistas que tiene
-ese Pokémon, y eliges **una**:
+La tecla **Pista** (a la izquierda de B y A) enseña en la pantalla del registro **una** de las pistas
+que tiene ese Pokémon, elegida al azar (la misma para todo el mundo ese día):
 
 | Pista | Ejemplo (Pikachu) |
 |---|---|

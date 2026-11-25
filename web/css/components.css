@@ -1464,38 +1464,7 @@ kbd {
   background: #8a4a4a;
 }
 
-.hint-panel {
-  margin-bottom: 10px;
-  padding-bottom: 12px;
-  border-bottom: 1px dashed rgba(155, 188, 15, 0.35);
-}
-
-.hint-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 96px), 1fr));
-  gap: 6px;
-}
-
-.hint-option {
-  min-height: 40px;
-  padding: 6px 8px;
-  border: 2px solid var(--lcd-1);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--lcd-0);
-  font-family: var(--font-lcd);
-  font-size: 0.95rem;
-  cursor: pointer;
-}
-
-.hint-option:hover,
-.hint-option:focus-visible {
-  outline: none;
-  background: var(--lcd-1);
-  color: var(--lcd-3);
-}
-
-/* La pista elegida, fija en lo alto del registro. */
+/* La pista que tocó, fija en lo alto del registro. */
 .hint-line {
   margin-bottom: 10px;
   padding: 6px 10px;

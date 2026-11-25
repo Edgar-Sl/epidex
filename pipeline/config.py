@@ -35,9 +35,18 @@ class ScheduleSettings:
     """Parámetros del calendario diario."""
 
     start_date: date = date(2026, 12, 1)  # día del puzzle #1
-    days: int = 365  # cuántos días se generan
-    seed: int = 0  # semilla del barajado
-    timezone: str = "Europe/Madrid"  # informativo: el frontend calcula "hoy" en esta zona
+    days: int = 365  # cuántos días se generan (si no hay end_date)
+    seed: int = 0  # semilla del azar
+    timezone: str = "Europe/Madrid"  # el frontend calcula "hoy" en esta zona
+    end_date: date | None = None  # último día del calendario (manda sobre days)
+    min_gap: int = 30  # días mínimos antes de que se repita un puzzle
+
+    @property
+    def n_days(self) -> int:
+        """Días que se generan: hasta ``end_date`` si está, si no ``days``."""
+        if self.end_date:
+            return (self.end_date - self.start_date).days + 1
+        return self.days
 
 
 @dataclass(frozen=True)

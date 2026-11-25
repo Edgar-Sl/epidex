@@ -16,7 +16,7 @@ import {
   skip,
   takeHint,
 } from "../js/core/game.js";
-import { availableHints, hintText } from "../js/core/hints.js";
+import { availableHints, hintText, pickHint } from "../js/core/hints.js";
 import { dexCounts, dexId, dexSlots, emptyDex, generationOf, recentCatches, recordInDex } from "../js/core/dex.js";
 import { buildShareText } from "../js/core/share.js";
 import { appShareUrl } from "../js/app/share-action.js";
@@ -131,6 +131,15 @@ test("pistas disponibles en orden y su texto en cada idioma", () => {
   assertEqual(hintText("size", HINTS, WORDS_ES), "0,4 m · 6 kg");
   assertEqual(hintText("letter", HINTS, WORDS_ES), "Empieza por «P»");
   assertEqual(hintText("generation", HINTS, WORDS_ES), "Gen III · Hoenn");
+});
+
+test("la pista sale al azar, pero igual para todos el mismo día", () => {
+  const kinds = ["type", "stage", "size", "letter"];
+  assertEqual(pickHint([], "x"), null);
+  assertEqual(pickHint(kinds, "abc|2026-11-26"), pickHint(kinds, "abc|2026-11-26"), "determinista");
+  const seen = new Set();
+  for (let day = 1; day <= 60; day++) seen.add(pickHint(kinds, `abc|2026-12-${day}`));
+  assertEqual(seen.size, kinds.length, "con días distintos salen todas");
 });
 
 test("compartir dice si se usó pista o no", () => {
