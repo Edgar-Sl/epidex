@@ -66,6 +66,7 @@ class SiteSettings:
     url: str = ""  # p. ej. "https://ejemplo.com/" (con / final); vacío = aún sin dominio
     languages: tuple[str, ...] = ("en", "es")  # el primero va en la raíz
     goatcounter: str = ""  # código de GoatCounter (analítica sin cookies); vacío = sin analítica
+    donate_url: str = ""  # enlace de donaciones (Ko-fi...); vacío = sin bloque «Apoya al creador»
     legal: LegalSettings = field(default_factory=LegalSettings)
 
     @classmethod
@@ -76,6 +77,7 @@ class SiteSettings:
             url=str(raw.get("url", "")),
             languages=tuple(str(lang) for lang in raw.get("languages", cls.languages)),
             goatcounter=str(raw.get("goatcounter", "")),
+            donate_url=str(raw.get("donate_url", "")),
             legal=LegalSettings.from_config(raw.get("legal", {})),
         )
 
@@ -123,6 +125,20 @@ def analytics_tag(site: SiteSettings) -> str:
     return (
         f'<script data-goatcounter="https://{code}.goatcounter.com/count" '
         'async src="https://gc.zgo.at/count.js"></script>'
+    )
+
+
+def donate_box(site: SiteSettings, texts: dict[str, Any]) -> str:
+    """Bloque «Apoya al creador» de la pantalla de resultado, o nada sin ``donate_url``."""
+    if not site.donate_url:
+        return ""
+    url = html.escape(site.donate_url)
+    return (
+        '<div class="donate-box">'
+        f'<p class="donate-text">{texts["donate_text"]}</p>'
+        f'<a id="donate" class="share-pill donate-btn" href="{url}" target="_blank" '
+        f'rel="noopener">☕ <span>{texts["donate_btn"]}</span></a>'
+        "</div>"
     )
 
 
@@ -183,6 +199,7 @@ def render_page(
         "lang_switch": switch,
         "json_ld": json_ld(site, lang, texts),
         "analytics": analytics_tag(site),
+        "donate": donate_box(site, texts),
         "levels": " → ".join(str(k) for k in levels),
         "first_level": str(levels[0]),
         "attempts": str(len(levels)),
@@ -234,6 +251,7 @@ def render_legal(
         # Primero los párrafos que a su vez llevan marcadores.
         "ads": texts["ads_on" if legal.ads else "ads_off"],
         "analytics": texts["analytics_on" if site.goatcounter else "analytics_off"],
+        "donations": texts.get("donations_on", "") if site.donate_url else "",
         "lang": lang,
         "base": f'<base href="{"../" * path.count("/")}">',
         "home": site.path(lang) or "./",

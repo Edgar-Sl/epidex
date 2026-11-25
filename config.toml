@@ -48,13 +48,14 @@ url = ""                  # dominio con "/" final, p. ej. "https://epidex.app/".
 languages = ["en", "es"]  # el primero va en la raíz; el resto en /<idioma>/
 template = "site/page.html"
 goatcounter = ""          # código de GoatCounter (analítica sin cookies). Vacío = sin analítica
+donate_url = "https://ko-fi.com/epidex"           # enlace de donaciones (p. ej. "https://ko-fi.com/usuario"). Vacío = sin «Apoya al creador»
 
 # Aviso legal y privacidad (web/legal/ y web/es/legal/). Rellena owner y email
 # antes de publicar: en España la LSSI obliga a identificar al titular de una web
 # con anuncios, y es la vía para que un titular de derechos pida retirar algo.
 [site.legal]
-owner = ""          # tu nombre (o el de tu empresa)
-email = ""          # correo de contacto (retiradas de contenido y protección de datos)
+owner = "Epidex"        # tu nombre (o el de tu empresa)
+email = "epidex.dev@gmail.com"        # correo de contacto (retiradas de contenido y protección de datos)
 nif = ""            # opcional para un particular; obligatorio si hay actividad económica declarada
 address = ""        # opcional
 ads = false         # ponlo a true cuando haya anuncios (cambia el texto de privacidad)

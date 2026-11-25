@@ -2020,3 +2020,28 @@ a.big-btn {
     padding: 1px 5px;
   }
 }
+
+/* ---- Apoya al creador: discreto, debajo de compartir ----------------------- */
+
+.donate-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.donate-text {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.donate-btn {
+  flex-direction: row;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+}
