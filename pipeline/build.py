@@ -151,9 +151,12 @@ def build_collection(
         json.loads(schedule_path.read_text(encoding="utf-8")) if schedule_path.exists() else None
     )
     today = datetime.now(ZoneInfo(sched.timezone)).date()
+    # Los excluidos no entran en los días nuevos (los ya jugados se conservan igual).
+    excluded = set(sched.exclude)
+    pool = [p.id for p in puzzles if p.answer not in excluded]
     schedule = build_schedule(
         collection.id,
-        ids,
+        pool,
         sched.start_date,
         sched.n_days,
         sched.seed,

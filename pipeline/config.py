@@ -40,6 +40,9 @@ class ScheduleSettings:
     timezone: str = "Europe/Madrid"  # el frontend calcula "hoy" en esta zona
     end_date: date | None = None  # último día del calendario (manda sobre days)
     min_gap: int = 30  # días mínimos antes de que se repita un puzzle
+    # Respuestas que no salen como puzzle del día (siluetas que no se reconocen);
+    # siguen siendo respuestas válidas y están en la Pokédex.
+    exclude: tuple[str, ...] = ()
 
     @property
     def n_days(self) -> int:
@@ -148,7 +151,9 @@ def load_settings(path: Path) -> Settings:
         decimals=int(puzzle.get("decimals", 5)),
         id_salt=str(puzzle.get("id_salt", "")),
         max_final_error=float(puzzle.get("max_final_error", 0.05)),
-        schedule=ScheduleSettings(**sched),
+        schedule=ScheduleSettings(
+            **{**sched, "exclude": tuple(str(x) for x in sched.get("exclude", ()))}
+        ),
         site=dict(raw.get("site", {})),
     )
 

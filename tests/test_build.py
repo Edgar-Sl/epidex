@@ -201,6 +201,17 @@ def test_calendario_con_pocos_puzzles_usa_el_hueco_maximo():
     assert_gap(order, 2)  # con 3 puzzles, cada uno sale cada 3 días
 
 
+def test_calendario_excluidos_no_salen_pero_se_conservan_si_ya_salieron():
+    ids = [f"p{i}" for i in range(40)]
+    old = build_schedule("c", ids, date(2026, 12, 1), 10, seed=3)
+    kept = frozen_days(old, date(2026, 12, 1), date(2026, 12, 3), ids)
+    gone = kept[0]["puzzle"]  # ya salió el día 1: se excluye desde ahora
+    pool = [i for i in ids if i != gone]
+    new = build_schedule("c", pool, date(2026, 12, 1), 300, seed=3, frozen=kept)
+    assert new["days"][:3] == old["days"][:3]
+    assert gone not in [d["puzzle"] for d in new["days"][3:]]
+
+
 def test_calendario_conserva_los_dias_ya_jugados():
     ids = [f"p{i}" for i in range(50)]
     old = build_schedule("c", ids, date(2026, 12, 1), 20, seed=5)
