@@ -260,3 +260,185 @@
     gap: 40px;
   }
 }
+
+/*
+ * Móvil en horizontal: falta alto, sobra ancho. Si se apilaran las mitades, el dibujo
+ * quedaría cortado y habría que hacer scroll para escribir, así que se reparte en dos
+ * columnas que llenan la pantalla:
+ *
+ *   ┌──────────┬───────────────────┐
+ *   │ pantalla │ lente · botones   │
+ *   │ (dibujo) │ buscador · B  A   │
+ *   │ 2 4 8 …  │ registro          │
+ *   └──────────┴───────────────────┘
+ *
+ * La mitad izquierda se "deshace" (display: contents) para que su cabecera pueda ir
+ * arriba a la derecha y el dibujo aproveche todo el alto.
+ */
+@media (orientation: landscape) and (max-height: 539px) and (min-width: 560px) {
+  .device {
+    --pad: 10px;
+    width: calc(100% - 2 * max(8px, env(safe-area-inset-left), env(safe-area-inset-right)));
+    max-width: 1100px;
+    height: calc(100dvh - 16px);
+    margin: 8px auto 24px;
+    padding: var(--pad) 14px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 10px 14px;
+    border-radius: 24px 24px 24px 48px;
+  }
+
+  [data-view="home"] .device {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  }
+
+  .half--left {
+    display: contents;
+  }
+
+  .device-top {
+    grid-column: 2;
+    grid-row: 1;
+    padding-bottom: 8px;
+  }
+
+  .lens {
+    width: 42px;
+    height: 42px;
+  }
+
+  .lens-glass {
+    width: 26px;
+    height: 26px;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .round-btn,
+  .lang-switch {
+    width: 34px;
+    height: 34px;
+  }
+
+  #loading,
+  #notice,
+  .screen-bezel,
+  .home-modes {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    min-height: 0;
+  }
+
+  .screen-bezel {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px 10px;
+  }
+
+  .screen-label {
+    margin-bottom: 6px;
+  }
+
+  /* El dibujo, cuadrado y tan alto como deje la pantalla (cabecera y escalera fuera). */
+  .screen {
+    width: max(150px, 100dvh - 150px);
+  }
+
+  .ladder {
+    margin-top: 8px;
+  }
+
+  .home-modes {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .half--right {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 0;
+    gap: 10px;
+  }
+
+  .controls {
+    flex: 1;
+    min-height: 0;
+    gap: 10px;
+  }
+
+  .guess {
+    gap: 8px;
+  }
+
+  .guess-input {
+    height: 46px;
+  }
+
+  /* Arriba no hay sitio (está la cabecera): las sugerencias se abren hacia abajo. */
+  .suggestions {
+    inset: calc(100% + 6px) 0 auto 0;
+    max-height: max(120px, 100dvh - 190px);
+  }
+
+  .pad {
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .key--hint {
+    margin-bottom: 0;
+  }
+
+  .key-face {
+    width: 50px;
+    height: 50px;
+  }
+
+  .log {
+    flex: 1 1 0;
+    min-height: 48px;
+    overflow: auto;
+  }
+
+  .result,
+  .home-dex {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .home-dex-screen {
+    flex: 1;
+  }
+
+  .device-foot,
+  .kbd-hint {
+    display: none;
+  }
+  /* Mi Pokédex: fuera la explicación y márgenes justos, para que se vea la rejilla. */
+  .card--dex {
+    height: calc(100dvh - 16px);
+    max-height: calc(100dvh - 16px);
+    padding: 12px 16px;
+  }
+
+  .card--dex .card-header,
+  .card--dex .dex-summary {
+    margin-bottom: 6px;
+  }
+
+  .card--dex .modes-intro {
+    display: none;
+  }
+
+  .card--dex .dex-tabs {
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+  }
+}

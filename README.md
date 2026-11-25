@@ -225,13 +225,6 @@ Antes de publicar:
 - Con anuncios: `ads = true` y, en la UE, un aviso de cookies con consentimiento (CMP certificado
   por Google si son de AdSense) que cargue los anuncios solo tras aceptar.
 
-## Pendiente
-
-- **Zoom al abrir la Pokédex:** revisar cómo se ve y a qué tamaño sale el diálogo «Mi Pokédex» al
-  entrar, sobre todo en escritorio (la página va con `zoom`, ver `web/js/ui/fit.js`).
-- **Bloquear el scroll en la Pokédex:** con el diálogo abierto, al hacer scroll se mueve la página
-  de detrás; el scroll debe quedarse dentro de la Pokédex.
-
 ## Licencia
 
 **Todos los derechos reservados.** El código y el diseño del juego son del autor y no se pueden

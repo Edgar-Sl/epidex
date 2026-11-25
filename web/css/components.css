@@ -114,6 +114,45 @@
   }
 }
 
+/* Móviles muy estrechos (320-360px): todo más compacto para que la cabecera no se salga. */
+@media (max-width: 360px) {
+  .device {
+    width: calc(100% - 12px);
+    padding: 12px 10px 14px;
+  }
+
+  .device-top {
+    gap: 6px;
+  }
+
+  .device-top .lens {
+    width: 40px;
+    height: 40px;
+  }
+
+  .device-top .lens-glass {
+    width: 26px;
+    height: 26px;
+  }
+
+  .device-top .logo {
+    font-size: 1.1rem;
+  }
+
+  .top-actions {
+    gap: 4px;
+  }
+
+  .top-actions .round-btn,
+  .top-actions .lang-switch {
+    width: 32px;
+    height: 32px;
+  }
+  .screen-bezel .screen {
+    width: min(100%, max(180px, 100dvh - 400px));
+  }
+}
+
 .round-btn {
   display: inline-grid;
   place-items: center;
@@ -1576,8 +1615,66 @@ kbd {
 }
 
 /* Rejilla tipo LCD: casillas pequeñas; lo capturado a color, lo visto en silueta. */
+/* Ocupa casi toda la ventana: cabecera, resumen y pestañas quedan fijos y solo la
+   rejilla hace scroll (así se ven muchas casillas a la vez y no hay doble scroll). */
 .card--dex {
-  width: min(100% - 24px, 760px);
+  width: min(100% - 24px, 1280px);
+  height: calc(100dvh - 24px);
+  max-width: none;
+  max-height: calc(100dvh - 24px);
+  overflow: hidden;
+}
+
+.card--dex[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.card--dex > :not(.dex-grid) {
+  flex: none;
+}
+
+.card--dex .dex-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* El aviso de "aún no hay nada" va en la primera fila, sin la altura de una casilla. */
+.dex-grid:has(.dex-empty) {
+  grid-template-rows: auto;
+}
+
+/* Con un diálogo abierto, la página de detrás no se mueve. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+dialog {
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 900px) and (min-height: 540px) {
+  .card--dex {
+    width: min(100% - 64px, 1280px);
+    height: calc(100dvh - 64px);
+    max-height: calc(100dvh - 64px);
+    padding: 24px 28px;
+  }
+
+  .card--dex .dex-grid {
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+    grid-auto-rows: 124px;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .card--dex .dex-art {
+    width: 72px;
+    height: 72px;
+  }
 }
 
 .dex-grid {
