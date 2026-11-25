@@ -15,7 +15,7 @@ n_points = 1024
 [puzzle]
 # Círculos visibles en cada intento (sin contar el término de frecuencia 0,
 # que tras centrar la figura vale 0 y no se ve).
-levels = [2, 4, 8, 16, 32, 64]
+levels = [6, 10, 16, 24, 40, 64]  # 1.º medio difícil (~15 % de error), al 3.º ya se intuye (~6 %)
 # Decimales con que se guardan los coeficientes (5 ≈ error de 1e-5 en una figura de radio 1).
 decimals = 5
 # Los archivos de puzzle se llaman con un hash para que su nombre no revele la

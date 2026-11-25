@@ -1181,7 +1181,8 @@ kbd {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: "kicker kicker" "name name" "detail status";
+  /* La etiqueta de hoy va junto al nombre: en la fila del rango (#001–#151) no cabe. */
+  grid-template-areas: "kicker kicker" "name status" "detail detail";
   align-items: center;
   gap: 2px;
   padding: 0 0 10px;
@@ -1991,6 +1992,12 @@ a.big-btn {
 }
 
 /* ---- Apoya al creador: discreto, debajo de compartir ----------------------- */
+
+.result-actions {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
 
 .donate-box {
   display: flex;

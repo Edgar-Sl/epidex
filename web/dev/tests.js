@@ -145,9 +145,9 @@ test("la pista sale al azar, pero igual para todos el mismo día", () => {
 test("compartir dice si se usó pista o no", () => {
   const base = { gameName: "Epidex", number: 1, emoji: "Gen I", maxAttempts: 6, won: true,
     attemptsUsed: 1, results: ["correct", "unused", "unused", "unused", "unused", "unused"] };
-  assertEqual(buildShareText({ ...base, hint: "Tipo" }).split("\n").at(-1), "Con pista: Tipo");
-  assertEqual(buildShareText({ ...base, hint: null }).split("\n").at(-1), "Sin pistas");
-  assertEqual(buildShareText(base).split("\n").length, 2, "sin pistas en el modo: nada");
+  assertEqual(buildShareText({ ...base, hint: "Tipo" }).split("\n").at(-1), "💡 Con pista: Tipo");
+  assertEqual(buildShareText({ ...base, hint: null }).split("\n").at(-1), "🧠 Sin pistas");
+  assertEqual(buildShareText(base).split("\n").length, 3, "sin pistas en el modo: nada");
 });
 
 // ---- dex.js --------------------------------------------------------------
@@ -276,17 +276,22 @@ test("el mismo día no se cuenta dos veces", () => {
 });
 
 // ---- share.js ------------------------------------------------------------
-test("texto para compartir: resultado, círculos y enlace, sin la respuesta", () => {
-  const base = { gameName: "[NOMBRE]", number: 12, emoji: "🌍", maxAttempts: 6 };
+test("texto para compartir: resultado y enlace, sin la respuesta ni los círculos", () => {
+  const base = { gameName: "[NOMBRE]", number: 12, emoji: "Gen I", maxAttempts: 6 };
   assertEqual(
-    buildShareText({ ...base, won: true, attemptsUsed: 3, circles: 8, url: "https://x.test/",
+    buildShareText({ ...base, won: true, attemptsUsed: 3, url: "https://x.test/",
       results: ["wrong", "skip", "correct", "unused", "unused", "unused"] }),
-    "[NOMBRE] 🌍 #12 · 3/6\n🟥⬛🟩⬜⬜⬜\nLo saqué con 8 círculos\nhttps://x.test/",
+    "[NOMBRE] · Gen I #12\n🟥⬛🟩⬜⬜⬜\n✅ ¡Capturado en 3/6!\nhttps://x.test/",
   );
   assertEqual(
     buildShareText({ ...base, won: false, attemptsUsed: 6,
       results: ["skip", "wrong", "wrong", "wrong", "wrong", "wrong"] }),
-    "[NOMBRE] 🌍 #12 · X/6\n⬛🟥🟥🟥🟥🟥",
+    "[NOMBRE] · Gen I #12\n⬛🟥🟥🟥🟥🟥\n💨 Se escapó (X/6)",
+  );
+  assertEqual(
+    buildShareText({ ...base, won: true, attemptsUsed: 1, lang: "en",
+      results: ["correct", "unused", "unused", "unused", "unused", "unused"] }).split("\n")[2],
+    "🎯 Caught on the first try!",
   );
 });
 

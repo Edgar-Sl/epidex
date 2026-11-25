@@ -4,8 +4,8 @@
 
 **¿Quién es ese Pokémon? Su silueta se dibuja sola con círculos que giran.**
 
-Un Pokémon nuevo cada día en cada región. Empieza con 2 círculos y cada fallo añade más:
-2 → 4 → 8 → 16 → 32 → 64. Si te atascas, pide una pista. Los que adivinas van a tu Pokédex.
+Un Pokémon nuevo cada día en cada región. Empieza con 6 círculos y cada fallo añade más:
+6 → 10 → 16 → 24 → 40 → 64. Si te atascas, pide una pista. Los que adivinas van a tu Pokédex.
 
 <img src="docs/img/escritorio-menu.png" alt="Menú principal de Epidex en escritorio: la Pokédex abierta con los cartuchos de las regiones a la izquierda y, a la derecha, tu Pokédex con el total capturado, una barra por generación y las últimas capturas" width="820">
 
@@ -23,12 +23,12 @@ Un Pokémon nuevo cada día en cada región. Empieza con 2 círculos y cada fall
 
 <table>
   <tr>
-    <td align="center" width="33%"><img src="docs/img/movil-inicio.png" alt="Primer intento: un borrón de 2 círculos en la pantalla de la Pokédex" width="240"></td>
+    <td align="center" width="33%"><img src="docs/img/movil-inicio.png" alt="Primer intento: un borrón de pocos círculos en la pantalla de la Pokédex" width="240"></td>
     <td align="center" width="33%"><img src="docs/img/movil-pista.png" alt="Dos fallos y la pista de evolución («Forma final») en la pantalla del registro" width="240"></td>
     <td align="center" width="33%"><img src="docs/img/movil-resultado.png" alt="Resultado: se revela el Pokémon y se puede retar a un amigo por WhatsApp" width="240"></td>
   </tr>
   <tr>
-    <td align="center"><b>1. Una sombra</b><br>La silueta se dibuja con 2 círculos. Escribe un Pokémon o salta.</td>
+    <td align="center"><b>1. Una sombra</b><br>La silueta se dibuja con 6 círculos. Escribe un Pokémon o salta.</td>
     <td align="center"><b>2. Más círculos y una pista</b><br>Cada fallo afina la silueta. Tienes 6 intentos y una pista.</td>
     <td align="center"><b>3. ¡Es…!</b><br>Se revela el Pokémon y retas a un amigo sin destripárselo.</td>
   </tr>
@@ -109,10 +109,10 @@ Telegram, X, Copiar y «Más» (la hoja de compartir del sistema, solo con HTTPS
 destripa la respuesta:
 
 ```
-Epidex Gen I #12 · 3/6
+Epidex · Gen I #12
 🟥⬛🟩⬜⬜⬜
-Lo saqué con 8 círculos
-Con pista: Tipo
+✅ ¡Capturado en 3/6!
+💡 Con pista: Tipo
 https://…
 ```
 

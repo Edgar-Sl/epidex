@@ -224,8 +224,55 @@
     flex: 1;
   }
 
+  /* El resultado no agranda el aparato: ocupa el alto que ya tenía la mitad derecha
+     y, si no cabe, hace scroll por dentro. Así el zoom de ui/fit.js no cambia al acabar. */
   .result {
-    justify-content: center;
+    justify-content: flex-start;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    contain: size;
+    gap: 5px;
+    padding: 12px 16px;
+  }
+
+  /* Para que quepa sin scroll: lo que ya se ve en la otra mitad (los intentos, en la
+     escalera bajo el dibujo) sobra aquí, y menú y donación van en una fila. */
+  .result-kicker,
+  .result-grid,
+  .result-dex,
+  .donate-text {
+    display: none;
+  }
+
+  /* (La captura ya se ve en la tapa "Mi Pokédex", justo encima, que también la abre.) */
+  .result .share-box {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .share-pill {
+    min-height: 40px;
+  }
+
+  .result-actions {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+  }
+
+  .result-actions .big-btn {
+    min-height: 0;
+    padding-block: 6px;
+  }
+
+  .result-actions .donate-box {
+    order: 2;
+    display: flex;
+  }
+
+  .result-actions .donate-btn {
+    height: 100%;
   }
 
   .pad {

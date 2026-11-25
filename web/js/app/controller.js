@@ -298,8 +298,6 @@ export class GameController {
       attemptsUsed: state.attempts.length,
       maxAttempts: maxAttempts(state),
       results: attemptResults(state),
-      // Al acabar se muestra el dibujo completo; lo que cuenta es el nivel del acierto.
-      circles: won ? state.levels[state.attempts.length - 1] : undefined,
       // Pista: su nombre ("Tipo"), null si se jugó sin ninguna; nada si el modo no tiene.
       hint: this.hintKinds.length ? (state.hint ? t(`hint_${state.hint}`) : null) : undefined,
       url: withUrl ? this.shareLink : undefined,
