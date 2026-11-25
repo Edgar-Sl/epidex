@@ -42,6 +42,7 @@
   <link rel="modulepreload" href="js/app/controller.js">
   <link rel="modulepreload" href="js/app/data.js">
   <link rel="modulepreload" href="js/app/i18n.js">
+  <link rel="modulepreload" href="js/app/progress.js">
   <link rel="modulepreload" href="js/app/share-action.js">
   <link rel="modulepreload" href="js/app/storage.js">
   <link rel="modulepreload" href="js/core/answer-index.js">
@@ -51,6 +52,7 @@
   <link rel="modulepreload" href="js/core/hints.js">
   <link rel="modulepreload" href="js/core/share.js">
   <link rel="modulepreload" href="js/core/stats.js">
+  <link rel="modulepreload" href="js/core/sync.js">
   <link rel="modulepreload" href="js/core/text.js">
   <link rel="modulepreload" href="js/render/epicycles.js">
   <link rel="modulepreload" href="js/ui/autocomplete.js">
@@ -284,6 +286,15 @@
     </div>
     <div id="dex-tabs" class="dex-tabs" role="tablist" aria-label="Modo de juego"></div>
     <ol id="dex-grid" class="dex-grid" role="tabpanel"></ol>
+    <details class="sync">
+      <summary>Pasar mi progreso a otro dispositivo</summary>
+      <p>Abre este enlace en tu otro móvil u ordenador: tu Pokédex, tus rachas y tus estadísticas se unirán con las que haya allí. No se pierde nada de ninguno de los dos.</p>
+      <button id="sync-copy" type="button" class="big-btn">Copiar enlace</button>
+      <form id="sync-form" class="sync-form">
+        <input id="sync-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Pega un enlace o código" aria-label="Pega un enlace o código">
+        <button type="submit" class="big-btn big-btn--quiet">Unir</button>
+      </form>
+    </details>
   </dialog>
 
   <dialog id="stats-dialog" class="card" aria-labelledby="stats-title">

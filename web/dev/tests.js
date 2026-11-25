@@ -24,6 +24,8 @@ import { browserLang, t } from "../js/app/i18n.js";
 import { displayedStreak, emptyStats, previousDate, recordResult, winRate } from "../js/core/stats.js";
 import { GameStorage } from "../js/app/storage.js";
 import { normalize } from "../js/core/text.js";
+import { mergeDex, mergeGame, mergeProgress, mergeStats } from "../js/core/sync.js";
+import { decodeProgress, encodeProgress } from "../js/app/progress.js";
 
 // ---- Mini framework ------------------------------------------------------
 const tests = [];
@@ -320,6 +322,72 @@ test("cuenta atrás hasta la medianoche de Madrid", () => {
   assertEqual(formatDuration(3723 * 1000), "01:02:03");
 });
 
+// ---- sync.js -------------------------------------------------------------
+function play(stats, games) {
+  for (const [date, won, n] of games) stats = recordResult(stats, { date, won, attemptsUsed: n });
+  return stats;
+}
+
+test("unir Pokédex: capturado gana a visto y se queda la primera fecha", () => {
+  const a = { version: 1, entries: { "025": { status: "seen", date: "2026-11-20", name: "Pikachu" },
+    "001": { status: "caught", date: "2026-11-22", name: "Bulbasaur" } } };
+  const b = { version: 1, entries: { "025": { status: "caught", date: "2026-11-24", name: "Pikachu" },
+    "001": { status: "caught", date: "2026-11-21", name: "Bulbasaur" }, "004": { status: "seen", date: "2026-11-23", name: "Charmander" } } };
+  const m = mergeDex(a, b);
+  assertEqual(m.entries["025"].status, "caught");
+  assertEqual(m.entries["001"].date, "2026-11-21");
+  assertEqual(Object.keys(m.entries).sort(), ["001", "004", "025"]);
+  assertEqual(mergeDex(m, a), m, "unir otra vez no cambia nada");
+  assertEqual(mergeDex(b, a).entries, m.entries, "da igual el orden");
+});
+
+test("unir estadísticas: el mismo día cuenta una vez y la racha se recalcula", () => {
+  // Móvil: 1, 2 y 3 de diciembre. Ordenador: 3 (mejor) y 4 de diciembre.
+  const phone = play(emptyStats(), [["2026-12-01", true, 3], ["2026-12-02", true, 2], ["2026-12-03", true, 5]]);
+  const pc = play(emptyStats(), [["2026-12-03", true, 1], ["2026-12-04", true, 4]]);
+  const m = mergeStats(phone, pc);
+  assertEqual([m.played, m.won, m.currentStreak, m.maxStreak], [4, 4, 4, 4]);
+  assertEqual(m.history["2026-12-03"], "1", "el mejor resultado del día");
+  assertEqual(m.distribution["5"], 0);
+  assertEqual(mergeStats(m, pc), m, "unir otra vez no cambia nada");
+  const r = mergeStats(pc, phone);
+  assertEqual([r.played, r.won, r.currentStreak, r.maxStreak], [4, 4, 4, 4], "da igual el orden");
+});
+
+test("unir estadísticas: una derrota posterior rompe la racha", () => {
+  const a = play(emptyStats(), [["2026-12-01", true, 2], ["2026-12-02", true, 2]]);
+  const b = play(emptyStats(), [["2026-12-03", false, 6]]);
+  const m = mergeStats(a, b);
+  assertEqual([m.played, m.won, m.currentStreak, m.maxStreak, m.distribution.fail], [3, 2, 0, 2, 1]);
+});
+
+test("unir estadísticas antiguas (sin historial): se suman", () => {
+  const old = { ...play(emptyStats(), [["2026-11-20", true, 2], ["2026-11-21", false, 6]]), history: undefined };
+  const now = play(emptyStats(), [["2026-12-01", true, 3]]);
+  const m = mergeStats(old, now);
+  assertEqual([m.played, m.won, m.distribution["2"], m.distribution.fail, m.distribution["3"]], [3, 2, 1, 1, 1]);
+});
+
+test("unir la partida del día: la más reciente, y si no, la acabada o la más avanzada", () => {
+  const g = (date, status, attempts) => ({ date, status, attempts: Array(attempts).fill({}) });
+  assertEqual(mergeGame(g("2026-12-01", "won", 2), g("2026-12-02", "playing", 1)).date, "2026-12-02");
+  assertEqual(mergeGame(g("2026-12-02", "playing", 3), g("2026-12-02", "lost", 6)).status, "lost");
+  assertEqual(mergeGame(g("2026-12-02", "playing", 1), g("2026-12-02", "playing", 3)).attempts.length, 3);
+});
+
+test("progreso: solo se unen las claves de partidas, estadísticas y Pokédex", () => {
+  const changed = mergeProgress({}, { "gen1:stats": emptyStats(), "app:seenHelp": true, "app:lang": "es" });
+  assertEqual(Object.keys(changed), ["gen1:stats"]);
+  assertEqual(mergeProgress({ "gen1:stats": emptyStats() }, { "gen1:stats": emptyStats() }), {});
+});
+
+test("progreso: el código ida y vuelta da lo mismo", async () => {
+  const data = { "pokedex:dex": { version: 1, entries: { "025": { status: "caught", date: "2026-11-25", name: "Pikachu" } } } };
+  assertEqual(await decodeProgress(await encodeProgress(data)), data);
+  const link = `https://x.test/es/#progreso=${await encodeProgress(data)}`;
+  assertEqual(await decodeProgress(link), data, "también pegando el enlace entero");
+});
+
 // ---- storage.js ----------------------------------------------------------
 function fakeBackend() {
   const map = new Map();
@@ -368,7 +436,7 @@ let failed = 0;
 for (const { name, fn } of tests) {
   const li = document.createElement("li");
   try {
-    fn();
+    await fn(); // los hay asíncronos (comprimir el progreso)
     li.textContent = `✅ ${name}`;
   } catch (error) {
     failed++;

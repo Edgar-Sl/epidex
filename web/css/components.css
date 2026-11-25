@@ -2021,3 +2021,40 @@ a.big-btn {
   padding: 6px 14px;
   font-size: 0.8rem;
 }
+
+/* ---- Pasar el progreso a otro dispositivo (en el diálogo de la Pokédex) ---- */
+
+.sync {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 2px dashed rgba(27, 27, 31, 0.15);
+}
+
+.sync summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.sync p {
+  margin: 8px 0 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sync-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.sync-form input {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 3px solid var(--outline);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* así el móvil no hace zoom al escribir */
+}

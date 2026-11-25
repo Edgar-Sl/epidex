@@ -24,6 +24,13 @@ import {
   today,
 } from "./app/data.js";
 import { LOCALE, setupLanguage, t } from "./app/i18n.js";
+import {
+  clearProgressHash,
+  importProgress,
+  progressInHash,
+  progressLink,
+} from "./app/progress.js";
+import { copyToClipboard } from "./app/share-action.js";
 import { GameStorage, dexStore } from "./app/storage.js";
 import { DEX_SIZE, dexCounts, emptyDex } from "./core/dex.js";
 import { renderDex, renderDexKeys } from "./ui/dex-view.js";
@@ -157,4 +164,60 @@ async function start() {
   }
 }
 
-if (!setupLanguage()) start();
+/** Aviso tras unir progreso (también tras recargar, si se unió desde el diálogo). */
+function announceSync(changes) {
+  if (changes === 0) return toast(t("syncNothing"));
+  const { caught } = dexCounts(dexStore.load(emptyDex()));
+  toast(t("syncDone", { caught }), { tone: "success" });
+}
+
+/** "Pasar mi progreso": copiar el enlace y unir uno pegado. */
+function setupSync() {
+  byId("sync-copy").addEventListener("click", async () => {
+    const ok = await copyToClipboard(await progressLink());
+    toast(t(ok ? "syncCopied" : "copyFailed"), { tone: ok ? "success" : "error" });
+  });
+  byId("sync-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const input = /** @type {HTMLInputElement} */ (byId("sync-input"));
+    if (!input.value.trim()) return;
+    try {
+      const changes = await importProgress(input.value);
+      // Recarga para que todo (partida, rachas, menú) lea lo unido.
+      sessionStorage.setItem("epidex:synced", String(changes));
+      window.location.reload();
+    } catch {
+      toast(t("syncError"), { tone: "error" });
+    }
+  });
+}
+
+/** Si se ha abierto un enlace con progreso, se une antes de arrancar. */
+async function syncFromLink() {
+  const code = progressInHash();
+  if (!code) return;
+  clearProgressHash();
+  if (!window.confirm(t("syncConfirm"))) return;
+  try {
+    announceSync(await importProgress(code));
+  } catch {
+    toast(t("syncError"), { tone: "error" });
+  }
+}
+
+async function boot() {
+  setupSync();
+  try {
+    const after = sessionStorage.getItem("epidex:synced");
+    if (after !== null) {
+      sessionStorage.removeItem("epidex:synced");
+      announceSync(Number(after));
+    }
+  } catch {
+    // Sin sessionStorage: no hay aviso pendiente.
+  }
+  await syncFromLink();
+  await start();
+}
+
+if (!setupLanguage()) boot();

@@ -19,6 +19,9 @@ export const STATS_VERSION = 1;
  * @property {Record<string, number>} distribution  "1".."6" y "fail"
  * @property {string | null} lastPlayedDate  "YYYY-MM-DD" del último puzzle registrado
  * @property {string | null} lastWonDate
+ * @property {Record<string, string>} [history] Resultado de cada día ("3", "fail"...):
+ *   permite unir las estadísticas de dos navegadores sin contar un día dos veces
+ *   (core/sync.js). Las partidas de antes de que existiera no están.
  */
 
 /**
@@ -37,6 +40,7 @@ export function emptyStats(maxAttempts = 6) {
     distribution,
     lastPlayedDate: null,
     lastWonDate: null,
+    history: {},
   };
 }
 
@@ -74,6 +78,7 @@ export function recordResult(stats, { date, won, attemptsUsed }) {
     distribution,
     lastPlayedDate: date,
     lastWonDate: won ? date : stats.lastWonDate,
+    history: { ...stats.history, [date]: key },
   };
 }
 

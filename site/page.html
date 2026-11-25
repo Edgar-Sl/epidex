@@ -258,6 +258,15 @@
     </div>
     <div id="dex-tabs" class="dex-tabs" role="tablist" aria-label="{{t.game_mode}}"></div>
     <ol id="dex-grid" class="dex-grid" role="tabpanel"></ol>
+    <details class="sync">
+      <summary>{{t.sync_title}}</summary>
+      <p>{{t.sync_intro}}</p>
+      <button id="sync-copy" type="button" class="big-btn">{{t.sync_copy}}</button>
+      <form id="sync-form" class="sync-form">
+        <input id="sync-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="{{t.sync_paste}}" aria-label="{{t.sync_paste}}">
+        <button type="submit" class="big-btn big-btn--quiet">{{t.sync_import}}</button>
+      </form>
+    </details>
   </dialog>
 
   <dialog id="stats-dialog" class="card" aria-labelledby="stats-title">
