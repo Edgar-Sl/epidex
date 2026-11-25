@@ -70,14 +70,9 @@ que tiene ese Pokémon, elegida al azar (la misma para todo el mundo ese día):
 | Pista | Ejemplo (Pikachu) |
 |---|---|
 | Tipo | Eléctrico |
-| Evolución | Fase inicial · Forma intermedia · Forma final · No evoluciona |
-| Categoría | Pokémon Ratón |
-| Color | Amarillo |
-| Tamaño | 0,4 m · 6 kg |
 | Inicial | Empieza por «P» |
-| Generación | Gen I · Kanto (solo con todas mezcladas) |
 
-No gasta intento, pero queda en el resultado que compartes («Con pista: Evolución» o
+No gasta intento, pero queda en el resultado que compartes («Con pista: Tipo» o
 «Sin pistas»). Los datos salen de PokeAPI y van dentro de cada puzzle (`hints`).
 
 ### Tu Pokédex

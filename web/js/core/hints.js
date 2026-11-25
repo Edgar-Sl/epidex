@@ -1,5 +1,5 @@
 /**
- * Pistas: datos del Pokémon que el jugador puede pedir (una por partida).
+ * Pistas: datos del Pokémon que el jugador puede pedir (una por partida, al azar).
  *
  * Cada puzzle trae las suyas en `puzzle.hints` (las genera
  * pipeline/pokemon_collections.py): tipo, fase evolutiva, categoría de la
@@ -8,8 +8,12 @@
  * interfaz se pasan desde fuera (app/i18n.js) para que esto siga siendo puro.
  */
 
-/** Orden en que se ofrecen. */
-export const HINT_KINDS = ["type", "stage", "genus", "color", "size", "letter", "generation"];
+/**
+ * Pistas que pueden tocar. Los puzzles traen más datos (fase evolutiva,
+ * categoría, color, tamaño, generación), pero solo estas ayudan de verdad; el
+ * resto se sigue sabiendo leer en `hintText` por las partidas ya guardadas.
+ */
+export const HINT_KINDS = ["type", "letter"];
 
 /** Generación -> [número romano, región en español, región en inglés]. */
 const GENERATIONS = {
