@@ -1,0 +1,9 @@
+// Despliegue en Cloudflare (Workers con archivos estáticos): se publica la
+// carpeta web/ tal cual, sin build. Cada push a main lo vuelve a publicar.
+{
+  "name": "epidex",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./web"
+  }
+}
