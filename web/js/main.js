@@ -134,6 +134,9 @@ async function start() {
     const gen = /^gen(\d)$/.exec(collection.id);
     // En "todas" no se abre por la generación del Pokémon de hoy: sería una pista gratis.
     dexGeneration = gen ? Number(gen[1]) - 1 : 0;
+    // Primero la vista y después la partida: así lo que oculta la partida (los controles
+    // si ya ha acabado, p. ej. al recargar) no lo vuelve a enseñar show().
+    show("game");
     game = new GameController({
       collection,
       shareLink: shareUrl(collection.id),
@@ -141,7 +144,6 @@ async function start() {
       onDexChange: updateDexFlap,
       ...data,
     });
-    show("game");
     byId("open-stats").hidden = false;
     window.game = game; // accesible desde la consola para depurar
   } catch (error) {

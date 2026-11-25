@@ -33,7 +33,10 @@ def export_art(image: Path, dest: Path, size: int = SIZE) -> int:
         im.thumbnail((size, size), Image.Resampling.LANCZOS)
         dest.parent.mkdir(parents=True, exist_ok=True)
         im.save(dest, "WEBP", quality=QUALITY, method=6)
-    return dest.stat().st_size
+    size = dest.stat().st_size
+    if size == 0:  # ya pasó con una exportación cortada: mejor fallar que publicar vacío
+        raise OSError(f"Arte vacío tras exportar {image} -> {dest}")
+    return size
 
 
 def main(argv: list[str] | None = None) -> None:
