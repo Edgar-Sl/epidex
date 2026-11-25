@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "timezone": "Europe/Madrid",
   "collections": [
     {
       "id": "gen1",

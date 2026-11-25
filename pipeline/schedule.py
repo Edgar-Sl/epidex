@@ -112,9 +112,7 @@ def build_schedule(
         min_gap: Días mínimos entre dos apariciones del mismo puzzle.
         frozen: Días de un calendario anterior que se conservan (ver ``frozen_days``).
     """
-    order = cycles_with_gap(
-        puzzle_ids, n_days, seed, min_gap, [d["puzzle"] for d in frozen]
-    )
+    order = cycles_with_gap(puzzle_ids, n_days, seed, min_gap, [d["puzzle"] for d in frozen])
     days = [
         {
             "date": (start_date + timedelta(days=i)).isoformat(),

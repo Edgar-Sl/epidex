@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   
+  <script>(function(){var L=["en", "es"],w=null;try{w=localStorage.getItem("epidex:lang")}catch(e){}if(L.indexOf(w)<0){w=null;var n=navigator.languages||[navigator.language];for(var i=0;i<n.length&&!w;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(L.indexOf(c)>=0)w=c}}if(w&&w!==L[0]){location.replace(w+'/'+location.search+location.hash);return}function p(h){var l=document.createElement('link');l.rel='preload';l.as='fetch';l.crossOrigin='anonymous';l.href='data/'+h;document.head.appendChild(l)}p('collections.json');var m=new URLSearchParams(location.search).get('modo');if(m&&/^[a-z0-9_-]+$/i.test(m)){p(m+'/schedule.json');p(m+'/answers.json')}})()</script>
   <title>Epidex · Who&#x27;s That Pokémon? Daily Silhouette Guessing Game</title>
   <meta name="description" content="Free daily Pokémon guessing game: name the Pokémon from a silhouette drawn by spinning circles (Fourier series). A daily puzzle for each generation, Gen I to IX, or all mixed. 6 tries, share your score.">
   <meta name="theme-color" content="#dc2f2f">
@@ -37,6 +38,30 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/desktop.css">
   <script type="module" src="js/main.js"></script>
+  <link rel="modulepreload" href="js/app/config.js">
+  <link rel="modulepreload" href="js/app/controller.js">
+  <link rel="modulepreload" href="js/app/data.js">
+  <link rel="modulepreload" href="js/app/i18n.js">
+  <link rel="modulepreload" href="js/app/share-action.js">
+  <link rel="modulepreload" href="js/app/storage.js">
+  <link rel="modulepreload" href="js/core/answer-index.js">
+  <link rel="modulepreload" href="js/core/dates.js">
+  <link rel="modulepreload" href="js/core/dex.js">
+  <link rel="modulepreload" href="js/core/game.js">
+  <link rel="modulepreload" href="js/core/hints.js">
+  <link rel="modulepreload" href="js/core/share.js">
+  <link rel="modulepreload" href="js/core/stats.js">
+  <link rel="modulepreload" href="js/core/text.js">
+  <link rel="modulepreload" href="js/render/epicycles.js">
+  <link rel="modulepreload" href="js/ui/autocomplete.js">
+  <link rel="modulepreload" href="js/ui/confetti.js">
+  <link rel="modulepreload" href="js/ui/dex-view.js">
+  <link rel="modulepreload" href="js/ui/dom.js">
+  <link rel="modulepreload" href="js/ui/fit.js">
+  <link rel="modulepreload" href="js/ui/home-view.js">
+  <link rel="modulepreload" href="js/ui/keyboard.js">
+  <link rel="modulepreload" href="js/ui/stats-view.js">
+  <link rel="modulepreload" href="js/ui/toast.js">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Epidex", "description": "Free daily Pokémon guessing game: name the Pokémon from a silhouette drawn by spinning circles (Fourier series). A daily puzzle for each generation, Gen I to IX, or all mixed. 6 tries, share your score.", "genre": ["Puzzle", "Daily game", "Trivia"], "inLanguage": "en", "isAccessibleForFree": true, "playMode": "SinglePlayer", "applicationCategory": "Game", "operatingSystem": "Web", "gamePlatform": "Web browser", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "url": "https://epidex.pages.dev/"}</script>
   
 </head>

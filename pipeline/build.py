@@ -239,7 +239,12 @@ def main(argv: list[str] | None = None) -> None:
     )
     write_json(
         settings.web_data_dir / "collections.json",
-        {"version": 1, "collections": [collection_index_entry(c) for c in all_collections]},
+        {
+            "version": 1,
+            # Para saber qué día es en el menú sin descargar ningún calendario.
+            "timezone": settings.schedule.timezone,
+            "collections": [collection_index_entry(c) for c in all_collections],
+        },
     )
     if settings.site.get("template"):
         written = build_site(

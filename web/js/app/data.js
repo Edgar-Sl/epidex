@@ -64,8 +64,9 @@ export function shareUrl(id) {
 
 /** Fecha de hoy del juego (la del calendario, o la de ?fecha=). */
 export async function today(collection) {
-  const schedule = await getJSON(`${collection.id}/schedule.json`);
-  return dateOverride() ?? dateInTimeZone(schedule.timezone);
+  // El índice ya trae la zona horaria; si no (datos antiguos), la del calendario.
+  const timezone = collection.timezone ?? (await getJSON(`${collection.id}/schedule.json`)).timezone;
+  return dateOverride() ?? dateInTimeZone(timezone);
 }
 
 /**
@@ -73,10 +74,10 @@ export async function today(collection) {
  * la página (bloque `i18n.<idioma>` de cada colección, si lo tiene).
  */
 export async function loadCollections() {
-  const { collections } = await getJSON("collections.json");
+  const { collections, timezone } = await getJSON("collections.json");
   return collections.map((c) => {
     const local = c.i18n?.[LANG] ?? {};
-    return { ...c, ...local, ui: { ...DEFAULT_UI, ...c.ui, ...local.ui } };
+    return { timezone, ...c, ...local, ui: { ...DEFAULT_UI, ...c.ui, ...local.ui } };
   });
 }
 

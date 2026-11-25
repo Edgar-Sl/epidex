@@ -21,6 +21,7 @@ import datetime
 import html
 import json
 import logging
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -142,12 +143,68 @@ def donate_box(site: SiteSettings, texts: dict[str, Any]) -> str:
     )
 
 
+def boot_script(site: SiteSettings, lang: str) -> str:
+    """Script en línea que va al principio del ``<head>``, antes que nada más.
+
+    - En la página del idioma principal, primera visita con el navegador en otro
+      idioma: salta a esa versión ya, sin descargar antes el juego en inglés.
+      (``js/app/i18n.js`` hace lo mismo; esto solo lo adelanta.)
+    - Empieza a descargar los datos que va a pedir el juego (índice de modos y,
+      con ``?modo=``, su calendario y sus respuestas) a la vez que el JS, en vez
+      de esperar a que este arranque.
+    """
+    redirect = ""
+    if lang == site.languages[0] and len(site.languages) > 1:
+        langs = json.dumps(list(site.languages))
+        redirect = (
+            f"var L={langs},w=null;"
+            'try{w=localStorage.getItem("epidex:lang")}catch(e){}'
+            "if(L.indexOf(w)<0){w=null;var n=navigator.languages||[navigator.language];"
+            "for(var i=0;i<n.length&&!w;i++){var c=String(n[i]).slice(0,2).toLowerCase();"
+            "if(L.indexOf(c)>=0)w=c}}"
+            "if(w&&w!==L[0]){location.replace(w+'/'+location.search+location.hash);return}"
+        )
+    return (
+        "<script>(function(){"
+        + redirect
+        + "function p(h){var l=document.createElement('link');l.rel='preload';l.as='fetch';"
+        "l.crossOrigin='anonymous';l.href='data/'+h;document.head.appendChild(l)}"
+        "p('collections.json');"
+        "var m=new URLSearchParams(location.search).get('modo');"
+        "if(m&&/^[a-z0-9_-]+$/i.test(m)){p(m+'/schedule.json');p(m+'/answers.json')}"
+        "})()</script>"
+    )
+
+
+def module_graph(js_dir: Path, entry: str = "main.js") -> list[str]:
+    """Módulos que importa ``entry`` (directa o indirectamente), sin él, ordenados.
+
+    Sirven para ``<link rel="modulepreload">``: así el navegador los pide todos a
+    la vez en vez de descubrirlos nivel a nivel.
+    """
+    seen: set[Path] = set()
+    pending = [js_dir / entry]
+    while pending:
+        path = pending.pop().resolve()
+        if path in seen or not path.exists():
+            continue
+        seen.add(path)
+        text = path.read_text(encoding="utf-8")
+        for spec in re.findall(r'(?:from|import)\s*"(\.{1,2}/[^"]+)"', text):
+            pending.append(path.parent / spec)
+    root = js_dir.resolve()
+    return sorted(
+        f"js/{p.relative_to(root).as_posix()}" for p in seen if p != (js_dir / entry).resolve()
+    )
+
+
 def render_page(
     template: str,
     site: SiteSettings,
     lang: str,
     strings: dict[str, dict[str, Any]],
     levels: tuple[int, ...] = DEFAULT_LEVELS,
+    modules: list[str] | None = None,
 ) -> str:
     """Rellena la plantilla para un idioma.
 
@@ -199,6 +256,10 @@ def render_page(
         "lang_switch": switch,
         "json_ld": json_ld(site, lang, texts),
         "analytics": analytics_tag(site),
+        "boot": boot_script(site, lang),
+        "modulepreload": "\n  ".join(
+            f'<link rel="modulepreload" href="{html.escape(m)}">' for m in modules or []
+        ),
         "donate": donate_box(site, texts),
         "levels": " → ".join(str(k) for k in levels),
         "first_level": str(levels[0]),
@@ -315,10 +376,12 @@ def build_site(
     template = template_path.read_text(encoding="utf-8")
     strings = load_strings(template_path.parent / "strings.json")
     written = []
+    modules = module_graph(web_dir / "js")
     for lang in site.languages:
         dest = web_dir / site.path(lang) / "index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(render_page(template, site, lang, strings, levels), encoding="utf-8")
+        page = render_page(template, site, lang, strings, levels, modules)
+        dest.write_text(page, encoding="utf-8")
         written.append(dest)
     legal_template = template_path.parent / "legal.html"
     if legal_template.exists():

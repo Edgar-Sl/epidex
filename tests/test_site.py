@@ -2,7 +2,15 @@
 
 import json
 
-from pipeline.site import SiteSettings, build_site, render_page, robots_txt, sitemap_xml
+from pipeline.site import (
+    SiteSettings,
+    boot_script,
+    build_site,
+    module_graph,
+    render_page,
+    robots_txt,
+    sitemap_xml,
+)
 
 TEMPLATE = (
     '<html lang="{{lang}}">{{base}}<title>{{title}}</title>{{canonical}}{{alternates}}'
@@ -64,3 +72,22 @@ def test_aviso_legal_con_datos_y_anuncios():
     assert "Con anuncios. Sin analítica. © 2027 Ana &lt;A&gt;" in es
     assert '<a href="mailto:a@x.test">a@x.test</a>' in es and "NIF" not in es
     assert LegalSettings().missing() == ["owner", "email"] and legal.missing() == []
+
+
+def test_arranque_solo_redirige_desde_el_idioma_principal():
+    site = SiteSettings(languages=("en", "es"))
+    en, es = boot_script(site, "en"), boot_script(site, "es")
+    assert "location.replace" in en and "location.replace" not in es
+    assert "collections.json" in en and "collections.json" in es
+    assert "</" not in en.removesuffix("</script>")
+
+
+def test_modulos_a_precargar(tmp_path):
+    js = tmp_path / "js"
+    (js / "app").mkdir(parents=True)
+    (js / "main.js").write_text('import { a } from "./app/a.js";\nimport "./b.js";')
+    (js / "app" / "a.js").write_text('import { c } from "../c.js";')
+    (js / "b.js").write_text("")
+    (js / "c.js").write_text('import { a } from "./app/a.js";')  # ciclo
+    (js / "suelto.js").write_text("")
+    assert module_graph(js) == ["js/app/a.js", "js/b.js", "js/c.js"]
